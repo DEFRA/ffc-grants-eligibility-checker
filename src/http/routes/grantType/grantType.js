@@ -13,3 +13,16 @@ export const addGrantType = (title, description) => {
 };
 
 export const getGrantType = () => grantType;
+
+export const routes = [
+    {
+        method: 'GET',
+        path: '/{grantType}',
+        handler: getGrantType,
+    },
+    {
+        method: 'POST',
+        path: '/{grantType}',
+        handler: addGrantType.bind(this, 'Test Title', 'Test Description'),
+    }
+]

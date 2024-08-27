@@ -1,9 +1,13 @@
 {
-  "name": "my-webpack-project",
+  "name": "ffc-grants-elgibility-checker",
   "description": "FFC Grant Eligibility Checker",
   "version": "1.0.0",
-  "license": "ISC",
-  "author": "",
+  "license": "OGL-UK-3.0",
+  "contributors": [
+    "Andrew Folga <andrew.folga@equalexperts.com>",
+    "Andrew Deacon <andrew.deacon@equalexperts.com>",
+    "David Barker <david.barker@equalexperts.com>"
+  ],
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -37,6 +41,8 @@
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.10",
+    "govuk-frontend": "^5.5.0",
+    "nunjucks": "^3.2.4",
     "uuid": "^10.0.0"
   }
 }

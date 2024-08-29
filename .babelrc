@@ -1,11 +1,12 @@
 {
-  "plugins": ["@babel/syntax-dynamic-import"],
+  "plugins": ["@babel/syntax-dynamic-import", "babel-plugin-syntax-hermes-parser"],
   "presets": [
     [
       "@babel/preset-env",
       {
         "modules": "commonjs"
       }
-    ]
+    ],
+    "@babel/preset-flow"
   ]
 }

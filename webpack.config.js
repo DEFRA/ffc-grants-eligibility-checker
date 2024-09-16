@@ -76,6 +76,10 @@ const config = {
   }
 }
 
+/**
+ * Returns the Webpack configuration object.
+ * @returns {object} The Webpack configuration object.
+ */
 export default () => {
   if (isProduction) {
     config.mode = 'production'

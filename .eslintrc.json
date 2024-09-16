@@ -1,0 +1,43 @@
+{
+  "env": {
+    "node": true,  // Enable Node.js global variables and Node.js scoping
+    "jest": true
+  },
+  "parser": "@babel/eslint-parser",
+  "plugins": ["jsdoc"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:jsdoc/recommended",
+    "plugin:jest/recommended"
+  ],
+  "parserOptions": {
+    "requireConfigFile": false, // Use Babel's default parser
+    "babelOptions": {
+      "presets": ["@babel/preset-env"]
+    }},
+  "rules": {
+    "jsdoc/require-jsdoc": ["error", {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": true,
+        "FunctionExpression": true
+      }
+    }],
+    "jsdoc/no-undefined-types": ["error", {
+      "definedTypes": ["Promise", "Array", "Object", "Number", "String", "Boolean", "Function"]
+    }],
+    "jsdoc/require-param": "error",
+    "jsdoc/require-returns": "error",
+    "jsdoc/require-description": "error",
+    "jsdoc/check-alignment": "error",
+    "jsdoc/check-param-names": "error",
+    "jsdoc/valid-types": "error"
+  },
+  "settings": {
+    "jsdoc": {
+      // Configure JSDoc settings if necessary
+    }
+  }
+}

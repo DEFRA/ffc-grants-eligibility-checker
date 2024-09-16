@@ -1,15 +1,12 @@
-# 🚀 Welcome to your new awesome project!
+# FFC-Grants-Eligibility-Checker
 
-This project has been created using **webpack-cli**, you can now run
 
-```
-npm run build
-```
 
-or
+ **webpack-cli**
+Run ```npm run build``` to bundle application
 
-```
-yarn build
-```
+## Local Setup
+Run ```npm i``` to install package dependencies
 
-to bundle your application
+#### Authorise Snyk
+Run ```snyk auth``` to authenticate your local machine

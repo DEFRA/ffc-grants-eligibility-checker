@@ -1,11 +1,11 @@
-import { name, description, version } from "package.json";
+import { name, description, version } from 'package.json'
 export const app = {
-    // Application data
-    name,
-    description,
-    version,
+  // Application data
+  name,
+  description,
+  version,
 
-    // Local Development
-    host: "localhost",
-    port: 3000,
+  // Local Development
+  host: 'localhost',
+  port: 3000
 }

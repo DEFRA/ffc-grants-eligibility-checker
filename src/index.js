@@ -1,14 +1,28 @@
 import Hapi from '@hapi/hapi';
-import {app as appConfig, views as viewConfig} from "./config";
-import { getGrantType } from './http/routes/grantType/grantType.js';
+import {app as appConfig, views as viewConfig} from "./config/index.js";
 import path from "path";
-import {compile, configure} from "nunjucks";
+import njk from "nunjucks";
+import vision from "vision";
+import inert from "@hapi/inert";
 import {getRouteDefinitions} from "./http/routes/routes.js";
 
 const init = async () => {
     const server = Hapi.server({
         port: appConfig.port,
         host: appConfig.host,
+    });
+
+    await server.register(inert);
+    await server.register(vision);
+
+    server.route({
+        method: 'GET',
+        path: '/stylesheets/{file*}',
+        handler: {
+            directory: {
+                path: path.resolve(import.meta.dirname, '..', 'public', 'stylesheets')
+            }
+        }
     });
 
     const routes = getRouteDefinitions();
@@ -18,14 +32,14 @@ const init = async () => {
         engines: {
             njk: {
                 compile: (src, options) => {
-                    const template = compile(src, options.environment)
+                    const template = njk.compile(src, options.environment)
                     return context => template.render(context)
                 }
             }
         },
-        relativeTo: __dirname,
+        relativeTo: path.resolve(import.meta.dirname, '..'),
         compileOptions: {
-            environment: configure(viewConfig.paths)
+            environment: njk.configure(viewConfig.paths)
         },
         //@todo need to review this, it will be fine for now but could trip us up later on
         path: viewConfig.paths[0],

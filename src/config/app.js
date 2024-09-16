@@ -1,9 +1,10 @@
-import { name, description, version } from "package.json";
+import pkg from "../../package.json" with {type: "json"};
+
 export const app = {
     // Application data
-    name,
-    description,
-    version,
+    name: pkg.name,
+    description: pkg.description,
+    version: pkg.version,
 
     // Local Development
     host: "localhost",

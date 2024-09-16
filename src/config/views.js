@@ -1,7 +1,7 @@
 export const views = {
     paths: [
-        "/src/views",
-        "node_modules/govuk-fronted"
+        "src/views",
+        "node_modules/govuk-frontend/dist"
     ],
     assets: {
         gov: "/assets",

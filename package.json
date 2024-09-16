@@ -9,43 +9,27 @@
     "David Barker <david.barker@equalexperts.com>",
     "Stephen Powell <stephen.powell@esynergy.co.uk>"
   ],
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "jest",
-    "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",
     "start": "nodemon ./src/index.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.24.5",
-    "@webpack-cli/generators": "^3.0.7",
     "autoprefixer": "^10.4.20",
-    "babel-loader": "^9.1.3",
-    "copy-webpack-plugin": "^12.0.2",
-    "css-loader": "^7.1.2",
-    "html-webpack-plugin": "^5.6.0",
     "jest": "^29.7.0",
-    "mini-css-extract-plugin": "^2.9.0",
     "nodemon": "^3.1.4",
-    "postcss": "^8.4.40",
-    "postcss-loader": "^8.1.1",
     "prettier": "^3.3.3",
-    "sass": "^1.77.6",
-    "sass-loader": "^16.0.1",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.94.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
-    "workbox-webpack-plugin": "^7.1.0"
+    "sass": "^1.77.6"
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.10",
+    "@hapi/inert": "^7.1.0",
     "dotenv": "^16.4.5",
     "govuk-frontend": "^5.5.0",
     "nunjucks": "^3.2.4",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "vision": "^5.4.4"
   }
 }

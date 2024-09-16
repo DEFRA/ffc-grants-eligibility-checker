@@ -12,7 +12,22 @@ export const addGrantType = (title, description) => {
     return grantType;
 };
 
-export const getGrantType = () => grantType;
+export const getGrantType = (request, h) => {
+    const context = {
+        siteTitle: "FFC Grants Eligibility Checker",
+        urlPrefix: '/eligibility-checker',
+        showTimeout: true,
+        surveyLink: 'https://example.com/survey',
+        sessionTimeoutInMin: 15,
+        timeoutPath: '/timeout',
+        cookiesPolicy: {
+            confirmed: false,
+            analytics: true
+        }
+    };
+
+    return h.view('layout.njk', context);
+}
 
 export const routes = [
     {

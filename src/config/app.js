@@ -1,11 +1,12 @@
-import { name, description, version } from 'package.json'
-export const app = {
-  // Application data
-  name,
-  description,
-  version,
+import pkg from "../../package.json" with {type: "json"};
 
-  // Local Development
-  host: 'localhost',
-  port: 3000
+export const app = {
+    // Application data
+    name: pkg.name,
+    description: pkg.description,
+    version: pkg.version,
+
+    // Local Development
+    host: "localhost",
+    port: 3000,
 }

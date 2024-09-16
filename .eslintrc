@@ -6,7 +6,6 @@
       "jsdoc/check-param-names": "error", // Checks parameter names match those in the function signature
       "jsdoc/check-tag-names": "error", // Ensures only valid JSDoc tags are used
       "jsdoc/check-types": "error", // Validates the types used in JSDoc tags
-      "jsdoc/newline-after-description": "error", // Enforces a newline after the description
       "jsdoc/require-description-complete-sentence": "error", // Ensures the description is a complete sentence
       "jsdoc/require-param": "error", // Requires JSDoc to have `@param` for each parameter
       "jsdoc/require-returns": "error" // Requires a `@returns` tag for functions that return something

@@ -47,7 +47,7 @@ export const getGrantType = (request, h) => {
 /**
  * Represents the routes configuration for handling different grant types.
  *
- * @type {Array<Object>}
+ * @type {array<object>}
  */
 export const routes = [
     {

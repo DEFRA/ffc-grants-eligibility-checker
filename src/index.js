@@ -6,6 +6,10 @@ import vision from "vision";
 import inert from "@hapi/inert";
 import {getRouteDefinitions} from "./http/routes/routes.js";
 
+/**
+ * Initialize the server
+ * @returns {Promise<void>}
+ */
 const init = async () => {
     const server = Hapi.server({
         port: appConfig.port,

@@ -17,7 +17,7 @@
     ]
   },
   "scripts": {
-    "test": "standard && jest",
+    "test": "npm run lint && jest",
     "lint:standard": "standard",
     "lint:eslint": "eslint .",
     "lint": "npm run lint:standard && npm run lint:eslint",

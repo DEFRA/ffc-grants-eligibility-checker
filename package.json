@@ -17,7 +17,9 @@
     "format": "prettier --write \"**/*.js\"",
     "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",
     "start": "nodemon ./src/index.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "snyk-test": "snyk test",
+    "snyk-monitor": "snyk monitor"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
@@ -35,7 +37,8 @@
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
     "sass": "^1.77.6",
-    "standard": "^17.1.2"
+    "standard": "^17.1.2",
+    "snyk": "^1.1293.1"
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.10",

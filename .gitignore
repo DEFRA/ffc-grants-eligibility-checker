@@ -248,4 +248,7 @@ fabric.properties
 !.idea/codeStyles
 !.idea/runConfigurations
 
+# Snyk config files
+.snyk
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,webstorm+all,node

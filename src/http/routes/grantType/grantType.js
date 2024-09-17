@@ -22,10 +22,10 @@ export const addGrantType = (title, description) => {
 /**
  * Retrieves the grant type.
  *
- * @param {Object} request - The request object.
- * @param {Object} h - The response toolkit.
+ * @param {object} request - The request object.
+ * @param {object} h - The response toolkit.
  *
- * @returns {Object} - The view with the grant type information.
+ * @returns {object} - The view with the grant type information.
  */
 export const getGrantType = (request, h) => {
     const context = {

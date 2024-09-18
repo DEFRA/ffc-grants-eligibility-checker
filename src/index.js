@@ -52,14 +52,14 @@ const init = async () => {
     compileOptions: {
       environment: njk.configure(viewConfig.paths)
     },
-    //@todo need to review this, it will be fine for now but could trip us up later on
+    // @todo need to review this, it will be fine for now but could trip us up later on
     path: viewConfig.paths[0],
     context: {
       version: appConfig.version,
       assets: viewConfig.assets.app,
       govAssets: viewConfig.assets.gov,
       serviceName: appConfig.name,
-      //@todo this can no longer come from config. Must come from the grant type data.
+      // @todo this can no longer come from config. Must come from the grant type data.
       pageTitle: appConfig.name
       // googleTagManagerKey: config.googleTagManagerKey,
       // analyticsTagKey: config.analyticsTagKey

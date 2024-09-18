@@ -1,4 +1,4 @@
-import pkg from '../../package.json' with {type: 'json'}
+import pkg from "../../package.json" with { type: "json" };
 
 export const app = {
   // Application data
@@ -7,6 +7,6 @@ export const app = {
   version: pkg.version,
 
   // Local Development
-  host: 'localhost',
-  port: 3000
-}
+  host: "localhost",
+  port: 3000,
+};

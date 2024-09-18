@@ -2,7 +2,7 @@ import Hapi from '@hapi/hapi'
 import { app as appConfig, views as viewConfig } from './config/index.js'
 import path from 'path'
 import njk from 'nunjucks'
-import vision from 'vision'
+import vision from '@hapi/vision'
 import inert from '@hapi/inert'
 import { getRouteDefinitions } from './http/routes/routes.js'
 

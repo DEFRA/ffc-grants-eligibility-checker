@@ -4,7 +4,6 @@ let grantType
 
 /**
  * Creates a grant type object with a unique ID, title, and description.
- *
  * @param {string} title - The title of the grant type.
  * @param {string} description - The description of the grant type.
  * @returns {object} - The created grant type object.
@@ -21,10 +20,8 @@ export const addGrantType = (title, description) => {
 
 /**
  * Retrieves the grant type.
- *
  * @param {object} request - The request object.
  * @param {object} h - The response toolkit.
- *
  * @returns {object} - The view with the grant type information.
  */
 export const getGrantType = (request, h) => {
@@ -46,8 +43,7 @@ export const getGrantType = (request, h) => {
 
 /**
  * Represents the routes configuration for handling different grant types.
- *
- * @type {array<object>}
+ * @type {Array<object>}
  */
 export const routes = [
   {

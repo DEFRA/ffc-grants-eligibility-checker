@@ -6,14 +6,15 @@
   "parser": "@babel/eslint-parser",
   "plugins": ["jsdoc"],
   "extends": [
-    "eslint:recommended",
+    "standard",
     "plugin:jsdoc/recommended",
     "plugin:jest/recommended"
   ],
   "parserOptions": {
     "requireConfigFile": false, // Use Babel's default parser
     "babelOptions": {
-      "presets": ["@babel/preset-env"]
+      "presets": ["@babel/preset-env"],
+      "plugins": ["@babel/plugin-syntax-import-assertions"]
     }
   },
   "rules": {

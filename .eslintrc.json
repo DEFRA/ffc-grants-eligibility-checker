@@ -8,7 +8,8 @@
   "extends": [
     "standard",
     "plugin:jsdoc/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "prettier"
   ],
   "parserOptions": {
     "requireConfigFile": false, // Use Babel's default parser

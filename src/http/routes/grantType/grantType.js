@@ -1,6 +1,6 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 
-let grantType;
+let grantType
 
 /**
  * Creates a grant type object with a unique ID, title, and description.
@@ -10,14 +10,14 @@ let grantType;
  * @returns {object} - The created grant type object.
  */
 export const addGrantType = (title, description) => {
-    grantType = {
-        id: uuid(),
-        title,
-        description,
-    };
+  grantType = {
+    id: uuid(),
+    title,
+    description
+  }
 
-    return grantType;
-};
+  return grantType
+}
 
 /**
  * Retrieves the grant type.
@@ -28,20 +28,20 @@ export const addGrantType = (title, description) => {
  * @returns {object} - The view with the grant type information.
  */
 export const getGrantType = (request, h) => {
-    const context = {
-        siteTitle: "FFC Grants Eligibility Checker",
-        urlPrefix: '/eligibility-checker',
-        showTimeout: true,
-        surveyLink: 'https://example.com/survey',
-        sessionTimeoutInMin: 15,
-        timeoutPath: '/timeout',
-        cookiesPolicy: {
-            confirmed: false,
-            analytics: true
-        }
-    };
+  const context = {
+    siteTitle: 'FFC Grants Eligibility Checker',
+    urlPrefix: '/eligibility-checker',
+    showTimeout: true,
+    surveyLink: 'https://example.com/survey',
+    sessionTimeoutInMin: 15,
+    timeoutPath: '/timeout',
+    cookiesPolicy: {
+      confirmed: false,
+      analytics: true
+    }
+  }
 
-    return h.view('layout.njk', context);
+  return h.view('layout.njk', context)
 }
 
 /**
@@ -50,14 +50,14 @@ export const getGrantType = (request, h) => {
  * @type {array<object>}
  */
 export const routes = [
-    {
-        method: 'GET',
-        path: '/{grantType}',
-        handler: getGrantType,
-    },
-    {
-        method: 'POST',
-        path: '/{grantType}',
-        handler: addGrantType.bind(this, 'Test Title', 'Test Description'),
-    }
+  {
+    method: 'GET',
+    path: '/{grantType}',
+    handler: getGrantType
+  },
+  {
+    method: 'POST',
+    path: '/{grantType}',
+    handler: addGrantType.bind(this, 'Test Title', 'Test Description')
+  }
 ]

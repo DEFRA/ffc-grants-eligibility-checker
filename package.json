@@ -16,8 +16,8 @@
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content --fix",
     "format": "prettier --write \"**/*.js\"",
     "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",
-    "start": "nodemon ./src/index.js"
-
+    "start": "nodemon ./src/index.js",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",

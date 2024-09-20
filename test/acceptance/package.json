@@ -2,6 +2,7 @@
   "name": "acceptance",
   "version": "1.0.0",
   "description": "Grants Eligibility Checker Acceptance Tests",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "npx wdio run ./wdio.conf.js"

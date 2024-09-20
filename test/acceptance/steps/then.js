@@ -1,4 +1,4 @@
-const { Then } = require("@wdio/cucumber-framework");
+import { Then } from "@wdio/cucumber-framework";
 
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
     if (text.indexOf("'") > -1) {

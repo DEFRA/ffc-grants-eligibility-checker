@@ -1,6 +1,6 @@
-const { generate } = require('multiple-cucumber-html-reporter');
+import { generate } from 'multiple-cucumber-html-reporter';
 
-exports.config = {
+export const config = {
     hostname: 'selenium',
     port: 4444,
     //

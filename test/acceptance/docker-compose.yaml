@@ -1,0 +1,18 @@
+services:
+  wdio-cucumber:
+    build: .
+    image: wdio-cucumber
+    depends_on:
+      - selenium
+    volumes:
+      - ./reports/:/home/node/reports/
+    ports:
+      - "9228:9229"
+
+  selenium:
+    image: selenium/standalone-chrome
+    # change to following image for ARM architectures
+    #image: seleniarm/standalone-chromium
+    container_name: chrome-browser
+    volumes:
+      - /dev/shm:/dev/shm

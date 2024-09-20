@@ -257,3 +257,6 @@ fabric.properties
 .snyk
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,webstorm+all,node
+
+# local VS Code setup
+.vscode/settings.json

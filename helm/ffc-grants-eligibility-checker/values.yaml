@@ -1,0 +1,71 @@
+environment: development
+name: ffc-grants-eligibility-checker
+namespace: ffc-grants
+workstream: ffc-grants
+image: ffc-grants-eligibility-checker
+
+labels: {}
+
+appInsights:
+  key: not-a-real-key
+
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
+  
+containerConfigMap:
+  name: ffc-grants-eligibility-checker-config-map
+
+containerSecret:
+  name: ffc-grants-eligibility-checker-container-secret
+  type: Opaque
+
+deployment:
+  restartPolicy: Always
+  priorityClassName: high
+  minReadySeconds: 2
+  redeployOnChange: update this field to force a change
+  replicas: 2
+  minReplicas: 2
+  maxReplicas: 4
+  cpuThreshold: 80
+  memoryThreshold: 80
+
+container:
+  imagePullPolicy: IfNotPresent
+  requestMemory: 120Mi
+  requestCpu: 120m
+  limitMemory: 120Mi
+  limitCpu: 120m
+  port: 3000
+  readOnlyRootFilesystem: true
+  scoreRequestQueueAddress: ffc-grants-desirability-scoring-req
+  scoreResponseQueueAddress: ffc-grants-desirability-scoring-res
+  desirabilitySubmittedTopicAddress: desirability-submitted
+  notifyEmailTemplate: dummy-template
+  rpaEmail: FTF@rpa.gov.uk
+
+livenessProbe:
+  path: /healthz
+  port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  path: /healthy
+  port: 3000
+  initialDelaySeconds: 20
+  periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+service:
+  port: 80
+
+ingress:
+  class: nginx
+  endpoint: ffc-grants-frontend
+  server: example.com
+  path: /eligibility-checker

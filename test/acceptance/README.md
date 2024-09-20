@@ -1,7 +1,7 @@
 # Acceptance Tests
 This folder contains the acceptance test project for the Grants Eligibility Checker web app. 
 
-The framework used is WebdriverIO with Cucumber and the tests are containerised by default, running against a single browser (Chrome)
+The framework used is WebdriverIO with Cucumber and the tests are containerised by default, running against a single browser (Chrome).
 .
 ## Requirements
 - Docker
@@ -9,7 +9,7 @@ The framework used is WebdriverIO with Cucumber and the tests are containerised 
 - npm
 
 ## Running tests inside a container (default)
-Docker is used to create containers for both the tests themselves (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`).
+Docker is used to create containers for both the tests (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`).
 
 1. Provide the following environment variables in a `.env` file in this directory:
 
@@ -34,7 +34,7 @@ CHANGES TO..
 
 3. If running against `localhost` ensure the application container is running with `docker-compose up --build` from the root folder of this repository.
 
-4. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all acceptance tests.
+4. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all tests.
 
 5. HTML reports will be output to `./reports`.
 

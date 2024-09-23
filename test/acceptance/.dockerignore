@@ -1,6 +1,5 @@
 node_modules
 reports
-.env
 docker-compose.yaml
 Dockerfile
 README.md

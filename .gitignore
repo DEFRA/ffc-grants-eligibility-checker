@@ -5,6 +5,7 @@
 public/scripts/*
 public/stylesheets/*
 public/assets/*
+test/acceptance/reports
 
 ### Node ###
 # Logs

@@ -7,7 +7,7 @@ LABEL uk.gov.defra.ffc.parent-image=defradigital/node-development:${PARENT_VERSI
 ARG PORT_DEBUG
 EXPOSE ${PORT_DEBUG}
 COPY --chown=node:node package*.json ./
-RUN chmod 700 /home/node/reports/
+VOLUME ["/home/node/reports/"]
 RUN npm install
 USER root
 RUN chown -R node:node *

@@ -1,5 +1,6 @@
 node_modules
-reports
+reports/json
+reports/html
 .dockerignore
 docker-compose.yaml
 Dockerfile

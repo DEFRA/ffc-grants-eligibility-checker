@@ -7,7 +7,8 @@ services:
     environment:
       TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
     volumes:
-      - ./reports/:/home/node/reports/
+      - ./reports/html/:/home/node/reports/html
+      - ./reports/json/:/home/node/reports/json
     ports:
       - "9228:9229"
 

@@ -8,5 +8,8 @@ ARG PORT_DEBUG
 EXPOSE ${PORT_DEBUG}
 COPY --chown=node:node package*.json ./
 RUN npm install
+USER root
+RUN chown -R node:node *
+USER node
 COPY --chown=node:node . .
 CMD [ "npm", "run", "test" ]

@@ -6,7 +6,8 @@ services:
       context: .
       target: production
     image: ffc-grants-eligibility-checker  
+    ports:
+      - "3000:3000"
     environment:
       NODE_ENV: production
-      SITE_URL: localhost:3000
 

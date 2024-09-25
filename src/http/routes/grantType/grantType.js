@@ -1,6 +1,7 @@
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from "uuid";
 
-let grantType
+let grantType;
+const _200_OK = 200;
 
 /**
  * Creates a grant type object with a unique ID, title, and description.
@@ -12,11 +13,11 @@ export const addGrantType = (title, description) => {
   grantType = {
     id: uuid(),
     title,
-    description
-  }
+    description,
+  };
 
-  return grantType
-}
+  return grantType;
+};
 
 /**
  * Retrieves the grant type.
@@ -26,20 +27,20 @@ export const addGrantType = (title, description) => {
  */
 export const getGrantType = (request, h) => {
   const context = {
-    siteTitle: 'FFC Grants Eligibility Checker',
-    urlPrefix: '/eligibility-checker',
+    siteTitle: "FFC Grants Eligibility Checker",
+    urlPrefix: "/eligibility-checker",
     showTimeout: true,
-    surveyLink: 'https://example.com/survey',
+    surveyLink: "https://example.com/survey",
     sessionTimeoutInMin: 15,
-    timeoutPath: '/timeout',
+    timeoutPath: "/timeout",
     cookiesPolicy: {
       confirmed: false,
-      analytics: true
-    }
-  }
+      analytics: true,
+    },
+  };
 
-  return h.view('layout.njk', context)
-}
+  return h.view("layout.njk", context);
+};
 
 /**
  * Represents the routes configuration for handling different grant types.
@@ -47,24 +48,35 @@ export const getGrantType = (request, h) => {
  */
 export const routes = [
   {
-    method: 'GET',
-    path: '/{grantType}',
-    handler: getGrantType
+    method: "GET",
+    path: "/{grantType}",
+    handler: getGrantType,
   },
   {
-    method: 'POST',
-    path: '/{grantType}',
-    handler: addGrantType.bind(this, 'Test Title', 'Test Description')
+    method: "POST",
+    path: "/{grantType}",
+    handler: addGrantType.bind(this, "Test Title", "Test Description"),
   },
   {
-    method: 'GET',
-    path: '/healthy',
-    handler: (_request, h) => h.response('ok').code(200)
+    method: "GET",
+    path: "/healthy",
+    /**
+     * Return 200 OK
+     * @param {object} _request incoming request
+     * @param {object} h handler
+     * @returns {string} http code 200
+     */
+    handler: (_request, h) => h.response("ok").code(_200_OK),
   },
   {
-    method: 'GET',
-    path: '/healthz',
-    handler: (_request, h) => h.response('ok').code(200)
+    method: "GET",
+    path: "/healthz",
+    /**
+     * Return 200 OK
+     * @param {object} _request incoming request
+     * @param {object} h handler
+     * @returns {string} http code 200
+     */
+    handler: (_request, h) => h.response("ok").code(_200_OK),
   },
-
-]
+];

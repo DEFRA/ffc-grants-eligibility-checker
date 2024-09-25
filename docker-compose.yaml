@@ -4,12 +4,9 @@ services:
   ffc-grants-eligibility-checker:
     build:
       context: .
-      dockerfile: Dockerfile
-    ports:
-      - '3000:3000'
+      target: production
     image: ffc-grants-eligibility-checker  
     environment:
       NODE_ENV: production
-    volumes:
-      - .:/usr/src/app
-    command: npm run start
+      SITE_URL: localhost:3000
+

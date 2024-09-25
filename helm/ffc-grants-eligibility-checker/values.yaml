@@ -44,6 +44,7 @@ container:
   desirabilitySubmittedTopicAddress: desirability-submitted
   notifyEmailTemplate: dummy-template
   rpaEmail: FTF@rpa.gov.uk
+  messageQueueHost: dummy
 
 livenessProbe:
   path: /healthz

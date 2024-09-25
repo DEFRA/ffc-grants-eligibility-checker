@@ -55,5 +55,16 @@ export const routes = [
     method: 'POST',
     path: '/{grantType}',
     handler: addGrantType.bind(this, 'Test Title', 'Test Description')
-  }
+  },
+  {
+    method: 'GET',
+    path: '/healthy',
+    handler: (_request, h) => h.response('ok').code(200)
+  },
+  {
+    method: 'GET',
+    path: '/healthz',
+    handler: (_request, h) => h.response('ok').code(200)
+  },
+
 ]

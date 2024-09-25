@@ -5,8 +5,7 @@
 public/scripts/*
 public/stylesheets/*
 public/assets/*
-test/acceptance/reports/html/*
-test/acceptance/reports/json/*
+test/acceptance/reports/*
 
 ### Node ###
 # Logs

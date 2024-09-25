@@ -4,6 +4,7 @@ ARG PORT_DEBUG=9229
 
 # Development
 FROM defradigital/node-development:${PARENT_VERSION} AS development
+USER node
 ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/node-development:${PARENT_VERSION}
 
@@ -12,15 +13,16 @@ ARG PORT_DEBUG
 ENV PORT ${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
-COPY --chown=node:node package*.json ./
-RUN npm ci
-COPY --chown=node:node . .
+COPY --chown=root:root package*.json ./
+RUN npm --ingore-scripts ci
+COPY --chown=root:root ./src /src
 RUN npm run build
 CMD [ "npm", "run", "start:watch" ]
 
 
 # Production
 FROM defradigital/node:${PARENT_VERSION} AS production
+USER node
 ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/node:${PARENT_VERSION}
 
@@ -30,8 +32,8 @@ EXPOSE ${PORT}
 
 COPY --from=development /home/node/src/ ./src/
 COPY --from=development /home/node/package*.json ./
-RUN npm pkg delete scripts.prepare
-RUN npm ci --production
+
+RUN npm ci --ignore-scripts --production
 
 
 CMD [ "node", "src/index.js" ]

@@ -15,7 +15,7 @@ EXPOSE ${PORT} ${PORT_DEBUG}
 
 COPY package*.json ./
 RUN npm --ingore-scripts ci
-COPY ./src /src
+COPY ./src /home/node/src
 
 RUN npm run build
 CMD [ "npm", "run", "start:watch" ]

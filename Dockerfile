@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --only=development
 COPY . .
-
 RUN npm run build
 EXPOSE 3000
 

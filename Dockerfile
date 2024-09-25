@@ -13,9 +13,10 @@ ARG PORT_DEBUG
 ENV PORT ${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
-COPY --chown=root:root package*.json ./
+COPY package*.json ./
 RUN npm --ingore-scripts ci
-COPY --chown=root:root ./src /src
+COPY ./src /src
+
 RUN npm run build
 CMD [ "npm", "run", "start:watch" ]
 

@@ -7,9 +7,9 @@ ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/node-development:${PARENT_VERSION}
 ARG PORT_DEBUG
 EXPOSE ${PORT_DEBUG}
-COPY --chown=root:root package*.json ./
+COPY package*.json ./
 RUN npm --ignore-scripts install
-COPY --chown=root:root ./features /features
-COPY --chown=root:root ./reports /reports
-COPY --chown=root:root ./steps /steps
+COPY ./features /features
+COPY ./reports /reports
+COPY ./steps /steps
 CMD [ "npm", "run", "test" ]

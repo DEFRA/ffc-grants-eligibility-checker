@@ -1,23 +1,4 @@
-import { v4 as uuid } from "uuid";
-
-let grantType;
 const _200_OK = 200;
-
-/**
- * Creates a grant type object with a unique ID, title, and description.
- * @param {string} title - The title of the grant type.
- * @param {string} description - The description of the grant type.
- * @returns {object} - The created grant type object.
- */
-export const addGrantType = (title, description) => {
-  grantType = {
-    id: uuid(),
-    title,
-    description,
-  };
-
-  return grantType;
-};
 
 /**
  * Retrieves the grant type.
@@ -25,9 +6,11 @@ export const addGrantType = (title, description) => {
  * @param {object} h - The response toolkit.
  * @returns {object} - The view with the grant type information.
  */
-export const getGrantType = (request, h) => {
+export const viewGrantType = (request, h) => {
+  const lastIndexOfSlash = request.url.toString().lastIndexOf("/");
+  const grantType = request.url.toString().substring(lastIndexOfSlash + 1);
   const context = {
-    siteTitle: "FFC Grants Eligibility Checker",
+    siteTitle: `FFC Grants Eligibility Checker - ${grantType}`,
     urlPrefix: "/eligibility-checker",
     showTimeout: true,
     surveyLink: "https://example.com/survey",
@@ -38,7 +21,7 @@ export const getGrantType = (request, h) => {
       analytics: true,
     },
   };
-
+  console.log(`context=${JSON.stringify(context)}`);
   return h.view("layout.njk", context);
 };
 
@@ -49,13 +32,8 @@ export const getGrantType = (request, h) => {
 export const routes = [
   {
     method: "GET",
-    path: "/{grantType}",
-    handler: getGrantType,
-  },
-  {
-    method: "POST",
-    path: "/{grantType}",
-    handler: addGrantType.bind(this, "Test Title", "Test Description"),
+    path: "/eligibility-checker/{grantType}",
+    handler: viewGrantType,
   },
   {
     method: "GET",

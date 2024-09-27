@@ -1,25 +1,28 @@
-import { addGrantType, getGrantType } from './grantType.js'
+import { viewGrantType } from "./grantType.js";
 
-jest.mock('uuid', () => {
-  return {
-    v4: jest.fn(() => 'dummy-id-for-testing')
-  }
-})
+const mockH = jest.fn();
+const grantType = "Grant1";
+const requestMock = {
+  url: `/eligibility-checker/${grantType}`,
+};
 
-describe('Grant Type Tests', () => {
-  it('should add and get grant type', () => {
-    const title = 'Test Title'
-    const description = 'Test Description'
+describe("Grant Type Tests", () => {
+  it("should get view with requested grant type", () => {
+    viewGrantType(requestMock, {
+      view: mockH,
+    });
 
-    const expectedGrantType = {
-      id: 'dummy-id-for-testing',
-      title,
-      description
-    }
-
-    addGrantType(title, description)
-    const actualGrantType = getGrantType()
-
-    expect(actualGrantType).toEqual(expectedGrantType)
-  })
-})
+    expect(mockH).toHaveBeenCalledWith("layout.njk", {
+      siteTitle: `FFC Grants Eligibility Checker - ${grantType}`,
+      urlPrefix: "/eligibility-checker",
+      showTimeout: true,
+      surveyLink: "https://example.com/survey",
+      sessionTimeoutInMin: 15,
+      timeoutPath: "/timeout",
+      cookiesPolicy: {
+        confirmed: false,
+        analytics: true,
+      },
+    });
+  });
+});

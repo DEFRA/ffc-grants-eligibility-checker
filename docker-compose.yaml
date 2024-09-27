@@ -4,10 +4,11 @@ services:
   ffc-grants-eligibility-checker:
     build:
       context: .
-      target: production
+      target: ${NODE_ENV}
     image: ffc-grants-eligibility-checker  
+    platform: ${PLATFORM}
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV}
 

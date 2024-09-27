@@ -14,11 +14,12 @@ ENV PORT ${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
 COPY package*.json ./
-RUN npm --ingore-scripts ci
+RUN npm --ignore-scripts ci
 COPY ./src /home/node/src
 
 RUN npm run build
-CMD [ "npm", "run", "start:watch" ]
+COPY ./public /home/node/public
+CMD [ "node", "src/index.js" ]
 
 
 # Production

@@ -8,6 +8,7 @@ USER node
 ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/node-development:${PARENT_VERSION}
 
+ENV NODE_ENV development
 ARG PORT
 ARG PORT_DEBUG
 ENV PORT ${PORT}
@@ -28,11 +29,13 @@ USER node
 ARG PARENT_VERSION
 LABEL uk.gov.defra.ffc.parent-image=defradigital/node:${PARENT_VERSION}
 
+ENV NODE_ENV production
 ARG PORT
 ENV PORT ${PORT}
 EXPOSE ${PORT}
 
 COPY --from=development /home/node/src/ ./src/
+COPY --from=development /home/node/public ./public/
 COPY --from=development /home/node/package*.json ./
 
 RUN npm ci --ignore-scripts --production

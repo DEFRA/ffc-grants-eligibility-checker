@@ -21,7 +21,6 @@ export const viewGrantType = (request, h) => {
       analytics: true,
     },
   };
-  console.log(`context=${JSON.stringify(context)}`);
   return h.view("layout.njk", context);
 };
 

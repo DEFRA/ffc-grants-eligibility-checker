@@ -2,9 +2,6 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,webstorm+all,node
 
 ### Custom application ignores ###
-public/scripts/*
-public/stylesheets/*
-public/assets/*
 test/acceptance/reports/*
 
 ### Node ###

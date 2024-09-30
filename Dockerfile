@@ -13,10 +13,13 @@ ARG PORT_DEBUG
 ENV PORT ${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
-COPY package*.json ./
+COPY package*.json /home/node
 RUN NODE_ENV=development npm --ignore-scripts ci
 COPY ./src /home/node/src
 COPY .eslintrc /home/node/.eslintrc
+COPY .babelrc /home/node/.babelrc
+COPY jest.config.js /home/node/jest.config.js
+COPY jest.setup.js /home/node/jest.setup.js
 
 RUN npm run build
 COPY ./public /home/node/public

@@ -18,3 +18,5 @@ Open up your browser and go to: http://localhost:3000/eligibility-checker/exampl
 #### Authorise Snyk
 
 Run `snyk auth` to authenticate your local machine
+
+### Tests

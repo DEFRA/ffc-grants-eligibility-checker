@@ -44,14 +44,3 @@ RUN npm ci --ignore-scripts --production
 
 
 CMD [ "node", "src/index.js" ]
-
-
-
-
-
-
-
-
-
-
-

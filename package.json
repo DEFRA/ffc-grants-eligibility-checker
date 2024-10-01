@@ -12,7 +12,7 @@
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "test": "npm run lint && jest",
+    "test": "jest",
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content --fix",
     "format": "prettier --write \"**/*.js\"",
     "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",

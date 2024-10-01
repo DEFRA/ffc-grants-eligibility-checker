@@ -258,3 +258,9 @@ fabric.properties
 
 # local VS Code setup
 .vscode/settings.json
+
+# unit test output
+test-output
+
+# Macos file
+.DS_Store

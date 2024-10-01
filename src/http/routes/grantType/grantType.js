@@ -1,22 +1,4 @@
-import { v4 as uuid } from 'uuid'
-
-let grantType
-
-/**
- * Creates a grant type object with a unique ID, title, and description.
- * @param {string} title - The title of the grant type.
- * @param {string} description - The description of the grant type.
- * @returns {object} - The created grant type object.
- */
-export const addGrantType = (title, description) => {
-  grantType = {
-    id: uuid(),
-    title,
-    description
-  }
-
-  return grantType
-}
+const _200_OK = 200;
 
 /**
  * Retrieves the grant type.
@@ -24,22 +6,23 @@ export const addGrantType = (title, description) => {
  * @param {object} h - The response toolkit.
  * @returns {object} - The view with the grant type information.
  */
-export const getGrantType = (request, h) => {
+export const viewGrantType = (request, h) => {
+  const lastIndexOfSlash = request.url.toString().lastIndexOf("/");
+  const grantType = request.url.toString().substring(lastIndexOfSlash + 1);
   const context = {
-    siteTitle: 'FFC Grants Eligibility Checker',
-    urlPrefix: '/eligibility-checker',
+    siteTitle: `FFC Grants Eligibility Checker - ${grantType}`,
+    urlPrefix: "/eligibility-checker",
     showTimeout: true,
-    surveyLink: 'https://example.com/survey',
+    surveyLink: "https://example.com/survey",
     sessionTimeoutInMin: 15,
-    timeoutPath: '/timeout',
+    timeoutPath: "/timeout",
     cookiesPolicy: {
       confirmed: false,
-      analytics: true
-    }
-  }
-
-  return h.view('layout.njk', context)
-}
+      analytics: true,
+    },
+  };
+  return h.view("layout.njk", context);
+};
 
 /**
  * Represents the routes configuration for handling different grant types.
@@ -47,13 +30,30 @@ export const getGrantType = (request, h) => {
  */
 export const routes = [
   {
-    method: 'GET',
-    path: '/{grantType}',
-    handler: getGrantType
+    method: "GET",
+    path: "/eligibility-checker/{grantType}",
+    handler: viewGrantType,
   },
   {
-    method: 'POST',
-    path: '/{grantType}',
-    handler: addGrantType.bind(this, 'Test Title', 'Test Description')
-  }
-]
+    method: "GET",
+    path: "/healthy",
+    /**
+     * Return 200 OK
+     * @param {object} _request incoming request
+     * @param {object} h handler
+     * @returns {string} http code 200
+     */
+    handler: (_request, h) => h.response("ok").code(_200_OK),
+  },
+  {
+    method: "GET",
+    path: "/healthz",
+    /**
+     * Return 200 OK
+     * @param {object} _request incoming request
+     * @param {object} h handler
+     * @returns {string} http code 200
+     */
+    handler: (_request, h) => h.response("ok").code(_200_OK),
+  },
+];

@@ -1,10 +1,10 @@
 {
   "env": {
-    "node": true, // Enable Node.js global variables and Node.js scoping
+    "node": true,
     "jest": true
   },
   "parser": "@babel/eslint-parser",
-  "plugins": ["jsdoc"],
+  "plugins": ["jsdoc", "jest"],
   "extends": [
     "standard",
     "plugin:jsdoc/recommended",
@@ -12,7 +12,7 @@
     "prettier"
   ],
   "parserOptions": {
-    "requireConfigFile": false, // Use Babel's default parser
+    "requireConfigFile": false,
     "babelOptions": {
       "presets": ["@babel/preset-env"],
       "plugins": ["@babel/plugin-syntax-import-assertions"]
@@ -56,5 +56,13 @@
     "jsdoc": {
       // Configure JSDoc settings if necessary
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.js", "**/*.spec.js"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

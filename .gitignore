@@ -2,9 +2,6 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,webstorm+all,node
 
 ### Custom application ignores ###
-public/scripts/*
-public/stylesheets/*
-public/assets/*
 test/acceptance/reports/*
 
 ### Node ###
@@ -261,3 +258,12 @@ fabric.properties
 
 # local VS Code setup
 .vscode/settings.json
+
+# unit test output
+test-output
+
+# Macos file
+.DS_Store
+
+# Ignore husky 
+.husky/_

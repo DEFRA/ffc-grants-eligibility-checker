@@ -264,3 +264,6 @@ test-output
 
 # Macos file
 .DS_Store
+
+# Ignore husky 
+.husky/_

@@ -1,6 +1,10 @@
-import { viewGrantType } from "./grantType.js";
+import { routes, viewGrantType } from "./grantType.js";
 
 const mockH = jest.fn();
+const mockCode = jest.fn();
+const mockResponse = jest.fn().mockImplementation(() => {
+  return { code: mockCode };
+});
 const grantType = "Grant1";
 const requestMock = {
   url: `/eligibility-checker/${grantType}`,
@@ -24,5 +28,17 @@ describe("Grant Type Tests", () => {
         analytics: true,
       },
     });
+  });
+
+  it("should return 200 for GET healthy handler", () => {
+    mockCode.mockReturnValue(200);
+    const response = routes[1].handler(requestMock, { response: mockResponse });
+    expect(response).toBe(200);
+  });
+
+  it("should return 200 for GET healthz handler", () => {
+    mockCode.mockReturnValue(200);
+    const response = routes[2].handler(requestMock, { response: mockResponse });
+    expect(response).toBe(200);
   });
 });

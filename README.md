@@ -54,7 +54,7 @@ This will start the Hapi.js server and your project will be available at `http:/
   npm test
 ```
 
-This will run all the tests in the `test/` directory.
+This will run all `jest` unit tests inline with the code they're testing in `/src/**/*`
 
 **Docker**
 

@@ -1,4 +1,4 @@
-# Form Builder
+# FFC Grants Eligibility Checking
 
 This project is a flexible and easy-to-use **Form Builder** designed to simplify the process of creating, customizing, and managing eligibility checkers. It leverages **Hapi.js** for the backend framework, with strong code standards enforced using **eslint** and **prettier**. The project is developed with **Node.js** (v20.x and above).
 

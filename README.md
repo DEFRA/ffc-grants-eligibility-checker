@@ -108,5 +108,5 @@ Run `snyk auth` to authenticate your local machine with Snyk.
 ## Project Structure
 
 - `src/` – Core application files (routes, handlers, etc.)
-- `public/` – Frontend assets (if applicable)
-- `test/` – Unit and integration tests
+- `public/` – Frontend assets
+- `test/` – Integration and Acceptance tests

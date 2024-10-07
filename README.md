@@ -4,7 +4,7 @@ This project is a flexible and easy-to-use **Form Builder** designed to simplify
 
 ## Features
 - Dynamic form creation
-- Field validation and customization
+- Field validation and customisation
 - API-based form submission and management
 - Configurable questions
 
@@ -29,8 +29,9 @@ Ensure you have the following installed on your local machine:
 
 **Run the development server**
 
+In development, we use `NODE_ENV=development`
 ```bash
-  npm run dev
+  npm start
 ```
 
 This will start the Hapi.js server and your project will be available at `http://localhost:3000/eligibility-checker/<checker_name>`.

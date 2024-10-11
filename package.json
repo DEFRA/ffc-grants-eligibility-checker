@@ -13,6 +13,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "test:cov": "jest --coverage --coverageReporters='text' --coverageReporters='text-summary'",
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content --fix",
     "format": "prettier --write \"**/*.js\"",
     "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",

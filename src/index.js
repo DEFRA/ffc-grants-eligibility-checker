@@ -14,6 +14,9 @@ const init = async () => {
   const server = Hapi.server({
     port: appConfig.port,
     host: appConfig.host,
+    router: {
+      stripTrailingSlash: true,
+    },
   });
 
   await server.register(inert);
@@ -67,7 +70,9 @@ const init = async () => {
   });
 
   await server.start();
-  console.log("Server running on %s", server.info.uri);
+  console.log(
+    "Server running on http://localhost:3000/eligibility-checker/grant-name/start",
+  );
 };
 
 process.on("unhandledRejection", (err) => {
@@ -75,4 +80,6 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-init().then((r) => console.log(r));
+init()
+  .then((r) => console.log("Server initialised"))
+  .catch((e) => console.error(e));

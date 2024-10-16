@@ -6,7 +6,6 @@ import njk from "nunjucks";
 import vision from "@hapi/vision";
 import inert from "@hapi/inert";
 import { getRouteDefinitions } from "./http/routes/routes.js";
-import { curry } from "./lib/fn/curry.js";
 
 /**
  * Retrieves the application's configuration settings.
@@ -53,9 +52,8 @@ const getConfig = () => ({
  * @param {boolean} options.stripTrailingSlash - Whether to remove trailing slashes from incoming requests.
  * @returns {object} The configured Hapi server instance.
  */
-const createServer = curry(({ port, host, stripTrailingSlash }) =>
-  Hapi.server({ port, host, router: { stripTrailingSlash } }),
-);
+const createServer = ({ port, host, stripTrailingSlash }) =>
+  Hapi.server({ port, host, router: { stripTrailingSlash } });
 
 /**
  * Asynchronously registers plugins for a given server.

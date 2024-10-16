@@ -75,6 +75,9 @@
         "**/*.test.js",
         "**/*.spec.js"
       ],
+      "rules": {
+        "jsdoc/require-jsdoc": "off"
+      },
       "env": {
         "jest": true
       }

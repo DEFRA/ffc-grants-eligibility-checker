@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 
-export { app } from './app.js'
-export { views } from './views.js'
+export { app } from "./app.js";
+export { views } from "./views.js";

@@ -4,7 +4,10 @@
     "jest": true
   },
   "parser": "@babel/eslint-parser",
-  "plugins": ["jsdoc", "jest"],
+  "plugins": [
+    "jsdoc",
+    "jest"
+  ],
   "extends": [
     "standard",
     "plugin:jsdoc/recommended",
@@ -14,11 +17,19 @@
   "parserOptions": {
     "requireConfigFile": false,
     "babelOptions": {
-      "presets": ["@babel/preset-env"],
-      "plugins": ["@babel/plugin-syntax-import-assertions"]
+      "presets": [
+        "@babel/preset-env"
+      ],
+      "plugins": [
+        "@babel/plugin-syntax-import-assertions"
+      ]
     }
   },
   "rules": {
+    "semi": [
+      "error",
+      "always"
+    ],
     "jsdoc/require-jsdoc": [
       "error",
       {
@@ -59,7 +70,10 @@
   },
   "overrides": [
     {
-      "files": ["**/*.test.js", "**/*.spec.js"],
+      "files": [
+        "**/*.test.js",
+        "**/*.spec.js"
+      ],
       "env": {
         "jest": true
       }

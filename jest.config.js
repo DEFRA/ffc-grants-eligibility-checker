@@ -1,3 +1,4 @@
+// istanbul ignore file
 /**
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
@@ -27,9 +28,7 @@ const config = {
   coverageDirectory: "test-output",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: ["/node_modules/", "/test/", "/test-output"],
 
   // Indicates which provider should be used to instrument code for coverage
   // coverageProvider: "v8",

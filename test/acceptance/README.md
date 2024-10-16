@@ -14,10 +14,7 @@ Docker is used to create containers for both the tests (`wdio-cucumber`) and the
 1. Provide the following environment variables in a `.env` file in this directory:
 
 ```
-ROOT_URL
-
-LOGIN_USERNAME
-LOGIN_PASSWORD
+TEST_ENVIRONMENT_ROOT_URL
 ```
 
 2. For ARM architectures, change the image used for Chrome in `docker-compose.yaml`:

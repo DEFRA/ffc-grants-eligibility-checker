@@ -80,7 +80,6 @@ describe("Grant Type Tests", () => {
 
     expect(result).toBe("Invalid Page");
     expect(getInvalidResponse.getInvalidPageResponse).toHaveBeenCalledWith(
-      requestMock,
       mockH,
     );
   });

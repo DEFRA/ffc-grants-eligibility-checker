@@ -10,10 +10,9 @@ export function getInvalidGrantTypeResponse(h) {
 }
 /**
  * Returns a Hapi response object with a 404 status code and a 'Page not found' message.
- * @param {object} request - The request object.
  * @param {object} h - The Hapi response toolkit.
  * @returns {object} A Hapi response object with a 404 status code.
  */
-export function getInvalidPageResponse(request, h) {
+export function getInvalidPageResponse(h) {
   return h.response("Page not found").code(statusCodes(NOT_FOUND));
 }

@@ -1,3 +1,4 @@
+// istanbul ignore file
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import path from "path";

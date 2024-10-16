@@ -11,13 +11,13 @@ const statusCodeMap = new Map();
  * The HTTP status code for a successful request.
  * @constant {number}
  */
-statusCodeMap.set(OK, 200);
+statusCodeMap.set(OK, 200); // NOSONAR:S109 - Allow magic number
 
 /**
  * The HTTP status code for a resource that was not found.
  * @constant {number}
  */
-statusCodeMap.set(NOT_FOUND, 404);
+statusCodeMap.set(NOT_FOUND, 404); // NOSONAR:S109 - Allow magic number
 
 /**
  * Returns a HTTP status code based on the code given.

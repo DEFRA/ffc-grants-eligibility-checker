@@ -1,3 +1,4 @@
+// istanbul ignore file
 import Hapi from "@hapi/hapi";
 import { app as appConfig, views as viewConfig } from "./config/index.js";
 import path from "path";
@@ -81,5 +82,5 @@ process.on("unhandledRejection", (err) => {
 });
 
 init()
-  .then((r) => console.log("Server initialised"))
+  .then(() => console.log("Server initialised"))
   .catch((e) => console.error(e));

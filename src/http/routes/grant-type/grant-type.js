@@ -23,11 +23,14 @@ import statusCodes, { OK } from "../../../constants/status-codes.js";
  */
 export const viewGrantType = (request, h) => {
   const grantTypeId = getGrantTypeFromUrl(request.url);
-  if (!isValidGrantType(grantTypeId)) return getInvalidGrantTypeResponse(h);
+  if (!isValidGrantType(grantTypeId)) {
+    return getInvalidGrantTypeResponse(h);
+  }
   const grantType = getGrantTypeById(grantTypeId);
   const pageId = getPageFromUrl(request.url);
-  if (!isValidGrantPage(grantType, pageId))
-    return getInvalidPageResponse(request, h);
+  if (!isValidGrantPage(grantType, pageId)) {
+    return getInvalidPageResponse(h);
+  }
 
   return h.view(`pages/${grantType.id}/${pageId}.njk`, getContext(grantType));
 };

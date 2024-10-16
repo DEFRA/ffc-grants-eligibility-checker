@@ -11,6 +11,8 @@ import { getGrantTypeFromUrl } from "./get-info-from-url.js";
  */
 export default function redirectToStartPage(request, h) {
   const grantTypeId = getGrantTypeFromUrl(request.url);
-  if (!isValidGrantType(grantTypeId)) return getInvalidGrantTypeResponse(h);
+  if (!isValidGrantType(grantTypeId)) {
+    return getInvalidGrantTypeResponse(h);
+  }
   return h.redirect(`${process.env.URL_PREFIX}/${grantTypeId}/start`);
 }

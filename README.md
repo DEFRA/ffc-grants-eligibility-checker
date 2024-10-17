@@ -110,3 +110,22 @@ Run `snyk auth` to authenticate your local machine with Snyk.
 - `src/` – Core application files (routes, handlers, etc.)
 - `public/` – Frontend assets
 - `test/` – Integration and Acceptance tests
+
+
+## Pipeline
+The pipeline is spread across Jenkins and Azure DevOps (for historical reasons - please see the docs listed at the bottom). When a PR is raised/updated testing is run. When the PR is merged into main testing is run then a container is built. This is then deploy through the environments with various gates. This is as follows:
+
+|Step|Jenkins|ADO|Gate|App Config|
+| -------- | ------- | ------- | ------- | ------- |
+|1|Build - test||no|NA|
+|2|Build Container||no|NA|
+|3|Deploy to SND||no|Manual in Azure App config|
+|4||Deploy to DEV|no|Automatic via platform repo|
+|5||Deploy to TEST|yes - team|Automatic via platform repo|
+|6||Deploy to PRE|yes - team|Automatic via platform repo|
+|7||Deploy to PROD|yes - CCOE|Automatic via platform repo|
+
+
+Documentation on the Jenkins setup: https://defra.github.io/ffc-development-guide/create-a-new-service/jenkins/
+
+Documentation on ADO: https://defra.github.io/ffc-development-guide/create-a-new-service/ado/

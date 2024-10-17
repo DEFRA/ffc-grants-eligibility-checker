@@ -5,7 +5,7 @@ services:
     depends_on:
       - selenium
     environment:
-      TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
+      TEST_ENVIRONMENT_ROOT_URL: http://host.docker.internal:3000/eligibility-checker/
     volumes:
       - ./reports:/tmp/reports
     ports:

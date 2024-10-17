@@ -1,8 +1,8 @@
 import { generate } from "multiple-cucumber-html-reporter";
 
 export const config = {
-  //hostname: 'selenium',
-  //port: 4444,
+  hostname: "selenium",
+  port: 4444,
   //
   // ====================
   // Runner Configuration

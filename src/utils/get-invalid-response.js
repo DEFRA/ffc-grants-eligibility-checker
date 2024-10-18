@@ -1,4 +1,4 @@
-import statusCodes, { NOT_FOUND } from "../constants/status-codes.js";
+import statusCodes, { NOT_FOUND } from '../constants/status-codes.js';
 
 /**
  * Returns a Hapi response object with a 404 status code and a 'Grant type not found' message.
@@ -6,7 +6,7 @@ import statusCodes, { NOT_FOUND } from "../constants/status-codes.js";
  * @returns {object} A Hapi response object with a 404 status code.
  */
 export function getInvalidGrantTypeResponse(h) {
-  return h.response("Grant type not found").code(statusCodes(NOT_FOUND));
+  return h.response('Grant type not found').code(statusCodes(NOT_FOUND));
 }
 /**
  * Returns a Hapi response object with a 404 status code and a 'Page not found' message.
@@ -14,5 +14,5 @@ export function getInvalidGrantTypeResponse(h) {
  * @returns {object} A Hapi response object with a 404 status code.
  */
 export function getInvalidPageResponse(h) {
-  return h.response("Page not found").code(statusCodes(NOT_FOUND));
+  return h.response('Page not found').code(statusCodes(NOT_FOUND));
 }

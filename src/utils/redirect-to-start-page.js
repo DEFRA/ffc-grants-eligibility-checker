@@ -1,6 +1,7 @@
-import { isValidGrantType } from "../config/grant-types.js";
-import { getInvalidGrantTypeResponse } from "./get-invalid-response.js";
-import { getGrantTypeFromUrl } from "./get-info-from-url.js";
+import { app } from '../config/app.js';
+import { isValidGrantType } from '../config/grant-types.js';
+import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
+import { getGrantTypeFromUrl } from './get-info-from-url.js';
 
 /**
  * Redirect to the start page of the eligibility checker.
@@ -14,5 +15,5 @@ export default function redirectToStartPage(request, h) {
   if (!isValidGrantType(grantTypeId)) {
     return getInvalidGrantTypeResponse(h);
   }
-  return h.redirect(`${process.env.URL_PREFIX}/${grantTypeId}/start`);
+  return h.redirect(`${app.urlPrefix}/${grantTypeId}/start`);
 }

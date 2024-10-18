@@ -13,5 +13,5 @@ export function getGrantTypeFromUrl(url) {
  * @returns {string} - The page id.
  */
 export function getPageFromUrl(url) {
-  return url.toString().split("/").pop();
+  return url.toString().split('/').pop();
 }

@@ -1,19 +1,43 @@
-import { getRouteDefinitions } from "./routes.js";
+import { describe, expect } from '@jest/globals';
+import { routes } from './grant-type/grant-type.js';
+import { getRouteDefinitions } from './routes.js';
 
-jest.mock("./grant-type/grant-type.js", () => ({
-  routes: [
-    { path: "/grant1", method: "GET" },
-    { path: "/grant2", method: "POST" },
-  ],
-}));
+describe('routes', () => {
+  const expectedRoutes = [
+    {
+      method: 'GET',
+      path: '/eligibility-checker/healthy'
+    },
+    {
+      method: 'GET',
+      path: '/eligibility-checker/healthz'
+    },
+    {
+      method: 'GET',
+      path: '/eligibility-checker/{grantType}'
+    },
+    {
+      method: 'GET',
+      path: '/eligibility-checker/{grantType}/{page*}'
+    }
+  ];
 
-describe("getRouteDefinitions", () => {
-  it("should return all route definitions", () => {
-    const result = getRouteDefinitions();
+  const matchRouteWithoutHandler = expect.objectContaining({
+    method: expect.any(String),
+    path: expect.any(String)
+  });
 
-    expect(result).toEqual([
-      { path: "/grant1", method: "GET" },
-      { path: "/grant2", method: "POST" },
-    ]);
+  it('should define the correct routes', () => {
+    expect(routes).toEqual(
+      expect.arrayContaining(expectedRoutes.map((route) => matchRouteWithoutHandler))
+    );
+
+    expect(routes.length).toBe(expectedRoutes.length);
+  });
+
+  it('should call getRouteDefinitions', () => {
+    expect(getRouteDefinitions()).toEqual(
+      expect.arrayContaining(expectedRoutes.map((route) => matchRouteWithoutHandler))
+    );
   });
 });

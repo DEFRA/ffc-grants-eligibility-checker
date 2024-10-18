@@ -113,7 +113,7 @@ Run `snyk auth` to authenticate your local machine with Snyk.
 
 
 ## Pipeline
-The pipeline is spread across Jenkins and Azure DevOps (for historical reasons - please see the docs listed at the bottom). When a PR is raised/updated testing is run. When the PR is merged into main testing is run then a container is built. This is then deploy through the environments with various gates. This is as follows:
+The pipeline uses both Jenkins and Azure DevOps (ADO) due to historical reasons. Refer to the documentation links below for more details on the setup of each. When a pull request (PR) is raised or updated, tests are executed. Upon merging the PR into the main branch, tests run again and a container is built, which is then deployed through environments with various gates as outlined below:
 
 |Step|Jenkins|ADO|Gate|App Config|
 | -------- | ------- | ------- | ------- | ------- |
@@ -126,6 +126,9 @@ The pipeline is spread across Jenkins and Azure DevOps (for historical reasons -
 |7||Deploy to PROD|yes - CCOE|Automatic via platform repo|
 
 
-Documentation on the Jenkins setup: https://defra.github.io/ffc-development-guide/create-a-new-service/jenkins/
 
-Documentation on ADO: https://defra.github.io/ffc-development-guide/create-a-new-service/ado/
+**Further Documentation**
+
+[FCP Jenkins](https://defra.github.io/ffc-development-guide/create-a-new-service/jenkins/)
+
+[FCP ADO](https://defra.github.io/ffc-development-guide/create-a-new-service/ado/)

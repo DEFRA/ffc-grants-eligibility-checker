@@ -1,5 +1,3 @@
-import { app } from './app.js';
-
 export const grantTypes = [
   {
     id: 'example-grant',
@@ -9,7 +7,6 @@ export const grantTypes = [
       {
         id: 'start',
         name: 'Start',
-        url: `${app.urlPrefix}/example-grant/start`,
         nextPageId: 'second-page',
         isCompleted: false
       }

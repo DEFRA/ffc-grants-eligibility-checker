@@ -8,7 +8,6 @@ import { app } from '../../../config/app.js';
 export function getContext(grantType) {
   return {
     siteTitle: `${app.siteTitle} - ${grantType.id}`,
-    urlPrefix: `${app.urlPrefix}`,
     showTimeout: true,
     surveyLink: `${app.surveyLink}`,
     sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,

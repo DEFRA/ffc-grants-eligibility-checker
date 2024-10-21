@@ -11,7 +11,6 @@ describe('getContext', () => {
 
     const expectedContext = {
       siteTitle: `${app.siteTitle} - example-grant`,
-      urlPrefix: `${app.urlPrefix}`,
       showTimeout: true,
       surveyLink: `${app.surveyLink}`,
       sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,

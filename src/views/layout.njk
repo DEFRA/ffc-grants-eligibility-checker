@@ -21,7 +21,7 @@
     govukHeader({
         homepageUrl: "https://www.gov.uk/",
         serviceName: "Check if you can apply",
-        serviceUrl: urlPrefix + "/start"
+        serviceUrl: "/start"
     })
   }}
   <div class="govuk-grid-row govuk-width-container">
@@ -41,7 +41,7 @@
       <li class="govuk-footer__inline-list-item">
         <a
           class="govuk-footer__link"
-          href="<%= htmlWebpackPlugin.options.metadata.urlPrefix %>/accessibility"
+          href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
           rel="noopener noreferrer"
         >
           Accessibility
@@ -50,7 +50,7 @@
       <li class="govuk-footer__inline-list-item">
         <a
           class="govuk-footer__link"
-          href="<%= htmlWebpackPlugin.options.metadata.urlPrefix %>/cookies"
+          href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
           rel="noopener noreferrer"
         >
           Cookies

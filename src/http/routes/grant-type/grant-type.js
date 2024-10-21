@@ -1,4 +1,3 @@
-import { app } from '../../../config/app.js';
 import {
   isValidGrantType,
   getGrantTypeById,
@@ -41,7 +40,7 @@ export const viewGrantType = (request, h) => {
 export const routes = [
   {
     method: 'GET',
-    path: `${app.urlPrefix}/healthy`,
+    path: '/healthy',
     /**
      * Return 200 OK
      * @param {object} _request incoming request
@@ -52,7 +51,7 @@ export const routes = [
   },
   {
     method: 'GET',
-    path: `${app.urlPrefix}/healthz`,
+    path: '/healthz',
     /**
      * Return 200 OK
      * @param {object} _request incoming request
@@ -63,12 +62,12 @@ export const routes = [
   },
   {
     method: 'GET',
-    path: `${app.urlPrefix}/{grantType}`,
+    path: `/{grantType}`,
     handler: redirectToStartPage
   },
   {
     method: 'GET',
-    path: `${app.urlPrefix}/{grantType}/{page*}`,
+    path: `/{grantType}/{page*}`,
     handler: viewGrantType
   }
 ];

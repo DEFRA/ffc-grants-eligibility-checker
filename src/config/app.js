@@ -18,7 +18,6 @@ export const app = {
   host: '0.0.0.0',
   port: 3000,
   siteTitle: process.env.SITE_TITLE || 'FFC Grants Eligibility Checker',
-  urlPrefix: process.env.URL_PREFIX || '/eligibility-checker',
   surveyLink: process.env.SURVEY_LINK || 'https://example.com/survey',
   sessionTimeoutInMins: process.env.SESSION_TIMEOUT_IN_MINS || '15',
   timeoutPath: process.env.TIMEOUT_PATH || '/timeout'

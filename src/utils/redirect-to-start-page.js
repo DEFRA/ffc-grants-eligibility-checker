@@ -1,4 +1,3 @@
-import { app } from '../config/app.js';
 import { isValidGrantType } from '../config/grant-types.js';
 import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
 import { getGrantTypeFromUrl } from './get-info-from-url.js';
@@ -15,5 +14,5 @@ export default function redirectToStartPage(request, h) {
   if (!isValidGrantType(grantTypeId)) {
     return getInvalidGrantTypeResponse(h);
   }
-  return h.redirect(`${app.urlPrefix}/${grantTypeId}/start`);
+  return h.redirect(`/${grantTypeId}/start`);
 }

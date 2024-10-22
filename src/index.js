@@ -1,11 +1,11 @@
 // istanbul ignore file
-import Hapi from "@hapi/hapi";
-import { app as appConfig, views as viewConfig } from "./config/index.js";
-import path from "path";
-import njk from "nunjucks";
-import vision from "@hapi/vision";
-import inert from "@hapi/inert";
-import { getRouteDefinitions } from "./http/routes/routes.js";
+import Hapi from '@hapi/hapi';
+import { app as appConfig, views as viewConfig } from './config/index.js';
+import path from 'path';
+import njk from 'nunjucks';
+import vision from '@hapi/vision';
+import inert from '@hapi/inert';
+import { getRouteDefinitions } from './http/routes/routes.js';
 
 /**
  * Initialize the server
@@ -16,21 +16,21 @@ const init = async () => {
     port: appConfig.port,
     host: appConfig.host,
     router: {
-      stripTrailingSlash: true,
-    },
+      stripTrailingSlash: true
+    }
   });
 
   await server.register(inert);
   await server.register(vision);
 
   server.route({
-    method: "GET",
-    path: "/eligibility-checker/stylesheets/{file*}",
+    method: 'GET',
+    path: '/eligibility-checker/stylesheets/{file*}',
     handler: {
       directory: {
-        path: path.resolve(import.meta.dirname, "..", "public", "stylesheets"),
-      },
-    },
+        path: path.resolve(import.meta.dirname, '..', 'public', 'stylesheets')
+      }
+    }
   });
 
   const routes = getRouteDefinitions();
@@ -49,12 +49,12 @@ const init = async () => {
         compile: (src, options) => {
           const template = njk.compile(src, options.environment);
           return (context) => template.render(context);
-        },
-      },
+        }
+      }
     },
-    relativeTo: path.resolve(import.meta.dirname, ".."),
+    relativeTo: path.resolve(import.meta.dirname, '..'),
     compileOptions: {
-      environment: njk.configure(viewConfig.paths),
+      environment: njk.configure(viewConfig.paths)
     },
     // @todo need to review this, it will be fine for now but could trip us up later on
     path: viewConfig.paths[0],
@@ -64,23 +64,21 @@ const init = async () => {
       govAssets: viewConfig.assets.gov,
       serviceName: appConfig.name,
       // @todo this can no longer come from config. Must come from the grant type data.
-      pageTitle: appConfig.name,
+      pageTitle: appConfig.name
       // googleTagManagerKey: config.googleTagManagerKey,
       // analyticsTagKey: config.analyticsTagKey
-    },
+    }
   });
 
   await server.start();
-  console.log(
-    "Server running on http://localhost:3000/eligibility-checker/grant-name/start",
-  );
+  console.log('Server running on http://localhost:3000/eligibility-checker/grant-name/start');
 };
 
-process.on("unhandledRejection", (err) => {
+process.on('unhandledRejection', (err) => {
   console.log(err);
   process.exit(1);
 });
 
 init()
-  .then(() => console.log("Server initialised"))
+  .then(() => console.log('Server initialised'))
   .catch((e) => console.error(e));

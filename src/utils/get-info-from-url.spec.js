@@ -1,15 +1,15 @@
-import { getGrantTypeFromUrl, getPageFromUrl } from "./get-info-from-url";
+import { getGrantTypeFromUrl, getPageFromUrl } from './get-info-from-url';
 
-describe("getGrantTypeFromUrl", () => {
-  it("should extract grant type id from a string URL", () => {
-    const url = "/eligibility-checker/example-grant/example-page";
-    expect(getGrantTypeFromUrl(url)).toBe("example-grant");
+const url = { pathname: '/example-grant/example-page' };
+
+describe('getGrantTypeFromUrl', () => {
+  it('should extract grant type id from a string URL', () => {
+    expect(getGrantTypeFromUrl(url)).toBe('example-grant');
   });
 });
 
-describe("getPageFromUrl", () => {
-  it("should extract page id from a string URL", () => {
-    const url = "/eligibility-checker/example-grant/example-page";
-    expect(getPageFromUrl(url)).toBe("example-page");
+describe('getPageFromUrl', () => {
+  it('should extract page id from a string URL', () => {
+    expect(getPageFromUrl(url)).toBe('example-page');
   });
 });

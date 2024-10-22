@@ -1,7 +1,7 @@
 {
   "name": "ffc-grants-eligibility-checker",
   "description": "FFC Grant Eligibility Checker",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "license": "OGL-UK-3.0",
   "contributors": [
     "Andrew Folga <andrew.folga@equalexperts.com>",
@@ -12,10 +12,11 @@
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "test": "jest",
-    "test:cov": "jest --coverage --coverageReporters='text' --coverageReporters='text-summary'",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:cov": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --coverageReporters='text' --coverageReporters='text-summary'",
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content --fix",
     "format": "prettier --write \"**/*.js\"",
+    "format:njk": "prettier --write \"**/*.njk\" --ignore-path .prettierignore",
     "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",
     "start": "nodemon ./src/index.js",
     "prepare": "husky install",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-assertions": "^7.25.6",
     "@babel/preset-env": "^7.25.4",
     "autoprefixer": "^10.4.20",
@@ -31,6 +33,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest": "^28.8.3",
     "eslint-plugin-jsdoc": "^50.2.3",
+    "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.6",
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
@@ -49,6 +52,7 @@
     "dotenv": "^16.4.5",
     "govuk-frontend": "^5.5.0",
     "nunjucks": "^3.2.4",
+    "prettier-plugin-jinja-template": "^2.0.0",
     "uuid": "^10.0.0"
   },
   "lint-staged": {

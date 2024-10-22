@@ -1,5 +1,5 @@
-export const OK = Symbol("OK");
-export const NOT_FOUND = Symbol("NOT_FOUND");
+export const OK = Symbol('OK');
+export const NOT_FOUND = Symbol('NOT_FOUND');
 
 /**
  * A map of status codes and their corresponding HTTP status code values.

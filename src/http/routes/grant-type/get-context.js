@@ -1,20 +1,21 @@
+import { app } from '../../../config/app.js';
+
 /**
  * Returns the context for hapi view
  * @param {object} grantType - The grant type object
  * @returns {object} - The context object
  */
-export default function getContext(grantType) {
+export function getContext(grantType) {
   return {
-    siteTitle: `${process.env.SITE_TITLE} - ${grantType.id}`,
-    urlPrefix: process.env.URL_PREFIX,
+    siteTitle: `${app.siteTitle} - ${grantType.id}`,
     showTimeout: true,
-    surveyLink: process.env.SURVEY_LINK,
-    sessionTimeoutInMin: process.env.SESSION_TIMEOUT_IN_MINS,
-    timeoutPath: process.env.TIMEOUT_PATH,
+    surveyLink: `${app.surveyLink}`,
+    sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,
+    timeoutPath: `${app.timeoutPath}`,
     cookiesPolicy: {
       confirmed: false,
-      analytics: true,
+      analytics: true
     },
-    grantType,
+    grantType
   };
 }

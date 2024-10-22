@@ -1,24 +1,23 @@
 export const grantTypes = [
   {
-    id: "example-grant",
-    name: "Example Grant",
-    description: "Funding for example equipment",
+    id: 'example-grant',
+    name: 'Example Grant',
+    description: 'Funding for example equipment',
     pages: [
       {
-        id: "start",
-        name: "Start",
-        url: `${process.env.URL_PREFIX}/example-grant/start`,
-        nextPageId: "second-page",
-        isCompleted: false,
-      },
+        id: 'start',
+        name: 'Start',
+        nextPageId: 'second-page',
+        isCompleted: false
+      }
       // {
       //     id: 'second-page',
       //     name: 'Second Page',
       //     url: '/eligibility-checker/example-grant/second-page',
       //     isCompleted: false
       // }
-    ],
-  },
+    ]
+  }
 ];
 
 /**

@@ -22,19 +22,19 @@ const config = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["**/*.js", "!**/*.test.js", "!**/*.spec.js"],
+  collectCoverageFrom: ['**/*.js', '!**/*.test.js', '!**/*.spec.js'],
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "test-output",
+  coverageDirectory: 'test-output',
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: ["/node_modules/", "/test/", "/test-output"],
+  coveragePathIgnorePatterns: ['/node_modules/', '/test/', '/test-output'],
 
   // Indicates which provider should be used to instrument code for coverage
   // coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
-  coverageReporters: ["text-summary", "lcov"],
+  coverageReporters: ['text-summary', 'lcov'],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
@@ -86,7 +86,7 @@ const config = {
   // moduleNameMapper: {},
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-  modulePathIgnorePatterns: ["node_modules"],
+  modulePathIgnorePatterns: ['node_modules'],
 
   // Activates notifications for test results
   // notify: false,
@@ -102,15 +102,15 @@ const config = {
 
   // Use this configuration option to add custom reporters to Jest
   reporters: [
-    "default",
+    'default',
     [
-      "jest-junit",
+      'jest-junit',
       {
-        suiteName: "jest tests",
-        outputDirectory: "test-output",
-        outputName: "junit.xml",
-      },
-    ],
+        suiteName: 'jest tests',
+        outputDirectory: 'test-output',
+        outputName: 'junit.xml'
+      }
+    ]
   ],
 
   // Automatically reset mock state before every test
@@ -140,7 +140,7 @@ const config = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ["./jest.setup.js"],
+  setupFilesAfterEnv: ['./jest.setup.js'],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -149,7 +149,7 @@ const config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "node",
+  testEnvironment: 'node',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -176,16 +176,16 @@ const config = {
   // testRunner: "jest-circus/runner",
 
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  transform: {},
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: ["/node_modules/", "\\.pnp\\.[^\\/]+$"],
+  transformIgnorePatterns: ['/node_modules/', '\\.pnp\\.[^\\/]+$'],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  verbose: true,
+  verbose: true
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],

@@ -1,19 +1,16 @@
 import {
   isValidGrantType,
   getGrantTypeById,
-  isValidGrantPage,
-} from "../../../config/grant-types.js";
-import redirectToStartPage from "../../../utils/redirect-to-start-page.js";
+  isValidGrantPage
+} from '../../../config/grant-types.js';
+import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
 import {
   getInvalidGrantTypeResponse,
-  getInvalidPageResponse,
-} from "../../../utils/get-invalid-response.js";
-import {
-  getGrantTypeFromUrl,
-  getPageFromUrl,
-} from "../../../utils/get-info-from-url.js";
-import getContext from "./get-context.js";
-import statusCodes, { OK } from "../../../constants/status-codes.js";
+  getInvalidPageResponse
+} from '../../../utils/get-invalid-response.js';
+import { getGrantTypeFromUrl, getPageFromUrl } from '../../../utils/get-info-from-url.js';
+import { getContext } from './get-context.js';
+import statusCodes, { OK } from '../../../constants/status-codes.js';
 
 /**
  * Retrieves the grant type.
@@ -23,6 +20,7 @@ import statusCodes, { OK } from "../../../constants/status-codes.js";
  */
 export const viewGrantType = (request, h) => {
   const grantTypeId = getGrantTypeFromUrl(request.url);
+
   if (!isValidGrantType(grantTypeId)) {
     return getInvalidGrantTypeResponse(h);
   }
@@ -41,35 +39,35 @@ export const viewGrantType = (request, h) => {
  */
 export const routes = [
   {
-    method: "GET",
-    path: `${process.env.URL_PREFIX}/healthy`,
+    method: 'GET',
+    path: '/healthy',
     /**
      * Return 200 OK
      * @param {object} _request incoming request
      * @param {object} h handler
      * @returns {string} http code 200
      */
-    handler: (_request, h) => h.response("ok").code(statusCodes(OK)),
+    handler: (_request, h) => h.response('ok').code(statusCodes(OK))
   },
   {
-    method: "GET",
-    path: `${process.env.URL_PREFIX}/healthz`,
+    method: 'GET',
+    path: '/healthz',
     /**
      * Return 200 OK
      * @param {object} _request incoming request
      * @param {object} h handler
      * @returns {string} http code 200
      */
-    handler: (_request, h) => h.response("ok").code(statusCodes(OK)),
+    handler: (_request, h) => h.response('ok').code(statusCodes(OK))
   },
   {
-    method: "GET",
-    path: `${process.env.URL_PREFIX}/{grantType}`,
-    handler: redirectToStartPage,
+    method: 'GET',
+    path: `/{grantType}`,
+    handler: redirectToStartPage
   },
   {
-    method: "GET",
-    path: `${process.env.URL_PREFIX}/{grantType}/{page*}`,
-    handler: viewGrantType,
-  },
+    method: 'GET',
+    path: `/{grantType}/{page*}`,
+    handler: viewGrantType
+  }
 ];

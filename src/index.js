@@ -27,12 +27,7 @@ const getConfig = () => ({
   port: appConfig.port,
   host: appConfig.host,
   stripTrailingSlash: true,
-  stylesheetsPath: path.resolve(
-    import.meta.dirname,
-    '..',
-    'public',
-    'stylesheets',
-  ),
+  stylesheetsPath: path.resolve(import.meta.dirname, '..', 'public', 'stylesheets'),
   viewsPath: path.resolve(import.meta.dirname, '..'),
   njkEnv: njk.configure(viewConfig.paths),
   context: {
@@ -40,8 +35,8 @@ const getConfig = () => ({
     assets: viewConfig.assets.app,
     govAssets: viewConfig.assets.gov,
     serviceName: appConfig.name,
-    pageTitle: appConfig.name,
-  },
+    pageTitle: appConfig.name
+  }
 });
 
 /**
@@ -130,10 +125,10 @@ const configureViews = (server, viewsPath, njkEnv, context) => {
     },
     relativeTo: viewsPath,
     compileOptions: {
-      environment: njkEnv,
+      environment: njkEnv
     },
     path: viewConfig.paths[0],
-    context,
+    context
   });
 };
 

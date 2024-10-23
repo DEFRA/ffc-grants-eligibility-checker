@@ -2,10 +2,9 @@ import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 
 // Create mock functions
-const mockIsValidGrantType = jest.fn();
 const mockGetGrantTypeById = jest.fn();
+const mockIsValidGrantType = jest.fn();
 const mockIsValidGrantPage = jest.fn();
-const mockGetPageFromUrl = jest.fn();
 const mockGetInvalidGrantTypeResponse = jest.fn();
 const mockGetInvalidPageResponse = jest.fn();
 
@@ -13,11 +12,6 @@ jest.unstable_mockModule('../../../config/grant-types.js', () => ({
   isValidGrantType: mockIsValidGrantType,
   getGrantTypeById: mockGetGrantTypeById,
   isValidGrantPage: mockIsValidGrantPage
-}));
-
-jest.unstable_mockModule('../../../utils/get-info-from-url.js', () => ({
-  getPageFromUrl: mockGetPageFromUrl,
-  getGrantTypeFromUrl: mockGetPageFromUrl
 }));
 
 jest.unstable_mockModule('../../../utils/get-invalid-response.js', () => ({
@@ -39,12 +33,15 @@ describe('Grant Type Tests', () => {
   };
 
   const requestMock = {
-    url: `/eligibility-checker/${grantType.id}/start`
+    url: `/eligibility-checker/${grantType.id}/start`,
+    params: {
+      grantType: grantType.id,
+      page: 'start'
+    }
   };
 
   beforeEach(() => {
     jest.resetAllMocks();
-    mockGetPageFromUrl.mockReturnValue('start');
     mockIsValidGrantType.mockReturnValue(true);
     mockGetGrantTypeById.mockReturnValue(grantType);
     mockIsValidGrantPage.mockReturnValue(true);

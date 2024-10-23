@@ -26,7 +26,7 @@ export function getGrantTypeFromUrl(url) {
  * @returns {string} - The page id.
  */
 export function getPageFromUrl(url) {
-  const parts = url.pathname.split('/').filter(Boolean);
+  const parts = splitUrl(url);
   if (parts[0] === 'eligibility-checker') {
     parts.shift();
   }

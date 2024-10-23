@@ -27,12 +27,7 @@ const getConfig = () => ({
   port: appConfig.port,
   host: appConfig.host,
   stripTrailingSlash: true,
-  stylesheetsPath: path.resolve(
-    import.meta.dirname,
-    '..',
-    'public',
-    'stylesheets',
-  ),
+  stylesheetsPath: path.resolve(import.meta.dirname, '..', 'public', 'stylesheets'),
   viewsPath: path.resolve(import.meta.dirname, '..'),
   njkEnv: njk.configure(viewConfig.paths),
   context: {
@@ -40,8 +35,8 @@ const getConfig = () => ({
     assets: viewConfig.assets.app,
     govAssets: viewConfig.assets.gov,
     serviceName: appConfig.name,
-    pageTitle: appConfig.name,
-  },
+    pageTitle: appConfig.name
+  }
 });
 
 /**
@@ -77,9 +72,9 @@ const addRoutes = (server, stylesheetsPath) => {
     path: '/eligibility-checker/stylesheets/{file*}',
     handler: {
       directory: {
-        path: stylesheetsPath,
-      },
-    },
+        path: stylesheetsPath
+      }
+    }
   });
 
   const routes = getRouteDefinitions();
@@ -113,10 +108,10 @@ const configureViews = (server, viewsPath, njkEnv, context) => {
     },
     relativeTo: viewsPath,
     compileOptions: {
-      environment: njkEnv,
+      environment: njkEnv
     },
     path: viewConfig.paths[0],
-    context,
+    context
   });
 };
 
@@ -144,9 +139,7 @@ const init = async () => {
 
   await server.start();
 
-  console.log(
-    'Server running on http://localhost:3000/eligibility-checker/grant-name/start',
-  );
+  console.log('Server running on http://localhost:3000/eligibility-checker/grant-name/start');
 };
 
 /**

@@ -25,7 +25,7 @@ const init = async () => {
 
   server.route({
     method: 'GET',
-    path: '/eligibility-checker/stylesheets/{file*}',
+    path: '/stylesheets/{file*}',
     handler: {
       directory: {
         path: path.resolve(import.meta.dirname, '..', 'public', 'stylesheets')
@@ -71,7 +71,7 @@ const init = async () => {
   });
 
   await server.start();
-  console.log('Server running on http://localhost:3000/eligibility-checker/grant-name/start');
+  console.log('Server running on http://localhost:3000/grant-name/start');
 };
 
 process.on('unhandledRejection', (err) => {

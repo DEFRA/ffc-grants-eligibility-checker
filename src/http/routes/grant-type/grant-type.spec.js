@@ -33,7 +33,7 @@ describe('Grant Type Tests', () => {
   };
 
   const requestMock = {
-    url: `/eligibility-checker/${grantType.id}/start`,
+    url: `/${grantType.id}/start`,
     params: {
       grantType: grantType.id,
       page: 'start'

@@ -6,19 +6,19 @@ describe('routes', () => {
   const expectedRoutes = [
     {
       method: 'GET',
-      path: '/eligibility-checker/healthy'
+      path: '/healthy'
     },
     {
       method: 'GET',
-      path: '/eligibility-checker/healthz'
+      path: '/healthz'
     },
     {
       method: 'GET',
-      path: '/eligibility-checker/{grantType}'
+      path: '/{grantType}'
     },
     {
       method: 'GET',
-      path: '/eligibility-checker/{grantType}/{page*}'
+      path: '/{grantType}/{page*}'
     }
   ];
 

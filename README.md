@@ -89,6 +89,22 @@ npm run format
 
 This will run all `jest` unit tests inline with the code they're testing in `/src/**/*`
 
+**Run narrow integration tests**
+
+Run:
+
+```bash
+docker compose up
+```
+
+then
+
+```bash
+  npm test:integration
+```
+
+This will run all `jest` integration tests in directory test/integration
+
 **Docker**
 
 ```bash

@@ -1,0 +1,11 @@
+services:
+  reverse-proxy:
+    image: nginx:latest
+    container_name: nginx-proxy
+    ports:
+      - '80:80' # Expose port 80 on the host and forward to Nginx
+    volumes:
+      - ./nginx.local.conf:/etc/nginx/nginx.conf # Mount your custom Nginx config
+      - ./nginx_logs:/var/log/nginx # Mount Nginx logs to host machine
+    depends_on:
+      - ffc-grants-eligibility-checker

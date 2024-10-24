@@ -1,7 +1,7 @@
 {
   "name": "ffc-grants-eligibility-checker",
   "description": "FFC Grant Eligibility Checker",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "license": "OGL-UK-3.0",
   "contributors": [
     "Andrew Folga <andrew.folga@equalexperts.com>",
@@ -18,7 +18,7 @@
     "format": "prettier --write \"**/*.js\"",
     "format:njk": "prettier --write \"**/*.njk\" --ignore-path .prettierignore",
     "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",
-    "start": "nodemon ./src/index.js",
+    "start": "npm run build && nodemon ./src/index.js",
     "prepare": "husky install",
     "snyk-test": "snyk test",
     "snyk-monitor": "snyk monitor"
@@ -53,7 +53,8 @@
     "govuk-frontend": "^5.5.0",
     "nunjucks": "^3.2.4",
     "prettier-plugin-jinja-template": "^2.0.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "xstate": "^4.38.3"
   },
   "lint-staged": {
     "*.js": [

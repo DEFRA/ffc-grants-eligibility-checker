@@ -34,17 +34,19 @@ describe('redirectToStartPage', () => {
 
   it('redirects to start page with valid grant type', async () => {
     const request = {
+      params: { grantType: 'valid-grant-type' },
       url: { pathname: '/valid-grant-type' }
     };
     mockIsValidGrantType.mockReturnValue(true);
 
     await redirectToStartPage(request, mockH);
     expect(mockH.redirect).toHaveBeenCalledTimes(1);
-    expect(mockH.redirect).toHaveBeenCalledWith('/valid-grant-type/start');
+    expect(mockH.redirect).toHaveBeenCalledWith('valid-grant-type/start');
   });
 
   it('returns invalid grant type response with invalid grant type', async () => {
     const request = {
+      params: { grantType: 'invalid-grant-type' },
       url: { pathname: '/invalid-grant-type' }
     };
     mockIsValidGrantType.mockReturnValue(false);

@@ -8,7 +8,6 @@ import {
   getInvalidGrantTypeResponse,
   getInvalidPageResponse
 } from '../../../utils/get-invalid-response.js';
-import { getGrantTypeFromUrl, getPageFromUrl } from '../../../utils/get-info-from-url.js';
 import { getContext } from './get-context.js';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 
@@ -19,13 +18,13 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
  * @returns {object} - The view with the grant type information.
  */
 export const viewGrantType = (request, h) => {
-  const grantTypeId = getGrantTypeFromUrl(request.url);
+  const grantTypeId = request.params.grantType;
 
   if (!isValidGrantType(grantTypeId)) {
     return getInvalidGrantTypeResponse(h);
   }
   const grantType = getGrantTypeById(grantTypeId);
-  const pageId = getPageFromUrl(request.url);
+  const pageId = request.params.page;
   if (!isValidGrantPage(grantType, pageId)) {
     return getInvalidPageResponse(h);
   }
@@ -67,7 +66,7 @@ export const routes = [
   },
   {
     method: 'GET',
-    path: `/{grantType}/{page*}`,
+    path: `/{grantType}/{page}`,
     handler: viewGrantType
   }
 ];

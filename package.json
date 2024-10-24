@@ -13,6 +13,7 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration",
     "test:cov": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --coverageReporters='text' --coverageReporters='text-summary'",
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content --fix",
     "format": "prettier --write \"**/*.js\"",
@@ -39,6 +40,7 @@
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
     "jsdoc": "^4.0.3",
+    "jsdom": "^25.0.1",
     "lint-staged": "^15.2.10",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",

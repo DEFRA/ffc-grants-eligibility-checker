@@ -8,11 +8,3 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-
-  reverse-proxy:
-    image: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./proxy.conf:/etc/nginx/conf.d/default.conf
-

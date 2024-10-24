@@ -104,7 +104,13 @@ PLATFORM=<linux/amd64|linux/arm64>
 There are two local configs at the moment:
 
 - docker-compose.test.yaml - config for narrow integration tests (development as target)
-- docker-compose.local.yaml - config for smoke testing (includes reverse proxy and main service built with production as target)
+- docker-compose.override.yaml - config for smoke testing (includes reverse proxy and main service built with production as target)
+
+To start it on local:
+
+```
+docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up --build
+```
 
 **Authorise Snyk**
 

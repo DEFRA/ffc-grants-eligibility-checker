@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   reverse-proxy:
     image: nginx:latest
@@ -11,14 +9,3 @@ services:
       - ./nginx_logs:/var/log/nginx # Mount Nginx logs to host machine
     depends_on:
       - ffc-grants-eligibility-checker
-
-  ffc-grants-eligibility-checker:
-    build:
-      context: .
-      target: production
-    image: ffc-grants-eligibility-checker
-    platform: ${PLATFORM}
-    ports:
-      - '3000:3000'
-    environment:
-      NODE_ENV: production

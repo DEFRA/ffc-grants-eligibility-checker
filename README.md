@@ -30,12 +30,12 @@ Ensure you have the following installed on your local machine:
 Environment variables for the application in **all environments**:
 
 | Variable                               | Description                                     | Helm configuration                                          | Default                             |
-|----------------------------------------|-------------------------------------------------|-------------------------------------------------------------|-------------------------------------|
+| -------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- | ----------------------------------- |
 | `NODE_ENV`                             | The environment the application is running in   |                                                             | `production`                        |
 | `LOG_LEVEL`                            | The level of logging to use                     |                                                             | `info`                              |
 | `LOG_OUTPUT`                           | The output of the logs                          |                                                             | `stdout`                            |
 | `LOG_PRETTY`                           | Whether to pretty print logs                    |                                                             | `true`                              |
-| `SERVICE_BUS_HOST`                     | The host of the service bus                     | `{{ .Values.container.messageQueueHost }}`                  | `localhost`                         | 
+| `SERVICE_BUS_HOST`                     | The host of the service bus                     | `{{ .Values.container.messageQueueHost }}`                  | `localhost`                         |
 | `SCORE_REQUEST_QUEUE_ADDRESS`          | The address of the score request queue          | `{{ .Values.container.scoreRequestQueueAddress }}`          | `ffc-grants-score-request`          |
 | `SCORE_RESPONSE_QUEUE_ADDRESS`         | The address of the score response queue         | `{{ .Values.container.scoreResponseQueueAddress }}`         | `ffc-grants-score-response`         |
 | `DESIRABILITY_SUBMITTED_TOPIC_ADDRESS` | The address of the desirability submitted topic | `{{ .Values.container.desirabilitySubmittedTopicAddress }}` | `ffc-grants-desirability-submitted` |
@@ -44,7 +44,7 @@ Environment variables for the application in **all environments**:
 Environment variables for the application in **development**:
 
 | Variable | Description                          | Default     |
-|----------|--------------------------------------|-------------|
+| -------- | ------------------------------------ | ----------- |
 | `HOST`   | The host the application will run on | `localhost` |
 | `PORT`   | The port the application will run on | `3000`      |
 
@@ -101,6 +101,11 @@ In order to start docker compose locally for ARM arch you need to uncomment PLAT
 PLATFORM=<linux/amd64|linux/arm64>
 ```
 
+There are two local configs at the moment:
+
+- docker-compose.test.yaml - config for narrow integration tests (development as target)
+- docker-compose.local.yaml - config for smoke testing (includes reverse proxy and main service built with production as target)
+
 **Authorise Snyk**
 
 Run `snyk auth` to authenticate your local machine with Snyk.
@@ -111,21 +116,19 @@ Run `snyk auth` to authenticate your local machine with Snyk.
 - `public/` – Frontend assets
 - `test/` – Integration and Acceptance tests
 
-
 ## Pipeline
+
 The pipeline uses both Jenkins and Azure DevOps (ADO) due to historical reasons. Refer to the documentation links below for more details on the setup of each. When a pull request (PR) is raised or updated, tests are executed. Upon merging the PR into the main branch, tests run again and a container is built, which is then deployed through environments with various gates as outlined below:
 
-|Step|Jenkins|ADO|Gate|App Config|
-| -------- | ------- | ------- | ------- | ------- |
-|1|Build - test||no|NA|
-|2|Build Container||no|NA|
-|3|Deploy to SND||no|Manual in Azure App config|
-|4||Deploy to DEV|no|Automatic via platform repo|
-|5||Deploy to TEST|yes - team|Automatic via platform repo|
-|6||Deploy to PRE|yes - team|Automatic via platform repo|
-|7||Deploy to PROD|yes - CCOE|Automatic via platform repo|
-
-
+| Step | Jenkins         | ADO            | Gate       | App Config                  |
+| ---- | --------------- | -------------- | ---------- | --------------------------- |
+| 1    | Build - test    |                | no         | NA                          |
+| 2    | Build Container |                | no         | NA                          |
+| 3    | Deploy to SND   |                | no         | Manual in Azure App config  |
+| 4    |                 | Deploy to DEV  | no         | Automatic via platform repo |
+| 5    |                 | Deploy to TEST | yes - team | Automatic via platform repo |
+| 6    |                 | Deploy to PRE  | yes - team | Automatic via platform repo |
+| 7    |                 | Deploy to PROD | yes - CCOE | Automatic via platform repo |
 
 **Further Documentation**
 

@@ -13,5 +13,5 @@ export default function redirectToStartPage(request, h) {
   if (!isValidGrantType(grantTypeId)) {
     return getInvalidGrantTypeResponse(h);
   }
-  return h.redirect(`/${grantTypeId}/start`);
+  return h.redirect(`${grantTypeId}/start`);
 }

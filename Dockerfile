@@ -36,11 +36,9 @@ ARG PORT
 ENV PORT ${PORT}
 EXPOSE ${PORT}
 
+COPY --from=development /home/node/package*.json ./
+RUN npm ci --ignore-scripts --production
 COPY --from=development /home/node/src/ ./src/
 COPY --from=development /home/node/public ./public/
-COPY --from=development /home/node/package*.json ./
-
-RUN npm ci --ignore-scripts --production
-
 
 CMD [ "node", "src/index.js" ]

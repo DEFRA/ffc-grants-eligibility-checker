@@ -10,8 +10,6 @@ services:
     image: ffc-grants-eligibility-checker-development
     environment:
       NODE_ENV: test
-      GOOGLE_TAG_MANAGER_KEY: 'GTM-WJ5C78H'
-      SESSION_CACHE_TTL: 1200000
     command: npm run test
     volumes:
       - ./test-output/:/home/node/test-output/

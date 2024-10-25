@@ -1,12 +1,13 @@
 // istanbul ignore file
-import Hapi from '@hapi/hapi';
-import { app as appConfig, views as viewConfig } from './config/index.js';
-import path from 'path';
-import njk from 'nunjucks';
-import vision from '@hapi/vision';
-import inert from '@hapi/inert';
-import { getRouteDefinitions } from './http/routes/routes.js';
-
+import Hapi from "@hapi/hapi";
+import { app as appConfig, views as viewConfig } from "./config/index.js";
+import path from "path";
+import njk from "nunjucks";
+import vision from "@hapi/vision";
+import inert from "@hapi/inert";
+import { getRouteDefinitions } from "./http/routes/routes.js";
+import errorPages from "./config/plugins/error-pages.js";
+import { exampleGrantMachineService } from "./config/machines/example-grant-machine.js";
 /**
  * Retrieves the application's configuration settings.
  * @returns {object} An object containing:
@@ -58,6 +59,7 @@ const createServer = ({ port, host, stripTrailingSlash }) =>
 const registerPlugins = (server) => async () => {
   await server.register(inert);
   await server.register(vision);
+  await server.register(errorPages);
 };
 
 /**
@@ -67,7 +69,7 @@ const registerPlugins = (server) => async () => {
  * @param {string} stylesheetsPath - The directory path for serving stylesheets.
  */
 const addRoutes = (server, stylesheetsPath) => {
-  server.route(
+  server.route([
     {
       method: 'GET',
       path: '/eligibility-checker/stylesheets/{file*}',
@@ -93,6 +95,27 @@ const addRoutes = (server, stylesheetsPath) => {
           )
         }
       }
+    },
+    {
+      method: "POST",
+      path: `${process.env.URL_PREFIX}/{grantTypeId}/transition`,
+      /**
+       * Handles state machine transitions
+       * @param {object} request - The request object
+       * @param {object} h - The response toolkit
+       * @returns {object} The response object
+       */
+      handler: (request, h) => {
+        const { event, nextPageId, previousPageId } = request.payload;
+  
+        exampleGrantMachineService.send({
+          type: event,
+          nextPageId,
+          previousPageId,
+        });
+  
+        return h.response({ status: "success" }).code(200);
+      },
     }
   );
 

@@ -1,27 +1,16 @@
-import { jest, describe, it, expect, beforeEach } from '@jest/globals';
-import statusCodes, { OK } from '../../../constants/status-codes.js';
+import { isValidStateTransition, routes, viewGrantType } from "./grant-type.js";
+import * as grantTypes from "../../../config/grant-types.js";
+import * as getInfoFromUrl from "../../../utils/get-info-from-url.js";
+import * as getInvalidResponse from "../../../utils/get-invalid-response.js";
+import getContext from "./get-context.js";
+import statusCodes, { OK } from "../../../constants/status-codes.js";
 
-// Create mock functions
-const mockGetGrantTypeById = jest.fn();
-const mockIsValidGrantType = jest.fn();
-const mockIsValidGrantPage = jest.fn();
-const mockGetInvalidGrantTypeResponse = jest.fn();
-const mockGetInvalidPageResponse = jest.fn();
+jest.mock("../../../config/grant-types.js");
+jest.mock("../../../utils/get-info-from-url.js");
+jest.mock("../../../utils/get-invalid-response.js");
+jest.mock("./get-context.js");
 
-jest.unstable_mockModule('../../../config/grant-types.js', () => ({
-  isValidGrantType: mockIsValidGrantType,
-  getGrantTypeById: mockGetGrantTypeById,
-  isValidGrantPage: mockIsValidGrantPage
-}));
-
-jest.unstable_mockModule('../../../utils/get-invalid-response.js', () => ({
-  getInvalidGrantTypeResponse: mockGetInvalidGrantTypeResponse,
-  getInvalidPageResponse: mockGetInvalidPageResponse
-}));
-
-const { routes, viewGrantType } = await import('./grant-type.js');
-
-describe('Grant Type Tests', () => {
+describe("Grant Type Tests", () => {
   const mockH = {
     view: jest.fn(),
     response: jest.fn().mockReturnThis(),
@@ -100,5 +89,28 @@ describe('Grant Type Tests', () => {
 
     expect(mockH.response).toHaveBeenCalledWith('ok');
     expect(mockH.code).toHaveBeenCalledWith(statusCodes(OK));
+  });
+
+  describe("isValidGrantPage", () => {
+    const exampleGrantType = grantTypes[0];
+
+    it("should return true for a valid page id", () => {
+      const result = isValidStateTransition(exampleGrantType, "start");
+      expect(result).toBe(true);
+    });
+
+    it("should return false for an invalid page id", () => {
+      const result = isValidStateTransition(
+        exampleGrantType,
+        "non-existent-page",
+      );
+      expect(result).toBe(false);
+    });
+
+    it("should return false when grant type has no pages", () => {
+      const emptyGrantType = { ...exampleGrantType, pages: [] };
+      const result = isValidStateTransition(emptyGrantType, "start");
+      expect(result).toBe(false);
+    });
   });
 });

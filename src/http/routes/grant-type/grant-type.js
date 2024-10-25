@@ -22,6 +22,7 @@ export const viewGrantType = (request, h) => {
   console.log(`viewGrantType grantTypeId: ${grantTypeId}`);
 
   if (!isValidGrantType(grantTypeId)) {
+    console.log('viewGrantType: Grant is invalid');
     return getInvalidGrantTypeResponse(h);
   }
 

@@ -9,9 +9,10 @@ import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
  * @returns {object} The response object.
  */
 export default function redirectToStartPage(request, h) {
+  console.log('redirectToStartPage');
   const grantTypeId = request.params.grantType;
   if (!isValidGrantType(grantTypeId)) {
     return getInvalidGrantTypeResponse(h);
   }
-  return h.redirect(`${grantTypeId}/start`);
+  return h.redirect(`/${grantTypeId}/start`);
 }

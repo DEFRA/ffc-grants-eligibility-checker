@@ -19,15 +19,26 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
  */
 export const viewGrantType = (request, h) => {
   const grantTypeId = request.params.grantType;
+  console.log(`viewGrantType grantTypeId: ${grantTypeId}`);
 
   if (!isValidGrantType(grantTypeId)) {
     return getInvalidGrantTypeResponse(h);
   }
+
+  console.log('viewGrantType: Grant is valid');
+
   const grantType = getGrantTypeById(grantTypeId);
+  console.log(`viewGrantType grantType: ${JSON.stringify(grantType)}`);
+
   const pageId = request.params.page;
+
+  console.log(`viewGrantType pageId: ${pageId}`);
+
   if (!isValidGrantPage(grantType, pageId)) {
     return getInvalidPageResponse(h);
   }
+
+  console.log('viewGrantType: Page is valid');
 
   return h.view(`pages/${grantType.id}/${pageId}.njk`, getContext(grantType));
 };

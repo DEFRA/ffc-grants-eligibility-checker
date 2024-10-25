@@ -19,6 +19,7 @@
     "format:njk": "prettier --write \"**/*.njk\" --ignore-path .prettierignore",
     "build": "sass -I node_modules src/main.scss public/stylesheets/main.css",
     "start": "npm run build && nodemon ./src/index.js",
+    "start:docker": "docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up --build",
     "prepare": "husky install",
     "snyk-test": "snyk test",
     "snyk-monitor": "snyk monitor"

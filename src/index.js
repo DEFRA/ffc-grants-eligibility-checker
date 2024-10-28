@@ -23,6 +23,11 @@ const init = async () => {
   await server.register(inert);
   await server.register(vision);
 
+  server.ext('onRequest', (request, h) => {
+    console.log(`Request URL: ${request.url}`);
+    return h.continue;
+  });
+
   server.route([
     {
       method: 'GET',

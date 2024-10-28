@@ -1,16 +1,28 @@
-import { isValidStateTransition, routes, viewGrantType } from "./grant-type.js";
-import * as grantTypes from "../../../config/grant-types.js";
-import * as getInfoFromUrl from "../../../utils/get-info-from-url.js";
-import * as getInvalidResponse from "../../../utils/get-invalid-response.js";
-import getContext from "./get-context.js";
-import statusCodes, { OK } from "../../../constants/status-codes.js";
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+import statusCodes, { OK } from '../../../constants/status-codes.js';
 
-jest.mock("../../../config/grant-types.js");
-jest.mock("../../../utils/get-info-from-url.js");
-jest.mock("../../../utils/get-invalid-response.js");
-jest.mock("./get-context.js");
+// Create mock functions
+const mockGetInvalidGrantTypeResponse = jest.fn();
+const mockGetInvalidPageResponse = jest.fn();
+const mockGetGrantTypeFromUrl = jest.fn();
+const mockGetPageFromUrl = jest.fn();
+const mockGetContext = jest.fn();
 
-describe("Grant Type Tests", () => {
+jest.unstable_mockModule('../../../utils/get-invalid-response.js', () => ({
+  getInvalidGrantTypeResponse: mockGetInvalidGrantTypeResponse,
+  getInvalidPageResponse: mockGetInvalidPageResponse
+}));
+jest.unstable_mockModule('../../../utils/get-info-from-url.js', () => ({
+  getGrantTypeFromUrl: mockGetGrantTypeFromUrl,
+  getPageFromUrl: mockGetPageFromUrl
+}));
+jest.unstable_mockModule('./get-context.js', () => ({
+  getContext: mockGetContext
+}));
+
+const { routes, viewGrantType } = await import('./grant-type.js');
+
+describe('Grant Type Tests', () => {
   const mockH = {
     view: jest.fn(),
     response: jest.fn().mockReturnThis(),
@@ -22,7 +34,9 @@ describe("Grant Type Tests", () => {
   };
 
   const requestMock = {
-    url: `/${grantType.id}/start`,
+    url: {
+      pathname: `/${grantType.id}/start`
+    },
     params: {
       grantType: grantType.id,
       page: 'start'
@@ -31,9 +45,26 @@ describe("Grant Type Tests", () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    mockIsValidGrantType.mockReturnValue(true);
-    mockGetGrantTypeById.mockReturnValue(grantType);
-    mockIsValidGrantPage.mockReturnValue(true);
+    mockGetGrantTypeFromUrl.mockReturnValue('example-grant');
+    mockGetPageFromUrl.mockReturnValue('start');
+    mockGetContext.mockReturnValue({
+      siteTitle: `FFC Grants Eligibility Checker - start`,
+      urlPrefix: '/eligibility-checker',
+      showTimeout: true,
+      surveyLink: 'https://example.com/survey',
+      sessionTimeoutInMin: 15,
+      timeoutPath: '/timeout',
+      cookiesPolicy: {
+        confirmed: false,
+        analytics: true
+      },
+      meta: {
+        currentPageId: 'start',
+        previousPageId: 'previous-page',
+        nextPageId: 'next-page',
+        grantTypeId: grantType.id
+      }
+    });
   });
 
   it('should get view with requested grant type and page', () => {
@@ -42,13 +73,13 @@ describe("Grant Type Tests", () => {
     expect(mockH.view).toHaveBeenCalledWith(
       `pages/${grantType.id}/start.njk`,
       expect.objectContaining({
-        siteTitle: 'FFC Grants Eligibility Checker - example-grant'
+        siteTitle: 'FFC Grants Eligibility Checker - start'
       })
     );
   });
 
   it('should return invalid grant type response when grant type is invalid', () => {
-    mockIsValidGrantType.mockReturnValue(false);
+    mockGetGrantTypeFromUrl.mockReturnValue('invalid-grant');
     mockGetInvalidGrantTypeResponse.mockReturnValue('Invalid Grant Type');
 
     const result = viewGrantType(requestMock, mockH);
@@ -58,7 +89,7 @@ describe("Grant Type Tests", () => {
   });
 
   it('should return invalid page response when page is invalid', () => {
-    mockIsValidGrantPage.mockReturnValue(false);
+    mockGetPageFromUrl.mockReturnValue('invalidPage');
     mockGetInvalidPageResponse.mockReturnValue('Invalid Page');
 
     const result = viewGrantType(requestMock, mockH);
@@ -89,28 +120,5 @@ describe("Grant Type Tests", () => {
 
     expect(mockH.response).toHaveBeenCalledWith('ok');
     expect(mockH.code).toHaveBeenCalledWith(statusCodes(OK));
-  });
-
-  describe("isValidGrantPage", () => {
-    const exampleGrantType = grantTypes[0];
-
-    it("should return true for a valid page id", () => {
-      const result = isValidStateTransition(exampleGrantType, "start");
-      expect(result).toBe(true);
-    });
-
-    it("should return false for an invalid page id", () => {
-      const result = isValidStateTransition(
-        exampleGrantType,
-        "non-existent-page",
-      );
-      expect(result).toBe(false);
-    });
-
-    it("should return false when grant type has no pages", () => {
-      const emptyGrantType = { ...exampleGrantType, pages: [] };
-      const result = isValidStateTransition(emptyGrantType, "start");
-      expect(result).toBe(false);
-    });
   });
 });

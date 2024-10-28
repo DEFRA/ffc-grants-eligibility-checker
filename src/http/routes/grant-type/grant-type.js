@@ -1,15 +1,12 @@
 import { getContext } from './get-context.js';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
-import { getInvalidGrantTypeResponse } from "../../../utils/get-invalid-response.js";
 import {
-  getGrantTypeFromUrl,
-  getPageFromUrl,
-} from "../../../utils/get-info-from-url.js";
-import redirectToStartPage from "../../../utils/redirect-to-start-page.js";
-import getContext from "./get-context.js";
-import statusCodes, { OK } from "../../../constants/status-codes.js";
-import { grantIdToMachineServiceMap } from "../../../config/machines/index.js";
-import * as Boom from "@hapi/boom";
+  getInvalidGrantTypeResponse,
+  getInvalidPageResponse
+} from '../../../utils/get-invalid-response.js';
+import { getGrantTypeFromUrl, getPageFromUrl } from '../../../utils/get-info-from-url.js';
+import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
+import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
 
 /**
  * Retrieves the grant type.
@@ -26,28 +23,25 @@ export const viewGrantType = (request, h) => {
 
   const grantTypeMachineService = grantIdToMachineServiceMap[grantTypeId];
   if (grantTypeMachineService) {
-
     console.log('viewGrantType: Grant is valid');
 
-    const stateMeta =
-      grantTypeMachineService.state.meta[`exampleGrantMachine.${pageId}`];
+    const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${pageId}`];
 
     if (stateMeta) {
-
       console.log(`viewGrantType: state ${pageId} is valid`);
-      console.log(`viewGrantType ${pageId} state meta: ${stateMeta}`);
-      
+      console.log(`viewGrantType ${pageId} state meta: ${JSON.stringify(stateMeta, null, 2)}`);
+
       return h.view(
         `pages/${grantTypeId}/${pageId}.njk`,
         getContext(grantTypeId, {
           currentPageId: grantTypeMachineService.state.context.currentPageId,
           nextPageId: stateMeta?.nextPageId,
-          previousPageId: stateMeta?.previousPageId,
-        }),
+          previousPageId: stateMeta?.previousPageId
+        })
       );
     }
     console.log(`viewGrantType: state ${pageId} is invalid`);
-    throw Boom.notFound("Resource not found");
+    return getInvalidPageResponse(h);
   }
 
   console.log('viewGrantType: Grant is invalid');

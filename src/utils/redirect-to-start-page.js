@@ -1,4 +1,4 @@
-import { getGrantTypeFromUrl } from "./get-info-from-url.js";
+import { getGrantTypeFromUrl } from './get-info-from-url.js';
 
 /**
  * Redirect to the start page of the eligibility checker.
@@ -10,5 +10,5 @@ import { getGrantTypeFromUrl } from "./get-info-from-url.js";
 export default function redirectToStartPage(request, h) {
   console.log('redirectToStartPage');
   const grantTypeId = getGrantTypeFromUrl(request.url);
-  return h.redirect(`${process.env.URL_PREFIX}/${grantTypeId}/start`);
+  return h.redirect(`/${grantTypeId}/start`);
 }

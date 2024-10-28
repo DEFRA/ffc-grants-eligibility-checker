@@ -3,11 +3,7 @@ import { app } from '../../../config/app.js';
 
 describe('getContext', () => {
   it('should return the correct context object', () => {
-    const mockGrantType = {
-      id: 'example-grant',
-      name: 'Example Grant',
-      description: 'This is an example grant'
-    };
+    const grantTypeId = 'example-grant';
 
     const expectedContext = {
       siteTitle: `${app.siteTitle} - example-grant`,
@@ -19,10 +15,21 @@ describe('getContext', () => {
         confirmed: false,
         analytics: true
       },
-      grantType: mockGrantType
+      meta: {
+        currentPageId: 'example-grant',
+        previousPageId: 'previous-page',
+        nextPageId: 'next-page',
+        grantTypeId: 'example-grant'
+      }
     };
 
-    const result = getContext(mockGrantType);
+    const meta = {
+      currentPageId: 'example-grant',
+      previousPageId: 'previous-page',
+      nextPageId: 'next-page'
+    };
+
+    const result = getContext(grantTypeId, meta);
     expect(result).toEqual(expectedContext);
   });
 });

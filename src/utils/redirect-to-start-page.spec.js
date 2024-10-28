@@ -24,6 +24,6 @@ describe('redirectToStartPage', () => {
 
     await redirectToStartPage(request, mockH);
     expect(mockH.redirect).toHaveBeenCalledTimes(1);
-    expect(mockH.redirect).toHaveBeenCalledWith('/valid-grant-type/start');
+    expect(mockH.redirect).toHaveBeenCalledWith('/eligibility-checker/valid-grant-type/start');
   });
 });

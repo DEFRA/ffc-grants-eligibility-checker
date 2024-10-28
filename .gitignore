@@ -257,7 +257,7 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,webstorm+all,node
 
 # local VS Code setup
-.vscode/settings.json
+.vscode/*
 
 # unit test output
 test-output

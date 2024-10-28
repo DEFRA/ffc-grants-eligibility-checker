@@ -120,7 +120,7 @@ const configureViews = (server, viewsPath, njkEnv, context) => {
          */
         compile: (src, options) => {
           const template = njk.compile(src, options.environment);
-          return (context) => template.render(context);
+          return (templateContext) => template.render(templateContext);
         }
       }
     },

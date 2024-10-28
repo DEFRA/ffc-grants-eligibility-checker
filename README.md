@@ -112,6 +112,8 @@ To start it on local:
 docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up --build
 ```
 
+This requires a url of: http://localhost/eligibility-checker/example-grant/start (omits the port)
+
 **Authorise Snyk**
 
 Run `snyk auth` to authenticate your local machine with Snyk.

@@ -41,7 +41,7 @@ describe('redirectToStartPage', () => {
 
     await redirectToStartPage(request, mockH);
     expect(mockH.redirect).toHaveBeenCalledTimes(1);
-    expect(mockH.redirect).toHaveBeenCalledWith('valid-grant-type/start');
+    expect(mockH.redirect).toHaveBeenCalledWith('/valid-grant-type/start');
   });
 
   it('returns invalid grant type response with invalid grant type', async () => {

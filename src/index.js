@@ -23,17 +23,42 @@ const init = async () => {
   await server.register(inert);
   await server.register(vision);
 
-  server.route({
-    method: 'GET',
-    path: '/stylesheets/{file*}',
-    handler: {
-      directory: {
-        path: path.resolve(import.meta.dirname, '..', 'public', 'stylesheets')
-      }
-    }
+  server.ext('onRequest', (request, h) => {
+    console.log(`Request URL: ${request.url}`);
+    return h.continue;
   });
 
+  server.route([
+    {
+      method: 'GET',
+      path: '/stylesheets/{file*}',
+      handler: {
+        directory: {
+          path: path.resolve(import.meta.dirname, '..', 'public', 'stylesheets')
+        }
+      }
+    },
+    {
+      method: 'GET',
+      path: '/assets/{file*}',
+      handler: {
+        directory: {
+          path: path.resolve(
+            import.meta.dirname,
+            '..',
+            'node_modules',
+            'govuk-frontend',
+            'dist',
+            'govuk',
+            'assets'
+          )
+        }
+      }
+    }
+  ]);
+
   const routes = getRouteDefinitions();
+  console.log(routes);
   routes.forEach((route) => server.route(route));
 
   server.views({

@@ -73,12 +73,12 @@ export const routes = [
   },
   {
     method: 'GET',
-    path: `/{grantType}`,
+    path: `/eligibility-checker/{grantType}`,
     handler: redirectToStartPage
   },
   {
     method: 'GET',
-    path: `/{grantType}/{page}`,
+    path: `/eligibility-checker/{grantType}/{page}`,
     handler: viewGrantType
   }
 ];

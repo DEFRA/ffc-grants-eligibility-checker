@@ -70,7 +70,7 @@ const addRoutes = (server, stylesheetsPath) => {
   server.route(
     {
       method: 'GET',
-      path: '/stylesheets/{file*}',
+      path: '/eligibility-checker/stylesheets/{file*}',
       handler: {
         directory: {
           path: stylesheetsPath
@@ -79,7 +79,7 @@ const addRoutes = (server, stylesheetsPath) => {
     },
     {
       method: 'GET',
-      path: '/assets/{file*}',
+      path: '/eligibility-checker/assets/{file*}',
       handler: {
         directory: {
           path: path.resolve(

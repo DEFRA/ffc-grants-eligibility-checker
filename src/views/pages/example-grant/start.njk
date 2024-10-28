@@ -38,7 +38,7 @@
 
       <a
         id="continueBtn"
-        href="eligibility/common/country"
+        href="country"
         role="button"
         draggable="false"
         class="govuk-button govuk-button--start"
@@ -94,7 +94,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("continueBtn").addEventListener("click", (event) => {
       console.log(`HERE event=${JSON.stringify(event, null, 2)}`);
-      fetch("{{ urlPrefix }}/{{ meta.grantTypeId }}/transition", {
+      fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ event: "NEXT", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}"}),

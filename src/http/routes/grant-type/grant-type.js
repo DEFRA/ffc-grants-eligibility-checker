@@ -40,7 +40,7 @@ export const viewGrantType = (request, h) => {
         })
       );
     }
-    console.log(`viewGrantType: state ${pageId} is invalid`);
+    console.log(`viewGrantType: state for ${pageId} is invalid`);
     return getInvalidPageResponse(h);
   }
 

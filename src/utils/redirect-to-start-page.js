@@ -10,5 +10,5 @@ import { getGrantTypeFromUrl } from './get-info-from-url.js';
 export default function redirectToStartPage(request, h) {
   console.log('redirectToStartPage');
   const grantTypeId = getGrantTypeFromUrl(request.url);
-  return h.redirect(`/${grantTypeId}/start`);
+  return h.redirect(`/eligibility-checker/${grantTypeId}/start`);
 }

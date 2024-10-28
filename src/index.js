@@ -1,13 +1,13 @@
 // istanbul ignore file
-import Hapi from "@hapi/hapi";
-import { app as appConfig, views as viewConfig } from "./config/index.js";
-import path from "path";
-import njk from "nunjucks";
-import vision from "@hapi/vision";
-import inert from "@hapi/inert";
-import { getRouteDefinitions } from "./http/routes/routes.js";
-import errorPages from "./config/plugins/error-pages.js";
-import { exampleGrantMachineService } from "./config/machines/example-grant-machine.js";
+import Hapi from '@hapi/hapi';
+import { app as appConfig, views as viewConfig } from './config/index.js';
+import path from 'path';
+import njk from 'nunjucks';
+import vision from '@hapi/vision';
+import inert from '@hapi/inert';
+import { getRouteDefinitions } from './http/routes/routes.js';
+import errorPages from './config/plugins/error-pages.js';
+import { exampleGrantMachineService } from './config/machines/example-grant-machine.js';
 /**
  * Retrieves the application's configuration settings.
  * @returns {object} An object containing:
@@ -97,8 +97,8 @@ const addRoutes = (server, stylesheetsPath) => {
       }
     },
     {
-      method: "POST",
-      path: `${process.env.URL_PREFIX}/{grantTypeId}/transition`,
+      method: 'POST',
+      path: `/eligibility-checker/{grantTypeId}/transition`,
       /**
        * Handles state machine transitions
        * @param {object} request - The request object
@@ -107,17 +107,17 @@ const addRoutes = (server, stylesheetsPath) => {
        */
       handler: (request, h) => {
         const { event, nextPageId, previousPageId } = request.payload;
-  
+
         exampleGrantMachineService.send({
           type: event,
           nextPageId,
-          previousPageId,
+          previousPageId
         });
-  
-        return h.response({ status: "success" }).code(200);
-      },
+
+        return h.response({ status: 'success' }).code(200);
+      }
     }
-  );
+  ]);
 
   const routes = getRouteDefinitions();
   routes.forEach((route) => server.route(route));

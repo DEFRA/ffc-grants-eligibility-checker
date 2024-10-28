@@ -1,4 +1,4 @@
-import { assign, createMachine, interpret } from "xstate";
+import { assign, createMachine, interpret } from 'xstate';
 
 // Define the implementations for your actions
 const actionImplementations = {
@@ -11,7 +11,7 @@ const actionImplementations = {
      */
     completedPageIds: (context, event) => {
       return [...context.completedPageIds, context.currentPageId];
-    },
+    }
   }),
   updateCurrentPageId: assign({
     /**
@@ -22,87 +22,87 @@ const actionImplementations = {
      */
     currentPageId: (context, event) => {
       return event.nextPageId;
-    },
-  }),
+    }
+  })
 };
 
 const exampleGrantMachine = createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5RgB4EMC2AHANmA4gE5oB2ALgLJoDGAFgJYlgB0sZahZAxAHICiADQAqAbQAMAXUSgsAe1j0y9WSWkgUiAIwBmAKzMAbJoCcAdgAcB0wd0AWIwdsAaEAE8t2sc1vaATNs1bWzFNczFfCwBfSJdUTFwCYnIqOkYWADN6QjYAWgBHAFc4JRUuACEAQQBhAGlxKSQQOQUS1UaNBH8DZl9jX10Q7SNbHV8XdwRzTWZQ0Ls562MxXWjY9Gw8IlJKGgYmZkzssnyitmUSXkFRSTVmxXO1DttjcxnjXVNfTVMgvXNjbTjDy+ZgA-yBYKhcLmVbgdYJLbJXZpVhgagqCAnYrncrVOo3Rp3VqPRC6F7MSzmezmPwRMQ+IGTbSGKZ9Wx2UxiPS6AywuIbRLbFJ7FiwNEYrFnUr8YT1W7ye4qEmTMLMMTmMKaQLGAxU3xjNxaCLMPSadWjek-XTaaIxEAkWQQOBqfkIpI7VJMeUtB7tRA5AyMgN8+Gbd3ClFsDhkb2KtqgJ4GiaaD4Ul5U61iPrmTkwu2usNC5H7Q65QrYpWEhXEv0IbTaYzMXS6cw88y9YxmRyMzQGLwNjXszzZ0yaEPxQtIz2i8UkTHlqXxprV30JxCckE6dlciIa0xDHsGEH-QeZkdj-OhwVTkUHRhoHCxmtrhBmqlq3xWAFcnQfQ-TGws07IITH6FZbSAA */
-  id: "exampleGrantMachine",
-  initial: "start",
+  /** @xstate-layout N4IgpgJg5mDOIC5RgB4EMC2AHANmA4gE5oB2ALgLJoDGAFgJYlgB0sZahZAxAHICiADQAqAbQAMAXUSgsAe1j0y9WSWkgUiAIwBmAKzMAbNoBMADk0GAnJbGmALA+MAaEAE8tAdgPNdH02MsvQJtdbVMAX3CXVExcAmJyKjpGFmpZDAwVAFo0gFdyQlcuACEAQQBhAGlxKSQQOQUlFTUNBB1vW1NQ2zFdMQ9jOxd3BHNmE2MbHT1NTTNI6PRsPCJSShoGJmY0jOy8gqL+YRq1BsVlVTrW3WN9A3sbLv87D2thz0tmfvNbiw8AwYRKLgJZxVaJDYpVhgNIkCBZACOuTgTRIJQq1Ukp3k52aV0QN28mjsYgMuhsxjEk3671G2mYpmM1Omulm82BMWW8TWSU2LFgMJU8KRKIuvEEoixdTOqJaiEezE0ulMpm0YW0SuJulpmg89LsljJZlMersTPukWBJFkEDgak5YIS62STGxjQucoQWQMtO9XzEAcDQcDHgWINiKydvKhbA4ZDduMuoFaZtplLshlMBiML0eoTNYYdkZ5kK2O0yJBysnyZEKCdl+IQ2hJirCVOJ2hCHg82rciEpHkVWZzr1s+eMhdBxYhLv5grhiORbA90pxDeTiD1YkVUw1zeJ9h9fYQlM+92zzdHXWbE45U+5M75zAAZow0Dh6yuN202YYDCSwmMV4Bm7NNbGYBw9wcOx7H+OxLXCIA */
+  id: 'exampleGrantMachine',
+  initial: 'start',
   context: {
     previousPageId: undefined, // Tracks current page
-    currentPageId: "start", // Tracks current page
+    currentPageId: 'start', // Tracks current page
     userAnswers: {}, // Store answers here
-    completedPageIds: [], // Store completed pages here
+    completedPageIds: [] // Store completed pages here
   },
   states: {
     start: {
       on: {
         NEXT: {
-          target: "first-question",
-          actions: ["trackPageCompletion", "updateCurrentPageId"],
-        },
+          target: 'country',
+          actions: ['trackPageCompletion', 'updateCurrentPageId']
+        }
       },
       meta: {
         // TODO: think about removing duplication with on.NEXT.target
-        nextPageId: "first-question",
-      },
+        nextPageId: 'country'
+      }
     },
 
-    "first-question": {
+    country: {
       on: {
         BACK: {
-          target: "start",
-          actions: ["updateCurrentPageId"],
+          target: 'start',
+          actions: ['updateCurrentPageId']
         },
 
         NEXT: {
-          target: "second-question",
-          actions: ["trackPageCompletion", "updateCurrentPageId"],
-        },
+          target: 'second-question',
+          actions: ['trackPageCompletion', 'updateCurrentPageId']
+        }
       },
 
       meta: {
-        previousPageId: "start",
-        nextPageId: "second-question",
-      },
+        previousPageId: 'start',
+        nextPageId: 'second-question'
+      }
     },
 
-    "second-question": {
+    'second-question': {
       on: {
         BACK: {
-          target: "first-question",
-          actions: ["updateCurrentPageId"],
+          target: 'country',
+          actions: ['updateCurrentPageId']
         },
         NEXT: {
-          target: "final",
-          actions: ["trackPageCompletion", "updateCurrentPageId"],
-        },
+          target: 'final',
+          actions: ['trackPageCompletion', 'updateCurrentPageId']
+        }
       },
       meta: {
-        previousPageId: "first-question",
-        nextPageId: "final",
-      },
+        previousPageId: 'country',
+        nextPageId: 'final'
+      }
     },
 
     final: {
-      type: "final",
+      type: 'final',
       meta: {
-        currentPageId: "final",
-      },
-    },
-  },
+        currentPageId: 'final'
+      }
+    }
+  }
 });
 
 // Server-side interpreter
 export const exampleGrantMachineService = interpret(
   exampleGrantMachine.withConfig({
-    actions: actionImplementations,
-  }),
+    actions: actionImplementations
+  })
 ).onTransition((state) => {
   if (state.changed) {
-    console.log("UPDATED STATE:", state);
+    console.log('UPDATED STATE:', state);
   }
 });
 exampleGrantMachineService.start();

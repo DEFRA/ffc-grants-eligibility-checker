@@ -67,37 +67,38 @@ const registerPlugins = (server) => async () => {
  * @param {string} stylesheetsPath - The directory path for serving stylesheets.
  */
 const addRoutes = (server, stylesheetsPath) => {
-  server.route({
-    method: 'GET',
-    path: '/stylesheets/{file*}',
-    handler: {
-      directory: {
-        path: stylesheetsPath,
-      },
+  server.route(
+    {
+      method: 'GET',
+      path: '/stylesheets/{file*}',
+      handler: {
+        directory: {
+          path: stylesheetsPath
+        }
+      }
     },
     {
-        method: 'GET',
-        path: '/assets/{file*}',
-        handler: {
+      method: 'GET',
+      path: '/assets/{file*}',
+      handler: {
         directory: {
-            path: path.resolve(
-                import.meta.dirname,
-                '..',
-                'node_modules',
-                'govuk-frontend',
-                'dist',
-                'govuk',
-                'assets'
-            )
+          path: path.resolve(
+            import.meta.dirname,
+            '..',
+            'node_modules',
+            'govuk-frontend',
+            'dist',
+            'govuk',
+            'assets'
+          )
         }
+      }
     }
-    }
-  });
+  );
 
   const routes = getRouteDefinitions();
   routes.forEach((route) => server.route(route));
 };
-
 /**
  * Configures the view rendering engine for a given server.
  * @param {object} server - The server instance to configure views for.
@@ -152,19 +153,17 @@ const init = async () => {
 
   await registerPlugins(server)();
 
-    server.ext('onRequest', (request, h) => {
-        console.log(`Request URL: ${request.url}`);
-        return h.continue;
-    });
+  server.ext('onRequest', (request, h) => {
+    console.log(`Request URL: ${request.url}`);
+    return h.continue;
+  });
 
-    addRoutes(server, config.stylesheetsPath);
+  addRoutes(server, config.stylesheetsPath);
   configureViews(server, config.viewsPath, config.njkEnv, config.context);
 
   await server.start();
 
-  console.log(
-    'Server running on http://localhost:3000/eligibility-checker/grant-name/start',
-  );
+  console.log('Server running on http://localhost:3000/eligibility-checker/grant-name/start');
 };
 
 /**

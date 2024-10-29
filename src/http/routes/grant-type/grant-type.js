@@ -1,15 +1,11 @@
-import {
-  isValidGrantType,
-  getGrantTypeById,
-  isValidGrantPage
-} from '../../../config/grant-types.js';
-import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
+import { getContext } from './get-context.js';
+import statusCodes, { OK } from '../../../constants/status-codes.js';
 import {
   getInvalidGrantTypeResponse,
   getInvalidPageResponse
 } from '../../../utils/get-invalid-response.js';
-import { getContext } from './get-context.js';
-import statusCodes, { OK } from '../../../constants/status-codes.js';
+import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
+import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
 
 /**
  * Retrieves the grant type.
@@ -18,30 +14,35 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
  * @returns {object} - The view with the grant type information.
  */
 export const viewGrantType = (request, h) => {
-  const grantTypeId = request.params.grantType;
-  console.log(`viewGrantType grantTypeId: ${grantTypeId}`);
+  const { grantType, page } = request.params;
+  console.log(`viewGrantType grantType: ${grantType}`);
+  console.log(`viewGrantType pageId: ${page}`);
 
-  if (!isValidGrantType(grantTypeId)) {
-    console.log('viewGrantType: Grant is invalid');
-    return getInvalidGrantTypeResponse(h);
-  }
+  const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
+  if (grantTypeMachineService) {
+    console.log('viewGrantType: Grant is valid');
 
-  console.log('viewGrantType: Grant is valid');
+    const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${page}`];
 
-  const grantType = getGrantTypeById(grantTypeId);
-  console.log(`viewGrantType grantType: ${JSON.stringify(grantType)}`);
+    if (stateMeta) {
+      console.log(`viewGrantType: state ${page} is valid`);
+      console.log(`viewGrantType ${page} state meta: ${JSON.stringify(stateMeta, null, 2)}`);
 
-  const pageId = request.params.page;
-
-  console.log(`viewGrantType pageId: ${pageId}`);
-
-  if (!isValidGrantPage(grantType, pageId)) {
+      return h.view(
+        `pages/${grantType}/${page}.njk`,
+        getContext(grantType, {
+          currentPageId: grantTypeMachineService.state.context.currentPageId,
+          nextPageId: stateMeta?.nextPageId,
+          previousPageId: stateMeta?.previousPageId
+        })
+      );
+    }
+    console.log(`viewGrantType: state for ${page} is invalid`);
     return getInvalidPageResponse(h);
   }
 
-  console.log('viewGrantType: Page is valid');
-
-  return h.view(`pages/${grantType.id}/${pageId}.njk`, getContext(grantType));
+  console.log('viewGrantType: Grant type is invalid');
+  return getInvalidGrantTypeResponse(h);
 };
 
 /**

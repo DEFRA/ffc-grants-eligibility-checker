@@ -2,12 +2,7 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import statusCodes, { NOT_FOUND } from '../constants/status-codes.js';
 
-const mockIsValidGrantType = jest.fn();
 const mockGetInvalidGrantTypeResponse = jest.fn();
-
-jest.unstable_mockModule('../config/grant-types.js', () => ({
-  isValidGrantType: mockIsValidGrantType
-}));
 
 jest.unstable_mockModule('./get-invalid-response.js', () => ({
   getInvalidGrantTypeResponse: mockGetInvalidGrantTypeResponse
@@ -34,22 +29,18 @@ describe('redirectToStartPage', () => {
 
   it('redirects to start page with valid grant type', async () => {
     const request = {
-      params: { grantType: 'valid-grant-type' },
-      url: { pathname: '/valid-grant-type' }
+      params: { grantType: 'example-grant' }
     };
-    mockIsValidGrantType.mockReturnValue(true);
 
     await redirectToStartPage(request, mockH);
     expect(mockH.redirect).toHaveBeenCalledTimes(1);
-    expect(mockH.redirect).toHaveBeenCalledWith('/valid-grant-type/start');
+    expect(mockH.redirect).toHaveBeenCalledWith('/eligibility-checker/example-grant/start');
   });
 
   it('returns invalid grant type response with invalid grant type', async () => {
     const request = {
-      params: { grantType: 'invalid-grant-type' },
-      url: { pathname: '/invalid-grant-type' }
+      params: { grantType: 'invalid-grant-type' }
     };
-    mockIsValidGrantType.mockReturnValue(false);
 
     const result = await redirectToStartPage(request, mockH);
     expect(mockGetInvalidGrantTypeResponse).toHaveBeenCalledTimes(1);

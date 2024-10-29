@@ -2,12 +2,13 @@ import { app } from '../../../config/app.js';
 
 /**
  * Returns the context for hapi view
- * @param {object} grantType - The grant type object
+ *  @param {object} grantTypeId - The grant type id
+ * @param {object} meta - The state's context object
  * @returns {object} - The context object
  */
-export function getContext(grantType) {
+export function getContext(grantTypeId, meta) {
   return {
-    siteTitle: `${app.siteTitle} - ${grantType.id}`,
+    siteTitle: `${app.siteTitle} - ${meta.currentPageId}`,
     showTimeout: true,
     surveyLink: `${app.surveyLink}`,
     sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,
@@ -16,6 +17,9 @@ export function getContext(grantType) {
       confirmed: false,
       analytics: true
     },
-    grantType
+    meta: {
+      ...meta,
+      grantTypeId,
+    },
   };
 }

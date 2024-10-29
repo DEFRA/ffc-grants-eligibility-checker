@@ -1,4 +1,4 @@
-import { isValidGrantType } from '../config/grant-types.js';
+import { grantIdToMachineServiceMap } from '../config/machines/index.js';
 import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
 
 /**
@@ -10,9 +10,10 @@ import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
  */
 export default function redirectToStartPage(request, h) {
   console.log('redirectToStartPage');
-  const grantTypeId = request.params.grantType;
-  if (!isValidGrantType(grantTypeId)) {
-    return getInvalidGrantTypeResponse(h);
+  const { grantType } = request.params;
+  console.log(`redirectToStartPage grantType: ${grantType}`);
+  if (grantIdToMachineServiceMap[grantType]) {
+    return h.redirect(`/eligibility-checker/${grantType}/start`);
   }
-  return h.redirect(`/${grantTypeId}/start`);
+  return getInvalidGrantTypeResponse(h);
 }

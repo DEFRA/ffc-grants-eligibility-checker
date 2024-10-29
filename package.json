@@ -1,7 +1,7 @@
 {
   "name": "ffc-grants-eligibility-checker",
   "description": "FFC Grant Eligibility Checker",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "license": "OGL-UK-3.0",
   "contributors": [
     "Andrew Folga <andrew.folga@equalexperts.com>",
@@ -47,6 +47,7 @@
     "standard": "^17.1.2"
   },
   "dependencies": {
+    "@hapi/boom": "^10.0.1",
     "@hapi/hapi": "^21.3.10",
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",

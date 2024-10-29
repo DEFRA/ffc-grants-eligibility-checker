@@ -2,21 +2,16 @@ import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 
 // Create mock functions
-const mockGetGrantTypeById = jest.fn();
-const mockIsValidGrantType = jest.fn();
-const mockIsValidGrantPage = jest.fn();
 const mockGetInvalidGrantTypeResponse = jest.fn();
 const mockGetInvalidPageResponse = jest.fn();
-
-jest.unstable_mockModule('../../../config/grant-types.js', () => ({
-  isValidGrantType: mockIsValidGrantType,
-  getGrantTypeById: mockGetGrantTypeById,
-  isValidGrantPage: mockIsValidGrantPage
-}));
+const mockGetContext = jest.fn();
 
 jest.unstable_mockModule('../../../utils/get-invalid-response.js', () => ({
   getInvalidGrantTypeResponse: mockGetInvalidGrantTypeResponse,
   getInvalidPageResponse: mockGetInvalidPageResponse
+}));
+jest.unstable_mockModule('./get-context.js', () => ({
+  getContext: mockGetContext
 }));
 
 const { routes, viewGrantType } = await import('./grant-type.js');
@@ -33,7 +28,6 @@ describe('Grant Type Tests', () => {
   };
 
   const requestMock = {
-    url: `/${grantType.id}/start`,
     params: {
       grantType: grantType.id,
       page: 'start'
@@ -42,9 +36,24 @@ describe('Grant Type Tests', () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    mockIsValidGrantType.mockReturnValue(true);
-    mockGetGrantTypeById.mockReturnValue(grantType);
-    mockIsValidGrantPage.mockReturnValue(true);
+    mockGetContext.mockReturnValue({
+      siteTitle: `FFC Grants Eligibility Checker - start`,
+      urlPrefix: '/eligibility-checker',
+      showTimeout: true,
+      surveyLink: 'https://example.com/survey',
+      sessionTimeoutInMin: 15,
+      timeoutPath: '/timeout',
+      cookiesPolicy: {
+        confirmed: false,
+        analytics: true
+      },
+      meta: {
+        currentPageId: 'start',
+        previousPageId: 'previous-page',
+        nextPageId: 'next-page',
+        grantTypeId: grantType.id
+      }
+    });
   });
 
   it('should get view with requested grant type and page', () => {
@@ -53,26 +62,27 @@ describe('Grant Type Tests', () => {
     expect(mockH.view).toHaveBeenCalledWith(
       `pages/${grantType.id}/start.njk`,
       expect.objectContaining({
-        siteTitle: 'FFC Grants Eligibility Checker - example-grant'
+        siteTitle: 'FFC Grants Eligibility Checker - start'
       })
     );
   });
 
   it('should return invalid grant type response when grant type is invalid', () => {
-    mockIsValidGrantType.mockReturnValue(false);
     mockGetInvalidGrantTypeResponse.mockReturnValue('Invalid Grant Type');
 
-    const result = viewGrantType(requestMock, mockH);
+    const result = viewGrantType({ params: { grantType: 'invalid-grant' } }, mockH);
 
     expect(result).toBe('Invalid Grant Type');
     expect(mockGetInvalidGrantTypeResponse).toHaveBeenCalledWith(mockH);
   });
 
   it('should return invalid page response when page is invalid', () => {
-    mockIsValidGrantPage.mockReturnValue(false);
     mockGetInvalidPageResponse.mockReturnValue('Invalid Page');
 
-    const result = viewGrantType(requestMock, mockH);
+    const result = viewGrantType(
+      { params: { ...requestMock.params, page: 'invalid-page' } },
+      mockH
+    );
 
     expect(result).toBe('Invalid Page');
     expect(mockGetInvalidPageResponse).toHaveBeenCalledWith(mockH);

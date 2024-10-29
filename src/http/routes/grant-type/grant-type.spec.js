@@ -29,8 +29,8 @@ describe('Grant Type Tests', () => {
 
   const requestMock = {
     params: {
-      grantTypeId: grantType.id,
-      pageId: 'start'
+      grantType: grantType.id,
+      page: 'start'
     }
   };
 
@@ -70,7 +70,7 @@ describe('Grant Type Tests', () => {
   it('should return invalid grant type response when grant type is invalid', () => {
     mockGetInvalidGrantTypeResponse.mockReturnValue('Invalid Grant Type');
 
-    const result = viewGrantType({ params: { grantTypeId: 'invalid-grant' } }, mockH);
+    const result = viewGrantType({ params: { grantType: 'invalid-grant' } }, mockH);
 
     expect(result).toBe('Invalid Grant Type');
     expect(mockGetInvalidGrantTypeResponse).toHaveBeenCalledWith(mockH);
@@ -80,7 +80,7 @@ describe('Grant Type Tests', () => {
     mockGetInvalidPageResponse.mockReturnValue('Invalid Page');
 
     const result = viewGrantType(
-      { params: { ...requestMock.params, pageId: 'invalid-page' } },
+      { params: { ...requestMock.params, page: 'invalid-page' } },
       mockH
     );
 

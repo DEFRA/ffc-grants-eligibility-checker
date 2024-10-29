@@ -10,9 +10,10 @@ import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
  */
 export default function redirectToStartPage(request, h) {
   console.log('redirectToStartPage');
-  const { grantTypeId } = request.params;
-  if (grantIdToMachineServiceMap[grantTypeId]) {
-    return h.redirect(`/eligibility-checker/${grantTypeId}/start`);
+  const { grantType } = request.params;
+  console.log(`redirectToStartPage grantType: ${grantType}`);
+  if (grantIdToMachineServiceMap[grantType]) {
+    return h.redirect(`/eligibility-checker/${grantType}/start`);
   }
   return getInvalidGrantTypeResponse(h);
 }

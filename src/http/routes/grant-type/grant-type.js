@@ -14,30 +14,30 @@ import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
  * @returns {object} - The view with the grant type information.
  */
 export const viewGrantType = (request, h) => {
-  const { grantTypeId, pageId } = request.params;
-  console.log(`viewGrantType grantTypeId: ${grantTypeId}`);
-  console.log(`viewGrantType pageId: ${pageId}`);
+  const { grantType, page } = request.params;
+  console.log(`viewGrantType grantType: ${grantType}`);
+  console.log(`viewGrantType pageId: ${page}`);
 
-  const grantTypeMachineService = grantIdToMachineServiceMap[grantTypeId];
+  const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
   if (grantTypeMachineService) {
     console.log('viewGrantType: Grant is valid');
 
-    const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${pageId}`];
+    const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${page}`];
 
     if (stateMeta) {
-      console.log(`viewGrantType: state ${pageId} is valid`);
-      console.log(`viewGrantType ${pageId} state meta: ${JSON.stringify(stateMeta, null, 2)}`);
+      console.log(`viewGrantType: state ${page} is valid`);
+      console.log(`viewGrantType ${page} state meta: ${JSON.stringify(stateMeta, null, 2)}`);
 
       return h.view(
-        `pages/${grantTypeId}/${pageId}.njk`,
-        getContext(grantTypeId, {
+        `pages/${grantType}/${page}.njk`,
+        getContext(grantType, {
           currentPageId: grantTypeMachineService.state.context.currentPageId,
           nextPageId: stateMeta?.nextPageId,
           previousPageId: stateMeta?.previousPageId
         })
       );
     }
-    console.log(`viewGrantType: state for ${pageId} is invalid`);
+    console.log(`viewGrantType: state for ${page} is invalid`);
     return getInvalidPageResponse(h);
   }
 

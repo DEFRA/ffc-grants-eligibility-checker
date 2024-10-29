@@ -6,21 +6,21 @@ export const actionImplementations = {
     /**
      * Updates the completed pages
      * @param {object} context machine context
-     * @param {object} event triggered event
+     * @param {object} _event triggered event
      * @returns {string} event's question
      */
-    completedPageIds: (context, event) => {
+    completedPageIds: (context, _event) => {
       return [...context.completedPageIds, context.currentPageId];
     }
   }),
   updateCurrentPageId: assign({
     /**
      * Updates the current page
-     * @param {object} context machine context
+     * @param {object} _context machine context
      * @param {object} event triggered event
      * @returns {string} event's question
      */
-    currentPageId: (context, event) => {
+    currentPageId: (_context, event) => {
       return event.type === 'NEXT' ? event.nextPageId : event.previousPageId;
     }
   })

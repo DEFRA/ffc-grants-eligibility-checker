@@ -8,6 +8,7 @@ import inert from '@hapi/inert';
 import { getRouteDefinitions } from './http/routes/routes.js';
 import errorPages from './config/plugins/error-pages.js';
 import { exampleGrantMachineService } from './config/machines/example-grant-machine.js';
+import statusCodes, { OK } from './constants/status-codes.js';
 /**
  * Retrieves the application's configuration settings.
  * @returns {object} An object containing:
@@ -114,7 +115,7 @@ const addRoutes = (server, stylesheetsPath) => {
           previousPageId
         });
 
-        return h.response({ status: 'success' }).code(200);
+        return h.response({ status: 'success' }).code(statusCodes(OK));
       }
     }
   ]);

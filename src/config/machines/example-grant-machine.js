@@ -31,7 +31,7 @@ const exampleGrantMachine = createMachine({
   id: 'exampleGrantMachine',
   initial: 'start',
   context: {
-    previousPageId: undefined, // Tracks current page
+    previousPageId: null, // Tracks previous page
     currentPageId: 'start', // Tracks current page
     userAnswers: {}, // Store answers here
     completedPageIds: [] // Store completed pages here

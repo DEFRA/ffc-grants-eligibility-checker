@@ -1,5 +1,4 @@
 import { grantIdToMachineServiceMap } from '../config/machines/index.js';
-import { getGrantTypeFromUrl } from './get-info-from-url.js';
 import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
 
 /**
@@ -11,7 +10,7 @@ import { getInvalidGrantTypeResponse } from './get-invalid-response.js';
  */
 export default function redirectToStartPage(request, h) {
   console.log('redirectToStartPage');
-  const grantTypeId = getGrantTypeFromUrl(request.url);
+  const { grantTypeId } = request.params;
   if (grantIdToMachineServiceMap[grantTypeId]) {
     return h.redirect(`/eligibility-checker/${grantTypeId}/start`);
   }

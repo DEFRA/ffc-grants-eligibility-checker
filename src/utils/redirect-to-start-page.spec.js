@@ -29,7 +29,7 @@ describe('redirectToStartPage', () => {
 
   it('redirects to start page with valid grant type', async () => {
     const request = {
-      url: { pathname: '/eligibility-checker/example-grant' }
+      params: { grantTypeId: 'example-grant' }
     };
 
     await redirectToStartPage(request, mockH);
@@ -39,7 +39,7 @@ describe('redirectToStartPage', () => {
 
   it('returns invalid grant type response with invalid grant type', async () => {
     const request = {
-      url: { pathname: '/eligibility-checker/invalid-grant-type' }
+      params: { grantTypeId: 'invalid-grant-type' }
     };
 
     const result = await redirectToStartPage(request, mockH);

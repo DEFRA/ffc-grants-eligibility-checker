@@ -4,7 +4,6 @@ import {
   getInvalidGrantTypeResponse,
   getInvalidPageResponse
 } from '../../../utils/get-invalid-response.js';
-import { getGrantTypeFromUrl, getPageFromUrl } from '../../../utils/get-info-from-url.js';
 import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
 import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
 
@@ -15,11 +14,9 @@ import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
  * @returns {object} - The view with the grant type information.
  */
 export const viewGrantType = (request, h) => {
-  const grantTypeId = getGrantTypeFromUrl(request.url);
-
+  const { grantTypeId, pageId } = request.params;
   console.log(`viewGrantType grantTypeId: ${grantTypeId}`);
-
-  const pageId = getPageFromUrl(request.url);
+  console.log(`viewGrantType pageId: ${pageId}`);
 
   const grantTypeMachineService = grantIdToMachineServiceMap[grantTypeId];
   if (grantTypeMachineService) {

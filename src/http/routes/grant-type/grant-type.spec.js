@@ -4,17 +4,11 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
 // Create mock functions
 const mockGetInvalidGrantTypeResponse = jest.fn();
 const mockGetInvalidPageResponse = jest.fn();
-const mockGetGrantTypeFromUrl = jest.fn();
-const mockGetPageFromUrl = jest.fn();
 const mockGetContext = jest.fn();
 
 jest.unstable_mockModule('../../../utils/get-invalid-response.js', () => ({
   getInvalidGrantTypeResponse: mockGetInvalidGrantTypeResponse,
   getInvalidPageResponse: mockGetInvalidPageResponse
-}));
-jest.unstable_mockModule('../../../utils/get-info-from-url.js', () => ({
-  getGrantTypeFromUrl: mockGetGrantTypeFromUrl,
-  getPageFromUrl: mockGetPageFromUrl
 }));
 jest.unstable_mockModule('./get-context.js', () => ({
   getContext: mockGetContext
@@ -34,19 +28,14 @@ describe('Grant Type Tests', () => {
   };
 
   const requestMock = {
-    url: {
-      pathname: `/${grantType.id}/start`
-    },
     params: {
-      grantType: grantType.id,
-      page: 'start'
+      grantTypeId: grantType.id,
+      pageId: 'start'
     }
   };
 
   beforeEach(() => {
     jest.resetAllMocks();
-    mockGetGrantTypeFromUrl.mockReturnValue('example-grant');
-    mockGetPageFromUrl.mockReturnValue('start');
     mockGetContext.mockReturnValue({
       siteTitle: `FFC Grants Eligibility Checker - start`,
       urlPrefix: '/eligibility-checker',
@@ -79,20 +68,21 @@ describe('Grant Type Tests', () => {
   });
 
   it('should return invalid grant type response when grant type is invalid', () => {
-    mockGetGrantTypeFromUrl.mockReturnValue('invalid-grant');
     mockGetInvalidGrantTypeResponse.mockReturnValue('Invalid Grant Type');
 
-    const result = viewGrantType(requestMock, mockH);
+    const result = viewGrantType({ params: { grantTypeId: 'invalid-grant' } }, mockH);
 
     expect(result).toBe('Invalid Grant Type');
     expect(mockGetInvalidGrantTypeResponse).toHaveBeenCalledWith(mockH);
   });
 
   it('should return invalid page response when page is invalid', () => {
-    mockGetPageFromUrl.mockReturnValue('invalidPage');
     mockGetInvalidPageResponse.mockReturnValue('Invalid Page');
 
-    const result = viewGrantType(requestMock, mockH);
+    const result = viewGrantType(
+      { params: { ...requestMock.params, pageId: 'invalid-page' } },
+      mockH
+    );
 
     expect(result).toBe('Invalid Page');
     expect(mockGetInvalidPageResponse).toHaveBeenCalledWith(mockH);

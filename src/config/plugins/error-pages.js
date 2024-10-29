@@ -6,7 +6,7 @@ import statusCodes, {
   FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND
-} from '../../constants/status-codes';
+} from '../../constants/status-codes.js';
 
 /*
  * Add an `onPreResponse` listener to return error pages
@@ -27,8 +27,12 @@ export default {
           // An error was raised during
           // processing the request
           const statusCode = response.output.statusCode;
-          if (statusCode === NOT_FOUND) {
-            return h.view(NOT_FOUND, response).code(statusCodes(NOT_FOUND)).takeover();
+
+          if (statusCode === statusCodes(NOT_FOUND)) {
+            return h
+              .view(statusCodes(NOT_FOUND).toString(), response)
+              .code(statusCodes(NOT_FOUND))
+              .takeover();
           }
           const err = {
             statusCode,
@@ -37,16 +41,22 @@ export default {
           };
           console.error('error', err);
 
-          if (statusCode === BAD_REQUEST) {
-            return h.view(BAD_REQUEST, response).code(statusCodes(BAD_REQUEST)).takeover();
+          if (statusCode === statusCodes(BAD_REQUEST)) {
+            return h
+              .view(statusCodes(BAD_REQUEST).toString(), response)
+              .code(statusCodes(BAD_REQUEST))
+              .takeover();
           }
 
-          if (statusCode === FORBIDDEN || response.message.includes('support ID')) {
-            return h.view(FORBIDDEN, response).code(statusCodes(FORBIDDEN)).takeover();
+          if (statusCode === statusCodes(FORBIDDEN) || response.message.includes('support ID')) {
+            return h
+              .view(statusCodes(FORBIDDEN).toString(), response)
+              .code(statusCodes(FORBIDDEN))
+              .takeover();
           }
           // The return the `500` view
           return h
-            .view(INTERNAL_SERVER_ERROR, response)
+            .view(statusCodes(INTERNAL_SERVER_ERROR).toString(), response)
             .code(statusCodes(INTERNAL_SERVER_ERROR))
             .takeover();
         }

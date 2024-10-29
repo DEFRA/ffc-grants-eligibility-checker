@@ -41,7 +41,7 @@ export const viewGrantType = (request, h) => {
     return getInvalidPageResponse(h);
   }
 
-  console.log('viewGrantType: Grant is invalid');
+  console.log('viewGrantType: Grant type is invalid');
   return getInvalidGrantTypeResponse(h);
 };
 

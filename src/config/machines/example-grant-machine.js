@@ -102,7 +102,7 @@ export const exampleGrantMachineService = interpret(
   })
 ).onTransition((state) => {
   if (state.changed) {
-    console.log('UPDATED STATE:', state);
+    console.debug('UPDATED STATE:', state);
   }
 });
 exampleGrantMachineService.start();

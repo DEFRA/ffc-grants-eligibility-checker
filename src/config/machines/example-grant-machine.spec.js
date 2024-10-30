@@ -12,7 +12,7 @@ describe('Example Grant Machine Service', () => {
     )
       .onTransition((state) => {
         if (state.changed) {
-          console.debug('UPDATED STATE:', state);
+          console.debug('UPDATED STATE:', state.value);
         }
       })
       .start();

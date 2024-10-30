@@ -1,26 +1,24 @@
 # Acceptance Tests
-This folder contains the acceptance test project for the Grants Eligibility Checker web app. 
-
-The framework used is WebdriverIO with Cucumber and the tests are containerised by default, running against a single browser (Chrome).
+This folder contains the acceptance test project for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Cucumber and the tests are containerised by default, running against a single browser (Chrome).
 .
 ## Requirements
 - Docker
 - Node
 - npm
 
+## Environment Variables
+Provide the following environment variables in a `.env` file in the `/test/acceptance` directory:
+
+```pwsh
+# value is of format 'scheme://hostname:port/eligibility-checker/'
+# e.g. hostname for local development will be 'localhost' or 'host.docker.internal'
+TEST_ENVIRONMENT_ROOT_URL=http://localhost:3000/eligibility-checker/
+```
+
 ## Running tests inside a container (default)
 Docker is used to create containers for both the tests (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`).
 
-1. Provide the following environment variables in a `.env` file in this directory:
-
-```
-ROOT_URL
-
-LOGIN_USERNAME
-LOGIN_PASSWORD
-```
-
-2. For ARM architectures, change the image used for Chrome in `docker-compose.yaml`:
+1. For ARM architectures, change the image used for Chrome in `docker-compose.yaml`:
 
 ```
   selenium:
@@ -32,9 +30,9 @@ CHANGES TO..
     image: seleniarm/standalone-chromium
 ```   
 
-3. If running against `localhost` ensure the application container is running with `docker-compose up --build` from the root folder of this repository.
+2. If running against `localhost` ensure the application container is running with `docker-compose up --build` from the root folder of this repository.
 
-4. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all tests.
+3. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all tests.
 
 5. HTML reports will be output to `./reports`.
 
@@ -58,13 +56,13 @@ npx wdio run ./wdio.conf.js --cucumberOpts.tags=@tag
 ```
 
 ## Running tests in parallel
-Tests can be run in parallel at feature file level by increasing the number of instances available to WebdriverIO in `wdio.conf.js', e.g.:
+Tests can be run in parallel at feature file level by increasing the number of instances available to WebdriverIO in `wdio.conf.js`, e.g.:
 ```js
 maxInstances: 3,
 ```
 
 ## Running tests against multiple browsers
-Tests can be run against multiple browsers, currently only when running outside a container, by specifying additional capabilities together with more instances in `wdio.conf.js`:
+Tests can be run against multiple browsers by specifying additional capabilities together with more instances in `wdio.conf.js`:
 ```js
 maxInstances: 10,
 capabilities: [

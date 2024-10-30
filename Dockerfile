@@ -16,6 +16,7 @@ EXPOSE ${PORT} ${PORT_DEBUG}
 COPY package*.json /home/node
 RUN NODE_ENV=development npm --ignore-scripts ci
 COPY ./src /home/node/src
+COPY ./test /home/node/test
 COPY .eslintrc /home/node/.eslintrc
 COPY .babelrc /home/node/.babelrc
 COPY jest.config.js /home/node/jest.config.js

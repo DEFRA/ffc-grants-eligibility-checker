@@ -10,10 +10,10 @@ This folder contains the acceptance test project for the Grants Eligibility Chec
 Provide the following environment variables in a `.env` file in the `/test/acceptance` directory:
 
 ```pwsh
-# value is of format 'scheme://hostname:port/eligibility-checker/'
-# e.g. hostname for local development will be 'localhost' or 'host.docker.internal'
-TEST_ENVIRONMENT_ROOT_URL=http://localhost:3000/eligibility-checker/
+TEST_ENVIRONMENT_ROOT_URL
 ```
+
+When the tests are run by Jenkins the `TEST_ENVIRONMENT_ROOT_URL` variable is generated and exposed by the pipeline to point to the PR-specific Sandbox deployment. 
 
 ## Running tests inside a container (default)
 Docker is used to create containers for both the tests (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`).

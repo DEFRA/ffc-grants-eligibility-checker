@@ -1,6 +1,6 @@
 import Hapi from '@hapi/hapi';
 import { describe, it, expect } from '@jest/globals';
-import { routes } from '../../src/http/routes/grant-type/grant-type.js';
+import { routes } from '../../../src/http/routes/grant-type/grant-type.js';
 
 describe('Invalid Grant and Page', () => {
   let server;

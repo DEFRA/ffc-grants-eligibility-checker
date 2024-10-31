@@ -1,4 +1,3 @@
-import fs from 'node:fs/promises';
 import { generate } from 'multiple-cucumber-html-reporter';
 
 export let config = {
@@ -172,16 +171,8 @@ export let config = {
    * @param {object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  onPrepare: function (config, capabilities) {
-    return (
-      fs.rm(process.env.RUNNING_IN_CONTAINER ? '/html-reports/html' : './html-reports/html', {
-        recursive: true
-      }) &&
-      fs.rm(process.env.RUNNING_IN_CONTAINER ? '/html-reports/json' : './html-reports/json', {
-        recursive: true
-      })
-    );
-  },
+  // onPrepare: function (config, capabilities) {
+  // },
   /**
    * Gets executed before a worker process is spawned and can be used to initialize specific service
    * for that worker as well as modify runtime environments in an async fashion.

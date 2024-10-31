@@ -1,5 +1,5 @@
 # Acceptance Tests
-This folder contains the acceptance test project for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Cucumber and the tests are containerised by default, running against a single browser (Chrome).
+This folder contains the acceptance test project for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Cucumber and the tests are containerised, running against a single browser (Chrome).
 .
 ## Requirements
 - Docker
@@ -7,7 +7,7 @@ This folder contains the acceptance test project for the Grants Eligibility Chec
 - npm
 
 ## Environment Variables
-Provide the following environment variables in a `.env` file in the `/test/acceptance` directory:
+Provide the following environment variables, typically in a `.env` file in the `/test/acceptance` directory:
 
 ```pwsh
 TEST_ENVIRONMENT_ROOT_URL
@@ -15,42 +15,36 @@ TEST_ENVIRONMENT_ROOT_URL
 
 When the tests are run by Jenkins the `TEST_ENVIRONMENT_ROOT_URL` variable is generated and exposed by the pipeline to point to the PR-specific Sandbox deployment. 
 
-## Running tests inside a container (default)
-Docker is used to create containers for both the tests (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`).
+## Running tests inside a container
+Docker is used to create containers for both the tests (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`). This is how the tests run in the Jenkins pipeline. Headless browser mode is used.
 
 1. For ARM architectures, change the image used for Chrome in `docker-compose.yaml`:
 
-```
+```dockerfile
   selenium:
     image: selenium/standalone-chrome
 
-CHANGES TO..
+# CHANGES TO..
 
   selenium:
     image: seleniarm/standalone-chromium
 ```   
 
-2. If running against `localhost` ensure the application container is running with `docker-compose up --build` from the root folder of this repository.
+2. If running against `localhost` ensure the application container is running with `docker-compose up --build` from the root folder of the repository.
 
-3. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all tests.
+3. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all acceptance tests.
 
-5. HTML reports will be output to `./reports`.
+5. HTML reports will be output to `/test/acceptance/html-reports`.
 
 ## Running tests outside a container
-To run the tests outside a container:
+To run tests outside a container, with the browser interaction visible:
 
-1. Comment out `hostname` and `port` in `wdio.conf.js`, i.e.:
-```js
-exports.config = {
-    //hostname: 'selenium',
-    //port: 4444,```
-```
-2. Run `npm run test`, this will execute the following script defined in `package.json`:
+1. Run `npm run test`, this will run all tests by executing the following script defined in `package.json`:
 ```pwsh
 npx wdio run ./wdio.conf.js
 ```
 
-3. Run a specific test or tests with a tag:
+2. Run a specific test or tests with a tag:
 ```pwsh
 npx wdio run ./wdio.conf.js --cucumberOpts.tags=@tag
 ```

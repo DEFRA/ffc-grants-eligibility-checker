@@ -17,8 +17,7 @@ describe('error-pages plugin', () => {
     takeover: jest.fn().mockReturnThis()
   }));
   const mockView = jest.fn().mockImplementation(() => ({
-    code: mockCode, // chainable response method
-    takeover: jest.fn().mockReturnThis() // chainable takeover method
+    code: mockCode // chainable response method
   }));
 
   // Initialize a Hapi server before each test

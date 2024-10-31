@@ -44,7 +44,8 @@
     "prettier": "^3.3.3",
     "sass": "^1.77.6",
     "snyk": "^1.1293.1",
-    "standard": "^17.1.2"
+    "standard": "^17.1.2",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",

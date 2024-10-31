@@ -13,7 +13,9 @@ jest.setTimeout(30000); // Set timeout to 30 seconds for this test
 
 describe('error-pages plugin', () => {
   let server;
-  const mockCode = jest.fn();
+  const mockCode = jest.fn().mockImplementation(() => ({
+    takeover: jest.fn().mockReturnThis()
+  }));
   const mockView = jest.fn().mockImplementation(() => ({
     code: mockCode, // chainable response method
     takeover: jest.fn().mockReturnThis() // chainable takeover method

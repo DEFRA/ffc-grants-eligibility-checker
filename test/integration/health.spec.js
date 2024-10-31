@@ -1,20 +1,34 @@
-import { jest, describe, it, expect } from '@jest/globals';
-import request from 'supertest';
-
-const BASE_URL = 'http://localhost';
+import Hapi from '@hapi/hapi';
+import { describe, it, expect } from '@jest/globals';
+import { routes } from '../../src/http/routes/grant-type/grant-type.js';
 
 describe('Service Health', () => {
-  jest.setTimeout(30000);
+  let server;
+
+  beforeAll(async () => {
+    server = Hapi.server();
+    server.route(routes); // Register routes for testing
+  });
 
   it('should return 200 OK from /healthy endpoint', async () => {
-    const response = await request(BASE_URL).get('/eligibility-checker/healthy').expect(200);
+    const response = await server.inject({
+      method: 'GET',
+      url: '/healthy'
+    });
 
-    expect(response.text).toBe('ok');
+    expect(response.statusCode).toBe(200);
+    expect(response.payload).toBe('ok');
+    expect(response.result).toBe('ok');
   });
 
   it('should return 200 OK from /healthz endpoint', async () => {
-    const response = await request(BASE_URL).get('/eligibility-checker/healthz').expect(200);
+    const response = await server.inject({
+      method: 'GET',
+      url: '/healthz'
+    });
 
-    expect(response.text).toBe('ok');
+    expect(response.statusCode).toBe(200);
+    expect(response.payload).toBe('ok');
+    expect(response.result).toBe('ok');
   });
 });

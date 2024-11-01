@@ -1,0 +1,15 @@
+{
+  "name": "performance",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "k6 run -e TEST_ENVIRONMENT_ROOT_URL=http://localhost:3000 script.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Grants Eligibility Checker Performance Test",
+  "devDependencies": {
+    "@types/k6": "^0.54.0"
+  }
+}

@@ -1,13 +1,11 @@
-import Hapi from '@hapi/hapi';
 import { describe, it, expect } from '@jest/globals';
-import { routes } from '../../../src/http/routes/grant-type/grant-type.js';
+import { configureServer } from '../../../src/server.js';
 
 describe('Service Health', () => {
   let server;
 
-  beforeAll(async () => {
-    server = Hapi.server();
-    server.route(routes); // Register routes for testing
+  beforeEach(async () => {
+    server = await configureServer();
   });
 
   it('should return 200 OK from /healthy endpoint', async () => {

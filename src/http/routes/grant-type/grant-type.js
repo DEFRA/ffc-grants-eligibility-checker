@@ -1,11 +1,8 @@
 import { getContext } from './get-context.js';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
-import {
-  getInvalidGrantTypeResponse,
-  getInvalidPageResponse
-} from '../../../utils/get-invalid-response.js';
 import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
 import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
+import { Boom } from '@hapi/boom';
 
 /**
  * Retrieves the grant type.
@@ -15,18 +12,18 @@ import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
  */
 export const viewGrantType = (request, h) => {
   const { grantType, page } = request.params;
-  console.log(`viewGrantType grantType: ${grantType}`);
-  console.log(`viewGrantType pageId: ${page}`);
+  console.log(`viewGrantType grantType: ${grantType}, ${page}`);
 
   const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
   if (grantTypeMachineService) {
-    console.log('viewGrantType: Grant is valid');
+    console.debug('viewGrantType: Grant is valid');
 
     const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${page}`];
 
     if (stateMeta) {
-      console.log(`viewGrantType: state ${page} is valid`);
-      console.log(`viewGrantType ${page} state meta: ${JSON.stringify(stateMeta, null, 2)}`);
+      console.debug(
+        `viewGrantType: state ${page} is valid with meta: ${JSON.stringify(stateMeta, null, 2)}`
+      );
 
       return h.view(
         `pages/${grantType}/${page}.njk`,
@@ -38,11 +35,11 @@ export const viewGrantType = (request, h) => {
       );
     }
     console.log(`viewGrantType: state for ${page} is invalid`);
-    return getInvalidPageResponse(h);
+    throw Boom.notFound('Page not found');
   }
 
   console.log('viewGrantType: Grant type is invalid');
-  return getInvalidGrantTypeResponse(h);
+  throw Boom.notFound('Grant type not found');
 };
 
 /**

@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { configureServer } from '../../../src/server';
 import * as cheerio from 'cheerio';
 
-describe('Start Page response tests', () => {
+describe('Start Page', () => {
   let server;
 
   beforeEach(async () => {

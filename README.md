@@ -89,7 +89,7 @@ npm run format
 
 This will run all `jest` unit (`/src/**/*`), narrow integration tests (`test/integration/narrow/**/*`) and full integration tests (`test/integration/full`).
 
-**Run tests (unit and narrow integration) locally in a container (to mirror Jenkins)**
+**Run tests (unit, narrow and full integration) locally in a container (to mirror Jenkins)**
 
 ```bash
 docker-compose -f docker-compose.yaml -f docker-compose.test.yaml run ffc-grants-eligibility-checker

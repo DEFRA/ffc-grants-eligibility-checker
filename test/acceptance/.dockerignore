@@ -1,6 +1,7 @@
 html-reports
 node_modules
 .dockerignore
+.env
 docker-compose.yaml
 Dockerfile
 README.md

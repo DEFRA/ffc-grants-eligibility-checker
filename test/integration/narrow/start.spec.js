@@ -65,4 +65,14 @@ describe('Start Page', () => {
       expect(startButton.attr('href')).toBe('country');
     });
   });
+
+  describe('snapshot', () => {
+    it('should match snapshot', async () => {
+      const response = await server.inject({
+        method: 'GET',
+        url: '/eligibility-checker/example-grant/start'
+      });
+      expect(response.payload).toMatchSnapshot();
+    });
+  });
 });

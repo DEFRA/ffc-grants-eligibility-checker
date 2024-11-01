@@ -252,4 +252,86 @@ describe('error-pages plugin', () => {
       });
     });
   });
+
+  describe('snapshot', () => {
+    it('should match NOT_FOUND snapshot', async () => {
+      server.route({
+        method: 'GET',
+        path: '/not-found',
+        handler: () => {
+          const error = new Error('Not Found');
+          error.output = { statusCode: statusCodes(NOT_FOUND) };
+          error.isBoom = true;
+          throw error;
+        }
+      });
+
+      const response = await server.inject({
+        method: 'GET',
+        url: '/not-found'
+      });
+
+      expect(response.payload).toMatchSnapshot();
+    });
+
+    it('should match BAD_REQUEST snapshot', async () => {
+      server.route({
+        method: 'GET',
+        path: '/bad-request',
+        handler: () => {
+          const error = new Error('Bad Request');
+          error.output = { statusCode: statusCodes(BAD_REQUEST) };
+          error.isBoom = true;
+          throw error;
+        }
+      });
+
+      const response = await server.inject({
+        method: 'GET',
+        url: '/bad-request'
+      });
+
+      expect(response.payload).toMatchSnapshot();
+    });
+
+    it('should match FORBIDDEN snapshot', async () => {
+      server.route({
+        method: 'GET',
+        path: '/forbidden',
+        handler: () => {
+          const error = new Error('Forbidden');
+          error.output = { statusCode: statusCodes(FORBIDDEN), payload: { message: 'supportId' } };
+          error.isBoom = true;
+          throw error;
+        }
+      });
+
+      const response = await server.inject({
+        method: 'GET',
+        url: '/forbidden'
+      });
+
+      expect(response.payload).toMatchSnapshot();
+    });
+
+    it('should match INTERNAL_SERVER_ERROR snapshot', async () => {
+      server.route({
+        method: 'GET',
+        path: '/internal-error',
+        handler: () => {
+          const error = new Error('Internal Server Error');
+          error.output = { statusCode: statusCodes(INTERNAL_SERVER_ERROR) };
+          error.isBoom = true;
+          throw error;
+        }
+      });
+
+      const response = await server.inject({
+        method: 'GET',
+        url: '/internal-error'
+      });
+
+      expect(response.payload).toMatchSnapshot();
+    });
+  });
 });

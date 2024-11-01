@@ -2,7 +2,7 @@ import { getContext } from './get-context.js';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
 import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
-import { Boom } from '@hapi/boom';
+import * as Boom from '@hapi/boom';
 
 /**
  * Retrieves the grant type.

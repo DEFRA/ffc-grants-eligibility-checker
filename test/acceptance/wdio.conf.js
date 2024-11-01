@@ -1,9 +1,6 @@
 import { generate } from 'multiple-cucumber-html-reporter';
 
-export const config = {
-  hostname: 'selenium',
-  port: 4444,
-  //
+export let config = {
   // ====================
   // Runner Configuration
   // ====================
@@ -127,7 +124,7 @@ export const config = {
     [
       'cucumberjs-json',
       {
-        jsonFolder: './reports/json',
+        jsonFolder: process.env.RUNNING_IN_CONTAINER ? '/html-reports/json' : './html-reports/json',
         language: 'en'
       }
     ]
@@ -319,8 +316,8 @@ export const config = {
    */
   onComplete: function (exitCode, config, capabilities, results) {
     generate({
-      jsonDir: './reports/json',
-      reportPath: './reports/html'
+      jsonDir: process.env.RUNNING_IN_CONTAINER ? '/html-reports/json' : './html-reports/json',
+      reportPath: process.env.RUNNING_IN_CONTAINER ? '/html-reports/html' : './html-reports/html'
     });
   }
   /**
@@ -343,3 +340,8 @@ export const config = {
   // afterAssertion: function(params) {
   // }
 };
+
+if (process.env.RUNNING_IN_CONTAINER) {
+  config['hostname'] = 'selenium';
+  config['port'] = 4444;
+}

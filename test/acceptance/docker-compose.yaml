@@ -6,8 +6,10 @@ services:
       - selenium
     environment:
       TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
+      CHROME_ARGS: "--headless --ignore-certificate-errors"
+      RUNNING_IN_CONTAINER: "true"
     volumes:
-      - ./reports:/tmp/reports
+      - ./html-reports:/html-reports
     ports:
       - "9228:9229"
 

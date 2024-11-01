@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,webstorm+all,node
 
 ### Custom application ignores ###
-test/acceptance/reports/*
+test/acceptance/html-reports
 
 ### Node ###
 # Logs

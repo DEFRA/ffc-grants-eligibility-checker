@@ -49,20 +49,20 @@ describe('Start Page response tests', () => {
     it('should have correct service name in header', () => {
       const serviceName = $('.govuk-header__service-name');
       expect(serviceName.length).toBe(1);
-      expect(serviceName.text().trim()).toBe('Check if you can apply'); // Adjust expected text
+      expect(serviceName.text().trim()).toBe('Check if you can apply');
     });
 
     it('should have correct page title', () => {
       const title = $('h1');
-      expect(title.length).toBe(1); // Check that the title element exists
-      expect(title.text().trim()).toBe('Generic checker screens'); // Adjust expected text
+      expect(title.length).toBe(1);
+      expect(title.text().trim()).toBe('Generic checker screens');
     });
 
     it('should have start button with correct link', () => {
       const startButton = $('.govuk-button--start');
-      expect(startButton.length).toBe(1); // Check that the start button exists
-      expect(startButton.text().trim()).toBe('Start now'); // Adjust expected text
-      expect(startButton.attr('href')).toBe('country'); // Adjust expected href
+      expect(startButton.length).toBe(1);
+      expect(startButton.text().trim()).toBe('Start now');
+      expect(startButton.attr('href')).toBe('country');
     });
   });
 });

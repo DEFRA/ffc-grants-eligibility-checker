@@ -81,29 +81,19 @@ Format code with **prettier**:
 npm run format
 ```
 
-**Run tests**
+**Run tests (unit and narrow integration) locally**
 
 ```bash
   npm test
 ```
 
-This will run all `jest` unit tests inline with the code they're testing in `/src/**/*`
+This will run all `jest` unit (`/src/**/*`) and narrow integration tests (`test/integration/narrow/**/*`)
 
-**Run narrow integration tests**
-
-Run:
+**Run tests (unit and narrow integration) locally in a container (to mirror Jenkins)**
 
 ```bash
-docker compose up
+docker-compose -f docker-compose.yaml -f docker-compose.test.yaml run ffc-grants-eligibility-checker
 ```
-
-then
-
-```bash
-  npm test:integration
-```
-
-This will run all `jest` integration tests in directory test/integration
 
 **Docker**
 

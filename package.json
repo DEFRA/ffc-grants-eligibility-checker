@@ -13,7 +13,6 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration",
     "test:cov": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --coverageReporters='text' --coverageReporters='text-summary'",
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content --fix",
     "format": "prettier --write \"**/*.js\"",

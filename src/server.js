@@ -163,6 +163,13 @@ export const configureViews = (server, viewsPath, njkEnv, context) => {
 
 /**
  * Creates and configures an instance of a Hapi server.
+ *
+ * This asynchronous function carries out the following actions:
+ * 1. Retrieves the server configuration.
+ * 2. Creates the server instance with the retrieved configuration.
+ * 3. Registers necessary plugins on the server.
+ * 4. Adds the defined routes to the server using the configuration's stylesheet path.
+ * 5. Configures the view settings for the server using the specified parameters.
  * @returns {object} The configured Hapi server instance.
  */
 export const configureServer = async () => {
@@ -186,12 +193,8 @@ export const configureServer = async () => {
  * Initializes the server by performing several setup tasks.
  *
  * This asynchronous function carries out the following actions:
- * 1. Retrieves the server configuration.
- * 2. Creates the server instance with the retrieved configuration.
- * 3. Registers necessary plugins on the server.
- * 4. Adds the defined routes to the server using the configuration's stylesheet path.
- * 5. Configures the view settings for the server using the specified parameters.
- * 6. Starts the server asynchronously.
+ * 1. Creates and configures the Hapi server
+ * 2. Starts the server asynchronously.
  *
  * Upon successful start, logs the server's base URL to console.
  * @returns {Promise<void>} A promise that resolves when the server has started.

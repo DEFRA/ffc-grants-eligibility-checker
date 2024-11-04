@@ -200,7 +200,7 @@ export const configureServer = async () => {
  * @returns {Promise<void>} A promise that resolves when the server has started.
  */
 export const init = async () => {
-  const server = await configureServer();
+  const server = await configureServer(); // NOSONAR:S4123 - Allow await as even though server is not a promise configure Server is async
 
   await server.start();
 

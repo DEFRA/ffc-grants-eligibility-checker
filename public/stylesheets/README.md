@@ -1,1 +1,0 @@
-This folder structure is required to build the image in Development mode by Jenkins.

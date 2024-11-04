@@ -23,11 +23,14 @@ export const actionImplementations = {
     currentPageId: (_context, event) => {
       return event.type === 'NEXT' ? event.nextPageId : event.previousPageId;
     }
+  }),
+  loadPageAction: assign((context) => {
+    console.log(`${context.currentPageId} page loaded. State should reset in 1 second.`);
   })
 };
 
 export const exampleGrantMachine = createMachine({
-  /** xstate-layout N4IgpgJg5mDOIC5RgB4EMC2AHANmA4gE5oB2ALgLJoDGAFgJYlgB0sZahZAxAHICiADQAqAbQAMAXUSgsAe1j0y9WSWkgUiAIwBmAKzMAbNoBMADk0GAnJbGmALA+MAaEAE8tAdgPNdH02MsvQJtdbVMAX3CXVExcAmJyKjpGFmpZDAwVAFo0gFdyQlcuACEAQQBhAGlxKSQQOQUlFTUNBB1vW1NQ2zFdMQ9jOxd3BHNmE2MbHT1NTTNI6PRsPCJSShoGJmY0jOy8gqL+YRq1BsVlVTrW3WN9A3sbLv87D2thz0tmfvNbiw8AwYRKLgJZxVaJDYpVhgNIkCBZACOuTgTRIJQq1Ukp3k52aV0QN28mjsYgMuhsxjEk3671G2mYpmM1Omulm82BMWW8TWSU2LFgMJU8KRKIuvEEoixdTOqJaiEezE0ulMpm0YW0SuJulpmg89LsljJZlMersTPukWBJFkEDgak5YIS62STGxjQucoQWQMtO9XzEAcDQcDHgWINiKydvKhbA4ZDduMuoFaZtplLshlMBiML0eoTNYYdkZ5kK2O0yJBysnyZEKCdl+IQ2hJirCVOJ2hCHg82rciEpHkVWZzr1s+eMhdBxYhLv5grhiORbA90pxDeTiD1YkVUw1zeJ9h9fYQlM+92zzdHXWbE45U+5M75zAAZow0Dh6yuN202YYDCSwmMV4Bm7NNbGYBw9wcOx7H+OxLXCIA */
+  /** @xstate-layout N4IgpgJg5mDOIC5RgB4EMC2AHANmA4gE5oB2ALgLJoDGAFgJYlgB0sZahZAxAHICiADQAqAbQAMAXUSgsAe1j0y9WSWkgUiABwB2AGzMAnLrGbNYgKwBGTec0AmADQgAnogDMBgCzM7lu3bdfO3NPCwMAX3CnVExcAmJyKjpGFmpZAFdyQmcuACEAQQBhAGlxKSQQOQUlFTUNBB1tZk9LMTEDAztdS08WgydXBCt9VstzczFtc38DKcjo9Gw8IlJKGgYmZjTMsmzeQVFJNSrFZVUK+p19IxMzKxt7Aa1LZkC7A0s3TwMbHrdLebgRZxFaJdYpVhgNIkCAAWgAjuk4DUSHkiqUjhUTii6ogAt4fpY9IE3MYiV4nghgi9Jp5NLpxm56dpTICYkt4qskhsWLAoSo4YjkWd9sIysd5Kdahc8V9DJoiboSWTtBSXIhQnYfAYme8xG43NpDQZzGzgcsEmtkpsAGaMNA4LgoNhoMgsNA2t2EAAUrTaAEouOyQZbuRC7SQHeKsZKcTKELpdFrxj9hobpuY3JTPB5mPYlaq7HSvETIlEQCRZBA4GpgxaueCmBLqmdcQhYbpKR3mG1e33+9ozbF62Drbz2Jxm1LzqB6iy3K8xhYDUnjNptNmmc0dbpZknfFchxzQVaeVsMllBjJY63460Ps1zCaGaEjLoFZS7KrF0qOiEQu0R4hg2Y6QtCgpImwt7Xi20qzhqjjqggfjmHmJpEtovReEmYieEBI6nuG9o4FOcbwQgOYGM0Zg5nY9KaP8VjZmMPYsqmtyeNoYhKmW4RAA */
   id: 'exampleGrantMachine',
   predictableActionArguments: true,
   initial: 'start',
@@ -88,7 +91,10 @@ export const exampleGrantMachine = createMachine({
     },
 
     final: {
-      type: 'final',
+      entry: 'loadPageAction',
+      after: {
+        1000: 'start' // Automatically transitions to 'start' after 1 second
+      },
       meta: {
         currentPageId: 'final'
       }

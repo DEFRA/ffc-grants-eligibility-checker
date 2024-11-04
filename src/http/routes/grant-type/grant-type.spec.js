@@ -1,15 +1,10 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
+import * as Boom from '@hapi/boom';
 
 // Create mock functions
-const mockGetInvalidGrantTypeResponse = jest.fn();
-const mockGetInvalidPageResponse = jest.fn();
 const mockGetContext = jest.fn();
 
-jest.unstable_mockModule('../../../utils/get-invalid-response.js', () => ({
-  getInvalidGrantTypeResponse: mockGetInvalidGrantTypeResponse,
-  getInvalidPageResponse: mockGetInvalidPageResponse
-}));
 jest.unstable_mockModule('./get-context.js', () => ({
   getContext: mockGetContext
 }));
@@ -68,24 +63,15 @@ describe('Grant Type Tests', () => {
   });
 
   it('should return invalid grant type response when grant type is invalid', () => {
-    mockGetInvalidGrantTypeResponse.mockReturnValue('Invalid Grant Type');
-
-    const result = viewGrantType({ params: { grantType: 'invalid-grant' } }, mockH);
-
-    expect(result).toBe('Invalid Grant Type');
-    expect(mockGetInvalidGrantTypeResponse).toHaveBeenCalledWith(mockH);
+    expect(() => viewGrantType({ params: { grantType: 'invalid-grant' } }, mockH)).toThrow(
+      Boom.notFound('Grant type not found')
+    );
   });
 
   it('should return invalid page response when page is invalid', () => {
-    mockGetInvalidPageResponse.mockReturnValue('Invalid Page');
-
-    const result = viewGrantType(
-      { params: { ...requestMock.params, page: 'invalid-page' } },
-      mockH
-    );
-
-    expect(result).toBe('Invalid Page');
-    expect(mockGetInvalidPageResponse).toHaveBeenCalledWith(mockH);
+    expect(() =>
+      viewGrantType({ params: { ...requestMock.params, page: 'invalid-page' } }, mockH)
+    ).toThrow(Boom.notFound('Page not found'));
   });
 
   it('should return 200 for GET healthy handler', () => {

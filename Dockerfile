@@ -15,6 +15,7 @@ EXPOSE ${PORT} ${PORT_DEBUG}
 
 COPY package*.json /home/node
 RUN NODE_ENV=development npm --ignore-scripts ci
+COPY ./build.js /home/node/build.js
 COPY ./src /home/node/src
 COPY ./test /home/node/test
 COPY .eslintrc /home/node/.eslintrc

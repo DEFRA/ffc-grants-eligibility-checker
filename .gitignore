@@ -268,8 +268,5 @@ test-output
 # Ignore husky 
 .husky/_
 
-# Ignore public folder
-public/stylesheets/*.css*
-
 # Ignore nginx local logs
 nginx_logs/

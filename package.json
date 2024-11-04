@@ -1,7 +1,7 @@
 {
   "name": "ffc-grants-eligibility-checker",
   "description": "FFC Grant Eligibility Checker",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "license": "OGL-UK-3.0",
   "contributors": [
     "Andrew Folga <andrew.folga@equalexperts.com>",

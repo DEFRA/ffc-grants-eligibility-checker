@@ -23,6 +23,28 @@ describe('Grant Type Tests', () => {
     id: 'example-grant'
   };
 
+  const pageVariables = {
+    siteTitle: `FFC Grants Eligibility Checker - start`,
+    urlPrefix: '/eligibility-checker',
+    showTimeout: true,
+    surveyLink: 'https://example.com/survey',
+    sessionTimeoutInMin: 15,
+    timeoutPath: '/timeout',
+    cookiesPolicy: {
+      confirmed: false,
+      analytics: true
+    },
+    meta: {
+      grant: {
+        startUrl: '/eligibility-checker/example-grant/start'
+      },
+      currentPageId: 'start',
+      previousPageId: 'previous-page',
+      nextPageId: 'next-page',
+      grantTypeId: grantType.id
+    }
+  };
+
   const requestMock = {
     params: {
       grantType: grantType.id,
@@ -32,35 +54,16 @@ describe('Grant Type Tests', () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    mockGetContext.mockReturnValue({
-      siteTitle: `FFC Grants Eligibility Checker - start`,
-      urlPrefix: '/eligibility-checker',
-      showTimeout: true,
-      surveyLink: 'https://example.com/survey',
-      sessionTimeoutInMin: 15,
-      timeoutPath: '/timeout',
-      cookiesPolicy: {
-        confirmed: false,
-        analytics: true
-      },
-      meta: {
-        currentPageId: 'start',
-        previousPageId: 'previous-page',
-        nextPageId: 'next-page',
-        grantTypeId: grantType.id
-      }
-    });
+    mockGetContext.mockReturnValue(pageVariables);
     startGrantStateMachines();
   });
 
-  it('should get view with requested grant type and page', () => {
+  it('should create a view with structured page data', () => {
     viewGrantType(requestMock, mockH);
 
     expect(mockH.view).toHaveBeenCalledWith(
-      `pages/start.njk`,
-      expect.objectContaining({
-        pageTitle: 'FFC Grants Eligibility Checker - start'
-      })
+      `pages/${grantType.id}/start.njk`,
+      expect.objectContaining(pageVariables)
     );
   });
 

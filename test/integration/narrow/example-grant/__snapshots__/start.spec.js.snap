@@ -37,8 +37,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
     
 
     
-  
-  <header class="govuk-header" data-module="govuk-header">
+<header class="govuk-header" data-module="govuk-header">
   <div class="govuk-header__container govuk-width-container">
     <div class="govuk-header__logo">
       <a href="https://www.gov.uk/" class="govuk-header__link govuk-header__link--homepage">
@@ -62,8 +61,8 @@ exports[`Start Page snapshot should match snapshot 1`] = `
     <div class="govuk-header__content">
     
       
-      <a href="/start" class="govuk-header__link govuk-header__service-name">
-        Check if you can apply
+      <a href="/eligibility-checker/example-grant/start" class="govuk-header__link govuk-header__service-name">
+        Generic checker screens
       </a>
       
     
@@ -73,24 +72,6 @@ exports[`Start Page snapshot should match snapshot 1`] = `
   </div>
 </header>
 
-  <div class="govuk-grid-row govuk-width-container">
-    
-<div class="govuk-phase-banner">
-  <p class="govuk-phase-banner__content">
-    <strong class="govuk-tag govuk-phase-banner__content__tag">
-      beta
-    </strong>
-    <span class="govuk-phase-banner__text">
-      This is a new service – your
-          <a class="govuk-link" href="https://example.com/survey" target="_blank" rel="noopener noreferrer"
-            >feedback</a
-          >
-          will help us to improve it.
-    </span>
-  </p>
-</div>
-
-  </div>
 
 
     

@@ -1,7 +1,7 @@
-import { compose } from "./compose";
+import { compose } from './compose';
 
-describe("compose", () => {
-  it("composes functions from right to left", () => {
+describe('compose', () => {
+  it('composes functions from right to left', () => {
     const add = (x) => x + 2;
     const multiply = (x) => x * 3;
     const combined = compose(multiply, add);
@@ -11,7 +11,7 @@ describe("compose", () => {
     expect(result).toBe(12);
   });
 
-  it("handles the identity case", () => {
+  it('handles the identity case', () => {
     const identity = (x) => x;
     const combined = compose(identity, identity);
 
@@ -20,7 +20,7 @@ describe("compose", () => {
     expect(result).toBe(2);
   });
 
-  it("handles no function case", () => {
+  it('handles no function case', () => {
     const combined = compose();
 
     const result = combined(2); // Without functions to compose, the initial value should be returned.

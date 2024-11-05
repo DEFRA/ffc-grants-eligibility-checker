@@ -1,3 +1,4 @@
+// istanbul ignore file
 import { init } from './server.js';
 
 /**

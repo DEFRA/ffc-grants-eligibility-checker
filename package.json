@@ -13,7 +13,9 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:q": "node --experimental-vm-modules node_modules/jest/bin/jest.js --silent",
     "test:cov": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --coverageReporters='text' --coverageReporters='text-summary'",
+    "test:cov:q": "node --experimental-vm-modules node_modules/jest/bin/jest.js --silent --coverage --coverageReporters='text' --coverageReporters='text-summary'",
     "lint": "eslint \"./**/*.js\" --cache --cache-strategy content --fix",
     "format": "prettier --write \"**/*.js\"",
     "format:njk": "prettier --write \"**/*.njk\" --ignore-path .prettierignore",

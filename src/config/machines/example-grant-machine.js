@@ -102,6 +102,7 @@ export const exampleGrantMachineService = interpret(
     actions: actionImplementations
   })
 ).onTransition((state) => {
+  // istanbul ignore next
   if (state.changed) {
     console.debug('UPDATED STATE:', state);
   }

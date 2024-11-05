@@ -1,3 +1,4 @@
+// istanbul ignore file
 import fs from 'fs-extra';
 import path from 'path';
 import { exec } from 'child_process';

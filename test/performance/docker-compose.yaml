@@ -1,0 +1,6 @@
+services:
+  perf-test:
+    build: .
+    image: perf-test
+    environment:
+      TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}

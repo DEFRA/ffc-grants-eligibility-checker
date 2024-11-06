@@ -35,7 +35,7 @@ export const actionImplementations = {
   resetState: assign({
     /**
      * Resets the current page id.
-     * Sets the currentPageId to 'start' and clears the completedPageIds array.
+     * Sets the currentPageId to 'start'
      * @param {object} _context - The machine context.
      * @param {object} _event - The triggered event.
      * @returns {string} The start page id.

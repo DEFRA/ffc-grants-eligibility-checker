@@ -2,14 +2,14 @@ import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals
 import { configureServer } from '../../../src/server';
 import { JSDOM } from 'jsdom';
 
-jest.setTimeout(30000);
-
 describe('Country Page', () => {
   let server;
   let dom;
 
   beforeEach(async () => {
     server = await configureServer();
+
+    // Initial navigation setup to "country" page
     await server.inject({
       method: 'POST',
       url: '/eligibility-checker/example-grant/transition',
@@ -19,12 +19,20 @@ describe('Country Page', () => {
         nextPageId: 'country'
       }
     });
+    // Load the "country" page with a base URL
     const countryPageResponse = await server.inject({
       method: 'GET',
       url: '/eligibility-checker/example-grant/country'
     });
 
-    dom = new JSDOM(countryPageResponse.payload, { runScripts: 'dangerously' });
+    dom = new JSDOM(countryPageResponse.payload, {
+      runScripts: 'dangerously'
+    });
+
+    // Mock `fetch` in the JSDOM window
+    dom.window.fetch = jest.fn().mockResolvedValue({
+      json: async () => ({ previousPageId: 'start', nextPageId: 'second-question' })
+    });
   });
 
   afterEach(() => {
@@ -62,10 +70,56 @@ describe('Country Page', () => {
       expect(backButton.getAttribute('href')).toBe('start');
     });
 
-    it('should have continue button with correct link', () => {
+    it('should have continue button with correct label', () => {
       const continueButton = dom.window.document.querySelector('.govuk-button');
       expect(continueButton).not.toBeNull();
       expect(continueButton.textContent.trim()).toBe('Continue');
+    });
+  });
+
+  describe('interaction', () => {
+    it('navigates to the previous page when the back button is clicked', async () => {
+      const backButton = dom.window.document.querySelector('.govuk-back-link');
+      expect(backButton).not.toBeNull();
+
+      // Simulate the click on the back button
+      backButton.click();
+
+      // Verify fetch was called with correct parameters for "BACK" event
+      expect(dom.window.fetch).toHaveBeenCalledWith(
+        '/eligibility-checker/example-grant/transition',
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            event: 'BACK',
+            nextPageId: 'second-question',
+            previousPageId: 'start'
+          })
+        })
+      );
+    });
+
+    it('navigates to the next page when the continue button is clicked', async () => {
+      const continueButton = dom.window.document.querySelector('.govuk-button');
+      expect(continueButton).not.toBeNull();
+
+      // Simulate the click on the continue button
+      continueButton.click();
+
+      // Verify fetch was called with correct parameters for "NEXT" event
+      expect(dom.window.fetch).toHaveBeenCalledWith(
+        '/eligibility-checker/example-grant/transition',
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            event: 'NEXT',
+            id: 'country',
+            nextPageId: 'second-question',
+            previousPageId: 'start',
+            answer: null
+          })
+        })
+      );
     });
   });
 

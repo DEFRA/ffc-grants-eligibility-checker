@@ -78,7 +78,7 @@ describe('Country Page', () => {
   });
 
   describe('interaction', () => {
-    it('navigates to the previous page when the back button is clicked', async () => {
+    it('makes a BACK transition call when the back button is clicked', async () => {
       const backButton = dom.window.document.querySelector('.govuk-back-link');
       expect(backButton).not.toBeNull();
 
@@ -99,28 +99,38 @@ describe('Country Page', () => {
       );
     });
 
-    it('navigates to the next page when the continue button is clicked', async () => {
-      const continueButton = dom.window.document.querySelector('.govuk-button');
-      expect(continueButton).not.toBeNull();
+    it.each([
+      ['Yes', '#country'],
+      ['No', '#country-2']
+    ])(
+      'makes a NEXT transition call when selected %s and the continue button is clicked',
+      async (answer, radioSelector) => {
+        // Select the radio button based on the provided selector
+        const radioOption = dom.window.document.querySelector(radioSelector);
+        radioOption.checked = true;
 
-      // Simulate the click on the continue button
-      continueButton.click();
+        const continueButton = dom.window.document.querySelector('.govuk-button');
+        expect(continueButton).not.toBeNull();
 
-      // Verify fetch was called with correct parameters for "NEXT" event
-      expect(dom.window.fetch).toHaveBeenCalledWith(
-        '/eligibility-checker/example-grant/transition',
-        expect.objectContaining({
-          method: 'POST',
-          body: JSON.stringify({
-            event: 'NEXT',
-            id: 'country',
-            nextPageId: 'second-question',
-            previousPageId: 'start',
-            answer: null
+        // Simulate the click on the continue button
+        continueButton.click();
+
+        // Verify fetch was called with correct parameters for "NEXT" event
+        expect(dom.window.fetch).toHaveBeenCalledWith(
+          '/eligibility-checker/example-grant/transition',
+          expect.objectContaining({
+            method: 'POST',
+            body: JSON.stringify({
+              event: 'NEXT',
+              id: 'country',
+              nextPageId: 'second-question',
+              previousPageId: 'start',
+              answer
+            })
           })
-        })
-      );
-    });
+        );
+      }
+    );
   });
 
   describe('snapshot', () => {

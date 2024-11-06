@@ -1,6 +1,5 @@
 import { assign, createMachine, interpret } from 'xstate';
 
-// Define the implementations for your actions
 export const actionImplementations = {
   trackPageCompletion: assign({
     /**
@@ -31,7 +30,6 @@ export const actionImplementations = {
   loadPageAction: (context) => {
     console.log(`${context.currentPageId} page loaded. State should reset in 1 second.`);
   },
-
   resetState: assign({
     /**
      * Resets the current page id.
@@ -52,6 +50,31 @@ export const actionImplementations = {
      */
     completedPageIds: (_context, _event) => {
       return [];
+    },
+
+    /**
+     * Resets the user answers object.
+     * Sets the user answers to an empty object.
+     * @param {object} _context machine context
+     * @param {object} _event triggered event
+     * @returns {object} empty user answers object
+     */
+    userAnswers: (_context, _event) => {
+      return {};
+    }
+  }),
+  updateAnswers: assign({
+    /**
+     * Updates the completed pages
+     * @param {object} context machine context
+     * @param {object} event triggered event
+     * @returns {string} event's question
+     */
+    userAnswers: (context, event) => {
+      return {
+        ...context.userAnswers,
+        [event.id]: event.answer
+      };
     }
   })
 };
@@ -77,6 +100,7 @@ export const exampleGrantMachine = createMachine({
       },
       meta: {
         // TODO: think about removing duplication with on.NEXT.target
+        id: 'start',
         nextPageId: 'country'
       }
     },
@@ -90,13 +114,26 @@ export const exampleGrantMachine = createMachine({
 
         NEXT: {
           target: 'second-question',
-          actions: ['trackPageCompletion', 'updateCurrentPageId']
+          actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
         }
       },
 
       meta: {
+        id: 'country',
         previousPageId: 'start',
-        nextPageId: 'second-question'
+        nextPageId: 'second-question',
+        title: 'Is the planned project in England?',
+        questionType: 'single-answer',
+        answers: [
+          {
+            key: 'country-A1',
+            value: 'Yes'
+          },
+          {
+            key: 'country-A2',
+            value: 'No'
+          }
+        ]
       }
     },
 
@@ -108,12 +145,25 @@ export const exampleGrantMachine = createMachine({
         },
         NEXT: {
           target: 'final',
-          actions: ['trackPageCompletion', 'updateCurrentPageId']
+          actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
         }
       },
       meta: {
+        id: 'second-question',
         previousPageId: 'country',
-        nextPageId: 'final'
+        nextPageId: 'final',
+        title: 'Is this a second question?',
+        questionType: 'single-answer',
+        answers: [
+          {
+            key: 'country-A1',
+            value: 'Yes'
+          },
+          {
+            key: 'country-A2',
+            value: 'No'
+          }
+        ]
       }
     },
 
@@ -126,7 +176,7 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        currentPageId: 'final'
+        id: 'final'
       }
     }
   }

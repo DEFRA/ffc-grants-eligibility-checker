@@ -1,0 +1,80 @@
+{% extends 'layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "pages/components/macro.njk" import conditionalButtons %}
+{% set items = meta.items %}
+
+{% block pageTitle %}
+  {% if errorList %}
+    Error:
+  {% endif %}
+  {{ pageTitle }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% if "{{ meta.previousPageId }}" %}
+    {{ govukBackLink({
+      id: "backLink",
+      text: "Back",
+      href: meta.previousPageId
+    }) }}
+  {% endif %}
+  {% if errorList %}
+    {{ govukErrorSummary ({
+        "titleText": "There is a problem",
+        "errorList": errorList
+      }) }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div id="content" class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-2">
+      <form id="questionForm" onsubmit="handleSubmit(event)" novalidate="novalidate">
+        {% if meta.questionType ==='single-answer' %}
+          {{ govukRadios(items) }}
+        {% endif %}
+        {{ conditionalButtons('Continue') }}
+      </form>
+    </div>
+  </div>
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const form = document.getElementById("questionForm");
+      const formData = new FormData(form);
+      // You can now access the form data using the formData object
+       for (const [name, value] of formData) {
+         console.log(`Name: ${name}, Value: ${value}`);
+      }
+      console.log("formData[{{ meta.id }}] =" + formData.get("{{ meta.id }}"));
+
+      const url = "/eligibility-checker/{{ meta.grantTypeId }}/transition";
+      const data = { event: "NEXT", id: "{{ meta.id }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.id }}") };
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = `/eligibility-checker/{{ meta.grantTypeId }}/${data.nextPageId}`;
+      })
+      .catch(error => {
+        // Handle any errors here
+        console.error(error);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelector(".govuk-back-link").addEventListener("click", (event) => {
+      fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ event: "BACK", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}" }),
+        })
+      });
+    });
+  </script>
+{% endblock %}

@@ -119,15 +119,17 @@ export const addRoutes = (server, stylesheetsPath) => {
        * @returns {object} The response object
        */
       handler: (request, h) => {
-        const { event, nextPageId, previousPageId } = request.payload;
+        const { event, id, nextPageId, previousPageId, answer } = request.payload;
 
         exampleGrantMachineService.send({
           type: event,
+          id,
           nextPageId,
-          previousPageId
+          previousPageId,
+          answer
         });
 
-        return h.response({ status: 'success' }).code(statusCodes(OK));
+        return h.response({ status: 'success', nextPageId, previousPageId }).code(statusCodes(OK));
       }
     }
   ]);
@@ -208,7 +210,7 @@ export const configureServer = async () => {
  * @returns {Promise<void>} A promise that resolves when the server has started.
  */
 export const init = async () => {
-  const server = await configureServer(); // NOSONAR:S4123 - Allow await as even though server is not a promise configure Server is async
+  const server = await configureServer(); // NOSONAR:S4123 - Allow await as even though server is not a promise configureServer is async
 
   await server.start();
 

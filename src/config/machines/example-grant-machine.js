@@ -123,7 +123,7 @@ export const exampleGrantMachine = createMachine({
         previousPageId: 'start',
         nextPageId: 'second-question',
         title: 'Is the planned project in England?',
-        questionType: 'single-answer',
+        questionType: 'radio',
         answers: [
           {
             key: 'country-A1',
@@ -153,7 +153,7 @@ export const exampleGrantMachine = createMachine({
         previousPageId: 'country',
         nextPageId: 'final',
         title: 'Is this a second question?',
-        questionType: 'single-answer',
+        questionType: 'radio',
         answers: [
           {
             key: 'country-A1',

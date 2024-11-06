@@ -4,11 +4,11 @@
  * @param {string} option - The value of the option to check.
  * @returns {boolean} true if the option is selected, false otherwise.
  */
-function isChecked(answerData, option) {
+export const isChecked = (answerData, option) => {
   return typeof answerData === 'string'
     ? !!answerData && answerData === option
     : !!answerData && answerData.includes(option);
-}
+};
 
 /**
  * Sets the label for each option in a set of radio buttons.
@@ -16,7 +16,8 @@ function isChecked(answerData, option) {
  * @param {object[]} answers - An array of objects containing the value, text, hint and conditional properties for each option.
  * @returns {object[]} - An array of objects with the properties value, text, conditional, hint, checked and selected.
  */
-function setOptionsLabel(data, answers) {
+export const setOptionsLabel = (data, answers) => {
+  if (!answers) return []; // Early return if answers is null or undefined
   return answers?.map((answer) => {
     const { value, hint, text, conditional } = answer;
 
@@ -43,7 +44,7 @@ function setOptionsLabel(data, answers) {
       selected: data === value
     };
   });
-}
+};
 
 /**
  * Returns the options for a GOV.UK radiobuttons component.
@@ -51,7 +52,7 @@ function setOptionsLabel(data, answers) {
  * @param {object} stateMeta - The state meta object containing the title, hint, yarKey, answers and classes.
  * @returns {object} The options to be passed to the GOV.UK radiobuttons component.
  */
-const inputOptions = (data, stateMeta) => {
+export const inputOptions = (data, stateMeta) => {
   const { id, title, answers, classes = 'govuk-fieldset__legend--l' } = stateMeta;
   const options = {
     classes,
@@ -66,7 +67,7 @@ const inputOptions = (data, stateMeta) => {
     },
     items: setOptionsLabel(data, answers)
   };
-  console.log(`inputOptions: ${JSON.stringify(options, null, 2)}`);
+
   return options;
 };
 
@@ -78,7 +79,9 @@ const inputOptions = (data, stateMeta) => {
  */
 export const getOptions = (data, stateMeta) => {
   switch (stateMeta.questionType) {
-    default:
+    case 'radio': // Add specific cases as needed
       return inputOptions(data, stateMeta);
+    default:
+      return undefined; // Explicitly return undefined for unhandled types
   }
 };

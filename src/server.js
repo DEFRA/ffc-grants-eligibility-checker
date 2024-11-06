@@ -218,9 +218,9 @@ export const configureServer = async () => {
      *
      * This allows the XState service to be stopped properly and avoid any potential
      * memory leaks.
-     * @param {object} server - The server instance
+     * @param {object} _server - The server instance
      */
-    method: async (server) => {
+    method: async (_server) => {
       await stopGrantStateMachines();
     }
   });

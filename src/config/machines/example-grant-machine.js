@@ -193,4 +193,3 @@ export const exampleGrantMachineService = interpret(
     console.debug('UPDATED STATE:', state);
   }
 });
-exampleGrantMachineService.start();

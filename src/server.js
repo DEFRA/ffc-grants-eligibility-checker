@@ -11,6 +11,8 @@ import { exampleGrantMachineService } from './config/machines/example-grant-mach
 import statusCodes, { OK } from './constants/status-codes.js';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
+import { grantIdToMachineServiceMap } from './config/machines/index.js';
+import { Boom } from '@hapi/boom';
 const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
 
@@ -111,7 +113,7 @@ export const addRoutes = (server, stylesheetsPath) => {
     },
     {
       method: 'POST',
-      path: `/eligibility-checker/{grantTypeId}/transition`,
+      path: `/eligibility-checker/{grantType}/transition`,
       /**
        * Handles state machine transitions
        * @param {object} request - The request object
@@ -119,17 +121,26 @@ export const addRoutes = (server, stylesheetsPath) => {
        * @returns {object} The response object
        */
       handler: (request, h) => {
+        const { grantType } = request.params;
         const { event, id, nextPageId, previousPageId, answer } = request.payload;
 
-        exampleGrantMachineService.send({
-          type: event,
-          id,
-          nextPageId,
-          previousPageId,
-          answer
-        });
+        const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
+        if (grantTypeMachineService) {
+          exampleGrantMachineService.send({
+            type: event,
+            id,
+            nextPageId,
+            previousPageId,
+            answer
+          });
 
-        return h.response({ status: 'success', nextPageId, previousPageId }).code(statusCodes(OK));
+          return h
+            .response({ status: 'success', nextPageId, previousPageId })
+            .code(statusCodes(OK));
+        }
+
+        console.warn('viewGrantType: Grant type is invalid');
+        throw Boom.notFound('Grant type not found');
       }
     }
   ]);
@@ -180,6 +191,8 @@ export const configureViews = (server, viewsPath, njkEnv, context) => {
  * 3. Registers necessary plugins on the server.
  * 4. Adds the defined routes to the server using the configuration's stylesheet path.
  * 5. Configures the view settings for the server using the specified parameters.
+ * 6. Starts all grant state machines to ensure that their services are running.
+ * 7. Adds an onPreStop event handler to stop all grant state machines before the server is stopped.
  * @returns {object} The configured Hapi server instance.
  */
 export const configureServer = async () => {
@@ -196,7 +209,45 @@ export const configureServer = async () => {
   addRoutes(server, config.stylesheetsPath);
   configureViews(server, config.viewsPath, config.njkEnv, config.context);
 
+  startGrantStateMachines();
+
+  server.ext({
+    type: 'onPreStop',
+    /**
+     * Stops all grant state machines before the server is stopped.
+     *
+     * This allows the XState service to be stopped properly and avoid any potential
+     * memory leaks.
+     * @param {object} server - The server instance
+     */
+    method: async (server) => {
+      await stopGrantStateMachines();
+    }
+  });
+
   return server;
+};
+
+/**
+ * Starts all grant state machines to ensure that their services are running.
+ *
+ * This function is used to initialize the grant state machines when the server starts.
+ */
+export const startGrantStateMachines = () => {
+  Object.values(grantIdToMachineServiceMap).forEach((machineService) => {
+    machineService.start();
+  });
+};
+
+/**
+ * Stops all grant state machines to ensure that their services are terminated.
+ *
+ * This function is used to shutdown the grant state machines when the server stops.
+ */
+const stopGrantStateMachines = () => {
+  Object.values(grantIdToMachineServiceMap).forEach((machineService) => {
+    machineService.stop();
+  });
 };
 
 /**

@@ -1,6 +1,7 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 import * as Boom from '@hapi/boom';
+import { startGrantStateMachines } from '../../../server.js';
 
 // Create mock functions
 const mockGetContext = jest.fn();
@@ -49,6 +50,7 @@ describe('Grant Type Tests', () => {
         grantTypeId: grantType.id
       }
     });
+    startGrantStateMachines();
   });
 
   it('should get view with requested grant type and page', () => {
@@ -57,7 +59,7 @@ describe('Grant Type Tests', () => {
     expect(mockH.view).toHaveBeenCalledWith(
       `pages/${grantType.id}/start.njk`,
       expect.objectContaining({
-        siteTitle: 'FFC Grants Eligibility Checker - start'
+        pageTitle: 'FFC Grants Eligibility Checker - start'
       })
     );
   });

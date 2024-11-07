@@ -100,7 +100,7 @@ export const exampleGrantMachine = createMachine({
       },
       meta: {
         // TODO: think about removing duplication with on.NEXT.target
-        id: 'start',
+        currentPageId: 'start',
         nextPageId: 'country'
       }
     },
@@ -119,7 +119,7 @@ export const exampleGrantMachine = createMachine({
       },
 
       meta: {
-        id: 'country',
+        currentPageId: 'country',
         previousPageId: 'start',
         nextPageId: 'second-question', // NOSONAR:S1192 - need to improve this later
         classes: 'govuk-radios--inline govuk-fieldset__legend--l',
@@ -167,7 +167,7 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        id: 'second-question', // NOSONAR:S1192 - need to improve this later
+        currentPageId: 'second-question', // NOSONAR:S1192 - need to improve this later
         previousPageId: 'country',
         nextPageId: 'final',
         classes: 'govuk-radios--inline govuk-fieldset__legend--l',
@@ -175,11 +175,11 @@ export const exampleGrantMachine = createMachine({
         questionType: 'radio',
         answers: [
           {
-            key: 'country-A1',
+            key: 'second-question-A1',
             value: 'Yes'
           },
           {
-            key: 'country-A2',
+            key: 'second-question-A2',
             value: 'No'
           }
         ]
@@ -195,7 +195,7 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        id: 'final'
+        currentPageId: 'final'
       }
     }
   }

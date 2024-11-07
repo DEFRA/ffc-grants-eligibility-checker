@@ -122,13 +122,13 @@ export const addRoutes = (server, stylesheetsPath) => {
        */
       handler: (request, h) => {
         const { grantType } = request.params;
-        const { event, id, nextPageId, previousPageId, answer } = request.payload;
+        const { event, currentPageId, nextPageId, previousPageId, answer } = request.payload;
 
         const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
         if (grantTypeMachineService) {
           exampleGrantMachineService.send({
             type: event,
-            id,
+            currentPageId,
             nextPageId,
             previousPageId,
             answer

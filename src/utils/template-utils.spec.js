@@ -74,7 +74,7 @@ describe('Template utils', () => {
 
   describe('inputOptions', () => {
     const stateMeta = {
-      id: 'question1',
+      currentPageId: 'question1',
       title: 'Sample Question',
       answers: [
         { value: 'option1', text: 'Option 1' },

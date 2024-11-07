@@ -8,7 +8,7 @@ import { app } from '../../../config/app.js';
  */
 export function getContext(grantTypeId, meta) {
   return {
-    pageTitle: `${app.siteTitle} - ${meta.id}`,
+    pageTitle: `${app.siteTitle} - ${meta.currentPageId}`,
     showTimeout: true,
     surveyLink: `${app.surveyLink}`,
     sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,

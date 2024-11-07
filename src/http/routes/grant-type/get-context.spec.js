@@ -16,7 +16,7 @@ describe('getContext', () => {
         analytics: true
       },
       meta: {
-        id: 'start',
+        currentPageId: 'start',
         previousPageId: 'previous-page',
         nextPageId: 'next-page',
         grantTypeId: 'example-grant'
@@ -24,7 +24,7 @@ describe('getContext', () => {
     };
 
     const meta = {
-      id: 'start',
+      currentPageId: 'start',
       previousPageId: 'previous-page',
       nextPageId: 'next-page'
     };

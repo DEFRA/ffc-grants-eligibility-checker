@@ -51,7 +51,7 @@ conditionalButtons %}
       const formData = new FormData(form);
 
       const url = "/eligibility-checker/{{ meta.grantTypeId }}/transition";
-      const data = { event: "NEXT", id: "{{ meta.id }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.id }}") };
+      const data = { event: "NEXT", currentPageId: "{{ meta.currentPageId }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.currentPageId }}") };
 
       fetch(url, {
         method: "POST",

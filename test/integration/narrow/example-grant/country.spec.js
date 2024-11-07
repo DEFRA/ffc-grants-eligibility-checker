@@ -95,7 +95,7 @@ describe('Country Page', () => {
             method: 'POST',
             body: JSON.stringify({
               event: 'NEXT',
-              id: 'country',
+              currentPageId: 'country',
               nextPageId: 'second-question',
               previousPageId: 'start',
               answer

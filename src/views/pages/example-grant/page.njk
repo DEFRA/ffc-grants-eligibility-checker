@@ -44,11 +44,6 @@
       event.preventDefault();
       const form = document.getElementById("questionForm");
       const formData = new FormData(form);
-      // You can now access the form data using the formData object
-       for (const [name, value] of formData) {
-         console.log(`Name: ${name}, Value: ${value}`);
-      }
-      console.log("formData[{{ meta.id }}] =" + formData.get("{{ meta.id }}"));
 
       const url = "/eligibility-checker/{{ meta.grantTypeId }}/transition";
       const data = { event: "NEXT", id: "{{ meta.id }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.id }}") };

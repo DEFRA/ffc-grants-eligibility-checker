@@ -12,4 +12,10 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Final page</h1>
   </div>
+
+  <script>
+    setTimeout(function() {
+      window.location.href = '/eligibility-checker/{{ meta.grantTypeId }}/start';
+    }, 1000);
+  </script>
 {% endblock %}

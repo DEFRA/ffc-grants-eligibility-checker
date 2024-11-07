@@ -10,6 +10,9 @@ import errorPages from './config/plugins/error-pages.js';
 import { exampleGrantMachineService } from './config/machines/example-grant-machine.js';
 import statusCodes, { OK } from './constants/status-codes.js';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const pkg = require('../package.json');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -29,21 +32,26 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  *    - serviceName: The name of the service.
  *    - pageTitle: The title of the page.
  */
-export const getConfig = () => ({
-  port: appConfig.port,
-  host: appConfig.host,
-  stripTrailingSlash: true,
-  stylesheetsPath: path.resolve(__dirname, '..', 'public', 'stylesheets'),
-  viewsPath: path.resolve(__dirname, '..'),
-  njkEnv: njk.configure(viewConfig.paths),
-  context: {
-    version: appConfig.version,
-    assets: viewConfig.assets.app,
-    govAssets: viewConfig.assets.gov,
-    serviceName: appConfig.name,
-    pageTitle: appConfig.name
-  }
-});
+export const getConfig = () => {
+  const njkEnv = njk.configure(viewConfig.paths);
+  njkEnv.addGlobal('appVersion', pkg.version);
+
+  return {
+    port: appConfig.port,
+    host: appConfig.host,
+    stripTrailingSlash: true,
+    stylesheetsPath: path.resolve(__dirname, '..', 'public', 'stylesheets'),
+    viewsPath: path.resolve(__dirname, '..'),
+    njkEnv,
+    context: {
+      version: appConfig.version,
+      assets: viewConfig.assets.app,
+      govAssets: viewConfig.assets.gov,
+      serviceName: appConfig.name,
+      pageTitle: appConfig.name
+    }
+  };
+};
 
 /**
  * Creates and configures an instance of a Hapi server.

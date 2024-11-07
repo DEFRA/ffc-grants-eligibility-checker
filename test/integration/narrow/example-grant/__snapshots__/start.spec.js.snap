@@ -21,7 +21,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.25">
+  <meta name="application-version" content="1.0.26">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 

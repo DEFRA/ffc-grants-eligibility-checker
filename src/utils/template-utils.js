@@ -1,5 +1,5 @@
 /**
- * Checks if a given option is selected in a set of radio buttons or checkboxes.
+ * Checks if a given option is selected in a set of selectable options (e.g., radio buttons, checkboxes).
  * @param {string|string[]} answerData - The value of the radio buttons or checkboxes.
  * @param {string} option - The value of the option to check.
  * @returns {boolean} true if the option is selected, false otherwise.
@@ -11,7 +11,7 @@ export const isChecked = (answerData, option) => {
 };
 
 /**
- * Sets the label for each option in a set of radio buttons.
+ * Sets the label and other properties for each option in a set of selectable options (e.g., radio buttons, checkboxes).
  * @param {string} data - The value of the radio buttons.
  * @param {object[]} answers - An array of objects containing the value, text, hint and conditional properties for each option.
  * @returns {object[]} - An array of objects with the properties value, text, conditional, hint, checked and selected.
@@ -49,7 +49,7 @@ export const setOptionsLabel = (data, answers) => {
 };
 
 /**
- * Returns the options for a GOV.UK radiobuttons component.
+ * Returns the options configuration for a GOV.UK component with selectable options.
  * @param {object} data - The current data to be used for conditional logic.
  * @param {object} stateMeta - The state meta object containing the title, hint, yarKey, answers and classes.
  * @returns {object} The options to be passed to the GOV.UK radiobuttons component.
@@ -74,7 +74,7 @@ export const inputOptions = (data, stateMeta) => {
 };
 
 /**
- * Returns an object with options for the given question.
+ * Returns an object with options for the given question, accommodating different selectable option types.
  * @param {object} data - Data provided by the user so far
  * @param {object} stateMeta - The state meta object, with properties like "type", "text" and "options"
  * @returns {object} An object with options for the given question

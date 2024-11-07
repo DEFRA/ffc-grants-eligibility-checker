@@ -40,7 +40,7 @@ export const viewGrantType = (request, h) => {
         items: isStartOrFinalPage(page) ? null : getOptions(userAnswers[page], stateMeta)
       });
 
-      return h.view(`pages/${grantType}/${isStartOrFinalPage(page) ? page : 'page'}.njk`, context);
+      return h.view(`pages/${isStartOrFinalPage(page) ? page : 'page'}.njk`, context);
     }
     console.warn(`viewGrantType: state for ${page} is invalid`);
     throw Boom.notFound('Page not found');

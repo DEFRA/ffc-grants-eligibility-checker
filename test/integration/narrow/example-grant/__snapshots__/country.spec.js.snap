@@ -116,7 +116,7 @@ exports[`Country Page snapshot should match snapshot 1`] = `
 
   <fieldset class="govuk-fieldset" aria-describedby="country-hint">
     
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+    <legend class="govuk-fieldset__legend govuk-radios--inline govuk-fieldset__legend--l">
     
       <h1 class="govuk-fieldset__heading">
         Is the planned project in England?
@@ -130,7 +130,7 @@ exports[`Country Page snapshot should match snapshot 1`] = `
     </div>
   
   
-    <div class="govuk-radios govuk-fieldset__legend--l" data-module="govuk-radios">
+    <div class="govuk-radios govuk-radios--inline govuk-fieldset__legend--l" data-module="govuk-radios">
       
       
         

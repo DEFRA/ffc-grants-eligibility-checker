@@ -57,7 +57,7 @@ describe('Grant Type Tests', () => {
     viewGrantType(requestMock, mockH);
 
     expect(mockH.view).toHaveBeenCalledWith(
-      `pages/${grantType.id}/start.njk`,
+      `pages/start.njk`,
       expect.objectContaining({
         pageTitle: 'FFC Grants Eligibility Checker - start'
       })

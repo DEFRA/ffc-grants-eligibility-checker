@@ -122,6 +122,7 @@ export const exampleGrantMachine = createMachine({
         id: 'country',
         previousPageId: 'start',
         nextPageId: 'second-question', // NOSONAR:S1192 - need to improve this later
+        classes: 'govuk-radios--inline govuk-fieldset__legend--l',
         title: 'Is the planned project in England?',
         hint: {
           text: 'The site where the work will happen'

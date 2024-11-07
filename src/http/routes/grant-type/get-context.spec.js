@@ -6,7 +6,7 @@ describe('getContext', () => {
     const grantTypeId = 'example-grant';
 
     const expectedContext = {
-      siteTitle: `${app.siteTitle} - example-grant`,
+      pageTitle: `${app.siteTitle} - start`,
       showTimeout: true,
       surveyLink: `${app.surveyLink}`,
       sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,
@@ -16,7 +16,7 @@ describe('getContext', () => {
         analytics: true
       },
       meta: {
-        currentPageId: 'example-grant',
+        currentPageId: 'start',
         previousPageId: 'previous-page',
         nextPageId: 'next-page',
         grantTypeId: 'example-grant'
@@ -24,7 +24,7 @@ describe('getContext', () => {
     };
 
     const meta = {
-      currentPageId: 'example-grant',
+      currentPageId: 'start',
       previousPageId: 'previous-page',
       nextPageId: 'next-page'
     };

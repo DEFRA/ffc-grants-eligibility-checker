@@ -3,6 +3,14 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
 import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
 import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
 import * as Boom from '@hapi/boom';
+import { getOptions } from '../../../utils/template-utils.js';
+
+/**
+ * Checks if the provided page is either the start or final page.
+ * @param {string} page - The page to check.
+ * @returns {boolean} True if the page is 'start' or 'final', false otherwise.
+ */
+const isStartOrFinalPage = (page) => page === 'start' || page === 'final';
 
 /**
  * Retrieves the grant type.
@@ -12,7 +20,7 @@ import * as Boom from '@hapi/boom';
  */
 export const viewGrantType = (request, h) => {
   const { grantType, page } = request.params;
-  console.log(`viewGrantType grantType: ${grantType}, ${page}`);
+  console.log(`viewGrantType grantType: ${grantType}, page: ${page}`);
 
   const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
   if (grantTypeMachineService) {
@@ -25,20 +33,20 @@ export const viewGrantType = (request, h) => {
         `viewGrantType: state ${page} is valid with meta: ${JSON.stringify(stateMeta, null, 2)}`
       );
 
-      return h.view(
-        `pages/${grantType}/${page}.njk`,
-        getContext(grantType, {
-          currentPageId: grantTypeMachineService.state.context.currentPageId,
-          nextPageId: stateMeta?.nextPageId,
-          previousPageId: stateMeta?.previousPageId
-        })
-      );
+      const userAnswers = grantTypeMachineService.state.context.userAnswers;
+      const context = getContext(grantType, {
+        ...stateMeta,
+        currentPageId: grantTypeMachineService.state.context.currentPageId,
+        items: isStartOrFinalPage(page) ? null : getOptions(userAnswers[page], stateMeta)
+      });
+
+      return h.view(`pages/${isStartOrFinalPage(page) ? page : 'page'}.njk`, context);
     }
-    console.log(`viewGrantType: state for ${page} is invalid`);
+    console.warn(`viewGrantType: state for ${page} is invalid`);
     throw Boom.notFound('Page not found');
   }
 
-  console.log('viewGrantType: Grant type is invalid');
+  console.warn('viewGrantType: Grant type is invalid');
   throw Boom.notFound('Grant type not found');
 };
 

@@ -1,7 +1,7 @@
 {
   "name": "ffc-grants-eligibility-checker",
   "description": "FFC Grant Eligibility Checker",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "license": "OGL-UK-3.0",
   "contributors": [
     "Andrew Folga <andrew.folga@equalexperts.com>",
@@ -23,6 +23,7 @@
     "build": "node build.js",
     "install": "npm --ignore-scripts i",
     "start": "npm run build && nodemon ./src/index.js",
+    "start:debug": "node --inspect-brk=0.0.0.0 ./src/index.js",
     "start:docker": "docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up --build",
     "prepare": "husky install",
     "snyk-test": "snyk test",
@@ -34,7 +35,6 @@
     "@babel/plugin-syntax-import-assertions": "^7.25.6",
     "@babel/preset-env": "^7.25.4",
     "autoprefixer": "^10.4.20",
-    "cheerio": "^1.0.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest": "^28.8.3",
@@ -45,6 +45,7 @@
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
     "jsdoc": "^4.0.3",
+    "jsdom": "^25.0.1",
     "lint-staged": "^15.2.10",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",

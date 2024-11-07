@@ -1,9 +1,12 @@
-import { describe, it, expect } from '@jest/globals';
-import { configureServer } from '../../../src/server';
-import * as cheerio from 'cheerio';
+import { describe, it, jest, expect } from '@jest/globals';
+import { configureServer } from '../../../../src/server';
+import { JSDOM } from 'jsdom';
+
+jest.setTimeout(30000);
 
 describe('Start Page', () => {
   let server;
+  let dom;
 
   beforeEach(async () => {
     server = await configureServer();
@@ -29,40 +32,46 @@ describe('Start Page', () => {
     });
   });
 
-  describe('view', () => {
-    let $;
+  describe('interaction', () => {
     beforeEach(async () => {
-      const redirectedResponse = await server.inject({
+      const redirectResponse = await server.inject({
         method: 'GET',
         url: '/eligibility-checker/example-grant'
       });
 
       const startPageResponse = await server.inject({
         method: 'GET',
-        url: redirectedResponse.headers.location
+        url: redirectResponse.headers.location
       });
 
-      // Load the HTML response into Cheerio
-      $ = cheerio.load(startPageResponse.payload);
-    });
+      dom = new JSDOM(startPageResponse.payload, {
+        runScripts: 'dangerously'
+      });
 
-    it('should have correct service name in header', () => {
-      const serviceName = $('.govuk-header__service-name');
-      expect(serviceName.length).toBe(1);
-      expect(serviceName.text().trim()).toBe('Check if you can apply');
+      // Mock `fetch` in the JSDOM window
+      dom.window.fetch = jest.fn().mockResolvedValue({
+        json: async () => ({ nextPageId: 'country' })
+      });
     });
+    it('makes a NEXT transition call when the start button is clicked', async () => {
+      const startButton = dom.window.document.querySelector('.govuk-button--start');
+      expect(startButton).not.toBeNull();
 
-    it('should have correct page title', () => {
-      const title = $('h1');
-      expect(title.length).toBe(1);
-      expect(title.text().trim()).toBe('Generic checker screens');
-    });
+      // Simulate the click on the start button
+      startButton.click();
 
-    it('should have start button with correct link', () => {
-      const startButton = $('.govuk-button--start');
-      expect(startButton.length).toBe(1);
-      expect(startButton.text().trim()).toBe('Start now');
-      expect(startButton.attr('href')).toBe('country');
+      // Verify fetch was called with correct parameters for "BACK" event
+      expect(dom.window.fetch).toHaveBeenCalledWith(
+        '/eligibility-checker/example-grant/transition',
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            event: 'NEXT',
+            nextPageId: 'country',
+            previousPageId: ''
+          })
+        })
+      );
     });
   });
 

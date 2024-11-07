@@ -170,6 +170,7 @@ export const exampleGrantMachine = createMachine({
         id: 'second-question', // NOSONAR:S1192 - need to improve this later
         previousPageId: 'country',
         nextPageId: 'final',
+        classes: 'govuk-radios--inline govuk-fieldset__legend--l',
         title: 'Is this a second question?',
         questionType: 'radio',
         answers: [

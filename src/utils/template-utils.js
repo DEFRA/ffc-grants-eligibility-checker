@@ -55,10 +55,11 @@ export const setOptionsLabel = (data, answers) => {
  * @returns {object} The options to be passed to the GOV.UK radiobuttons component.
  */
 export const inputOptions = (data, stateMeta) => {
-  const { id, title, answers, classes = 'govuk-fieldset__legend--l' } = stateMeta;
+  const { id, title, hint, answers, classes = 'govuk-fieldset__legend--l' } = stateMeta;
   const options = {
     classes,
     id,
+    hint,
     name: id,
     fieldset: {
       legend: {

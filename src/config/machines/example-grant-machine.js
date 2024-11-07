@@ -123,6 +123,9 @@ export const exampleGrantMachine = createMachine({
         previousPageId: 'start',
         nextPageId: 'second-question', // NOSONAR:S1192 - need to improve this later
         title: 'Is the planned project in England?',
+        hint: {
+          text: 'The site where the work will happen'
+        },
         questionType: 'radio',
         answers: [
           {

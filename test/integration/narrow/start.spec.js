@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { configureServer } from '../../../src/server';
-import * as cheerio from 'cheerio';
+import { JSDOM } from 'jsdom';
 
 describe('Start Page', () => {
   let server;
@@ -30,7 +30,8 @@ describe('Start Page', () => {
   });
 
   describe('view', () => {
-    let $;
+    let document;
+
     beforeEach(async () => {
       const redirectedResponse = await server.inject({
         method: 'GET',
@@ -42,27 +43,27 @@ describe('Start Page', () => {
         url: redirectedResponse.headers.location
       });
 
-      // Load the HTML response into Cheerio
-      $ = cheerio.load(startPageResponse.payload);
+      const dom = new JSDOM(startPageResponse.payload);
+      document = dom.window.document;
     });
 
     it('should have correct service name in header', () => {
-      const serviceName = $('.govuk-header__service-name');
-      expect(serviceName.length).toBe(1);
-      expect(serviceName.text().trim()).toBe('Check if you can apply');
+      const serviceName = document.querySelector('.govuk-header__service-name');
+      expect(serviceName).not.toBeNull();
+      expect(serviceName.textContent.trim()).toBe('Check if you can apply');
     });
 
     it('should have correct page title', () => {
-      const title = $('h1');
-      expect(title.length).toBe(1);
-      expect(title.text().trim()).toBe('Generic checker screens');
+      const title = document.querySelector('h1');
+      expect(title).not.toBeNull();
+      expect(title.textContent.trim()).toBe('Generic checker screens');
     });
 
     it('should have start button with correct link', () => {
-      const startButton = $('.govuk-button--start');
-      expect(startButton.length).toBe(1);
-      expect(startButton.text().trim()).toBe('Start now');
-      expect(startButton.attr('href')).toBe('country');
+      const startButton = document.querySelector('.govuk-button--start');
+      expect(startButton).not.toBeNull();
+      expect(startButton.textContent.trim()).toBe('Start now');
+      expect(startButton.getAttribute('href')).toBe('country');
     });
   });
 

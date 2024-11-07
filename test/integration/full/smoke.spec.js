@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { configureServer } from '../../../src/server';
 import supertest from 'supertest';
-import * as cheerio from 'cheerio';
+import { JSDOM } from 'jsdom';
 
 describe('Smoke test', () => {
   let server;
@@ -21,8 +21,15 @@ describe('Smoke test', () => {
     const response = await request.get('/eligibility-checker/example-grant/start');
     expect(response.statusCode).toBe(200);
 
-    const $ = cheerio.load(response.text);
-    expect($('h1').text()).toBe('Generic checker screens');
-    expect($('#continueBtn').text()).toContain('Start now');
+    const dom = new JSDOM(response.text);
+    const document = dom.window.document;
+
+    const heading = document.querySelector('h1');
+    expect(heading).not.toBeNull();
+    expect(heading.textContent).toBe('Generic checker screens');
+
+    const continueButton = document.querySelector('#continueBtn');
+    expect(continueButton).not.toBeNull();
+    expect(continueButton.textContent).toContain('Start now');
   });
 });

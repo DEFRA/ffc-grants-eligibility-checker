@@ -17,7 +17,9 @@ export const isChecked = (answerData, option) => {
  * @returns {object[]} - An array of objects with the properties value, text, conditional, hint, checked and selected.
  */
 export const setOptionsLabel = (data, answers) => {
-  if (!answers) return []; // Early return if answers is null or undefined
+  if (!answers) {
+    return [];
+  }
   return answers?.map((answer) => {
     const { value, hint, text, conditional } = answer;
 

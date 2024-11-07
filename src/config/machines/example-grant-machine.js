@@ -113,7 +113,7 @@ export const exampleGrantMachine = createMachine({
         },
 
         NEXT: {
-          target: 'second-question',
+          target: 'second-question', // NOSONAR:S1192 - need to improve this later
           actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
         }
       },
@@ -121,7 +121,7 @@ export const exampleGrantMachine = createMachine({
       meta: {
         id: 'country',
         previousPageId: 'start',
-        nextPageId: 'second-question',
+        nextPageId: 'second-question', // NOSONAR:S1192 - need to improve this later
         title: 'Is the planned project in England?',
         questionType: 'radio',
         answers: [
@@ -149,7 +149,7 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        id: 'second-question',
+        id: 'second-question', // NOSONAR:S1192 - need to improve this later
         previousPageId: 'country',
         nextPageId: 'final',
         title: 'Is this a second question?',

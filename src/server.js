@@ -221,7 +221,7 @@ export const configureServer = async () => {
      * @param {object} _server - The server instance
      */
     method: async (_server) => {
-      await stopGrantStateMachines();
+      stopGrantStateMachines();
     }
   });
 

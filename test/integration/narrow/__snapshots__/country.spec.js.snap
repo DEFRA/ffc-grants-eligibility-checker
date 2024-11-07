@@ -114,7 +114,7 @@ exports[`Country Page snapshot should match snapshot 1`] = `
 
 <div class="govuk-form-group">
 
-  <fieldset class="govuk-fieldset">
+  <fieldset class="govuk-fieldset" aria-describedby="country-hint">
     
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
     
@@ -124,6 +124,11 @@ exports[`Country Page snapshot should match snapshot 1`] = `
     
     </legend>
     
+  
+    <div id="country-hint" class="govuk-hint">
+      The site where the work will happen
+    </div>
+  
   
     <div class="govuk-radios govuk-fieldset__legend--l" data-module="govuk-radios">
       
@@ -190,11 +195,6 @@ exports[`Country Page snapshot should match snapshot 1`] = `
       event.preventDefault();
       const form = document.getElementById("questionForm");
       const formData = new FormData(form);
-      // You can now access the form data using the formData object
-       for (const [name, value] of formData) {
-         console.log(\`Name: \${name}, Value: \${value}\`);
-      }
-      console.log("formData[country] =" + formData.get("country"));
 
       const url = "/eligibility-checker/example-grant/transition";
       const data = { event: "NEXT", id: "country" , nextPageId: "second-question", previousPageId: "start", answer: formData.get("country") };

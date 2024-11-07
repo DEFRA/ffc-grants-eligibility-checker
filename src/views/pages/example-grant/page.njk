@@ -2,8 +2,10 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "pages/components/macro.njk" import conditionalButtons %}
+{% from "pages/components/macro.njk" import multiSideBar,
+conditionalButtons %}
 {% set items = meta.items %}
+{% set sidebar = meta.sidebar %}
 
 {% block pageTitle %}
   {% if errorList %}
@@ -38,6 +40,9 @@
         {{ conditionalButtons('Continue') }}
       </form>
     </div>
+    {% if sidebar %}
+      {{ multiSideBar(sidebar) }}
+    {% endif %}
   </div>
   <script>
     function handleSubmit(event) {

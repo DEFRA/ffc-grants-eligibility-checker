@@ -126,6 +126,20 @@ export const exampleGrantMachine = createMachine({
         hint: {
           text: 'The site where the work will happen'
         },
+        sidebar: {
+          values: [
+            {
+              heading: 'Eligibility',
+              content: [
+                {
+                  para: `This grant is only for projects in England.
+              
+              Scotland, Wales and Northern Ireland have other grants available.`
+                }
+              ]
+            }
+          ]
+        },
         questionType: 'radio',
         answers: [
           {

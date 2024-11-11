@@ -1,6 +1,5 @@
 html-reports
 node_modules
-screenshots
 .dockerignore
 .env
 docker-compose.yaml

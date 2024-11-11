@@ -1,7 +1,6 @@
 import { Then } from '@wdio/cucumber-framework';
 
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
-  await browser.saveScreenshot('./screenshot.png');
   if (text.indexOf("'") > -1) {
     text = text.substring(0, text.indexOf("'"));
   }
@@ -11,4 +10,8 @@ Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
 Then(/^(?:the user should|should) be at URL "([^"]*)?"$/, async (urlPath) => {
   const fullUrl = await browser.getUrl();
   await expect(fullUrl.endsWith(urlPath)).toBe(true);
+});
+
+Then(/^a screenshot "([^"]*)?" is taken$/, async (name) => {
+  await browser.saveScreenshot(`./screenshot-${name}.png`);
 });

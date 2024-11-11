@@ -10,7 +10,7 @@ services:
       RUNNING_IN_CONTAINER: "true"
     volumes:
       - ./html-reports:/html-reports
-      - ./screenshots:/screenshots
+      - ./screenshots:/home/node/screenshots
     ports:
       - "9228:9229"
 

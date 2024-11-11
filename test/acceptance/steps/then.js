@@ -13,5 +13,5 @@ Then(/^(?:the user should|should) be at URL "([^"]*)?"$/, async (urlPath) => {
 });
 
 Then(/^screenshot "([^"]*)?" is taken$/, async (filename) => {
-  await browser.saveScreenshot(`/screenshots/${filename}.png`);
+  await browser.saveScreenshot(`./screenshots/${filename}.png`);
 });

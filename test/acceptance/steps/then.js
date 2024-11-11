@@ -1,6 +1,7 @@
 import { Then } from '@wdio/cucumber-framework';
 
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
+  await browser.saveScreenshot('./screenshot.png');
   if (text.indexOf("'") > -1) {
     text = text.substring(0, text.indexOf("'"));
   }

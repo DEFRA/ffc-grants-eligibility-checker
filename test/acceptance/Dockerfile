@@ -16,6 +16,6 @@ COPY ./features /home/node/features
 COPY ./steps /home/node/steps
 
 RUN mkdir ./screenshots
-RUN chmod -R 777 ./screenshots
+RUN chmod -R 666 ./screenshots
 
 CMD [ "npm", "run", "test" ]

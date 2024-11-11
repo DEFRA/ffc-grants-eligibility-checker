@@ -6,13 +6,6 @@ import * as Boom from '@hapi/boom';
 import { getOptions } from '../../../utils/template-utils.js';
 
 /**
- * Checks if the provided page is either the start or final page.
- * @param {string} page - The page to check.
- * @returns {boolean} True if the page is 'start' or 'final', false otherwise.
- */
-const isStartOrFinalPage = (page) => page === 'start' || page === 'final';
-
-/**
  * Retrieves the grant type.
  * @param {object} request - The request object.
  * @param {object} h - The response toolkit.
@@ -37,10 +30,10 @@ export const viewGrantType = (request, h) => {
       const context = getContext(grantType, {
         ...stateMeta,
         currentPageId: grantTypeMachineService.state.context.currentPageId,
-        items: isStartOrFinalPage(page) ? null : getOptions(userAnswers[page], stateMeta)
+        items: getOptions(userAnswers[page], stateMeta)
       });
 
-      return h.view(`pages/${isStartOrFinalPage(page) ? page : 'page'}.njk`, context);
+      return h.view(`pages/${stateMeta.templateId}.njk`, context);
     }
     console.warn(`viewGrantType: state for ${page} is invalid`);
     throw Boom.notFound('Page not found');

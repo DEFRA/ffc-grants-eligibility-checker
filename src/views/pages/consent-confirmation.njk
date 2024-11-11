@@ -1,0 +1,107 @@
+{% extends 'layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% set items = meta.items %}
+
+{% block pageTitle %}
+  {{meta.messageHeader}}{{meta.titleText}} - {{siteTitle}}
+{% endblock %}
+{# Do we want to extract back link? #}
+{% block beforeContent %}  
+
+  {% if meta.previousPageId %}
+    {{ govukBackLink({
+        id: "backLink",
+        text: "Back",
+        href: meta.previousPageId
+      })
+    }}
+  {% endif %}
+{% endblock %}
+
+{% set checkboxConfirmOptional = {
+    idPrefix: meta.consentOptionalData.idPrefix,
+    name: meta.consentOptionalData.name,
+    items: [{
+      value: items.items[0].value,
+      text: items.items[0].text,
+      checked: items.items[0].checked,
+      selected: items.items[0].selected
+    }]
+  }
+%}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-body">
+      {%if meta.messageHeader%}
+      <h1 class="govuk-heading-l">{{meta.messageHeader}}</h1>
+      {% endif %}
+
+      <p class="govuk-body">{{ meta.messageContent | safe}}</p>
+    </div>
+  </div>
+  {%if meta.currentPageId === 'consent' %}
+    <div class="govuk-grid-column-two-thirds">
+      <form id="consentForm" onsubmit="handleSubmit(event)" autocomplete="off" novalidate="novalidate">
+        {{ govukCheckboxes(checkboxConfirmOptional) }}
+        {{ govukButton({
+          text: "Confirm and send",
+          attributes: {id: "btnConfirmSend"}
+        }) }}
+        {{ govukWarningText(meta.warning) }}
+      </form>
+    </div>
+    <div class="govuk-grid-row govuk-body">
+      <div class="govuk-grid-column-full">
+        <hr/>
+        <p>
+          The Department for Environment, Food and Rural Affairs (Defra) is the data controller for personal data you give to RPA. For information on how we handle personal data go to <a class="govuk-link" href="https://www.gov.uk" target="_blank" rel="noopener noreferrer">GOV.UK (opens in new tab)</a> and search
+          <a class="govuk-link" href="https://www.gov.uk/government/organisations/rural-payments-agency/about/personal-information-charter" target="_blank" rel="noopener noreferrer">Rural Payments Agency personal information charter (opens in new tab).</a>
+        </p>
+      </div>
+    </div>
+  {% endif %}
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const form = document.getElementById("consentForm");
+      const formData = new FormData(form);
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
+      const url = "/eligibility-checker/{{ meta.grantTypeId }}/transition";
+      const data = { event: "NEXT", currentPageId: "{{ meta.currentPageId }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.currentPageId }}") };
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = `/eligibility-checker/{{ meta.grantTypeId }}/${data.nextPageId}`;
+      })
+      .catch(error => {
+        // Handle any errors here
+        console.error(error);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const backLink = document.querySelector(".govuk-back-link");
+      if (backLink) {
+        backLink.addEventListener("click", (event) => {
+        fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ event: "BACK", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}" }),
+          })
+        });
+      }
+    });
+  </script>
+{% endblock %}

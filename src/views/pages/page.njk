@@ -15,7 +15,7 @@ conditionalButtons %}
 {% endblock %}
 
 {% block beforeContent %}
-  {% if "{{ meta.previousPageId }}" %}
+  {% if meta.previousPageId %}
     {{ govukBackLink({
       id: "backLink",
       text: "Back",

@@ -223,7 +223,7 @@ Scotland, Wales and Northern Ireland have other grants available.</p>
       const formData = new FormData(form);
 
       const url = "/eligibility-checker/example-grant/transition";
-      const data = { event: "NEXT", currentPageId: "country" , nextPageId: "second-question", previousPageId: "start", answer: formData.get("country") };
+      const data = { event: "NEXT", currentPageId: "country" , nextPageId: "consent", previousPageId: "start", answer: formData.get("country") };
 
       fetch(url, {
         method: "POST",
@@ -244,7 +244,7 @@ Scotland, Wales and Northern Ireland have other grants available.</p>
       fetch("/eligibility-checker/example-grant/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event: "BACK", nextPageId: "second-question", previousPageId: "start" }),
+            body: JSON.stringify({ event: "BACK", nextPageId: "consent", previousPageId: "start" }),
         })
       });
     });

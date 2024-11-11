@@ -12,4 +12,5 @@ RUN npm install --ignore-scripts
 COPY wdio.conf.js ./
 COPY ./features /home/node/features
 COPY ./steps /home/node/steps
+VOLUME [ "/screenshots" ]
 CMD [ "npm", "run", "test" ]

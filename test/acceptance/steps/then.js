@@ -12,6 +12,6 @@ Then(/^(?:the user should|should) be at URL "([^"]*)?"$/, async (urlPath) => {
   await expect(fullUrl.endsWith(urlPath)).toBe(true);
 });
 
-Then(/^a screenshot "([^"]*)?" is taken$/, async (name) => {
-  await browser.saveScreenshot(`./screenshot-${name}.png`);
+Then(/^screenshot "([^"]*)?" is taken$/, async (filename) => {
+  await browser.saveScreenshot(`/screenshots/${filename}.png`);
 });

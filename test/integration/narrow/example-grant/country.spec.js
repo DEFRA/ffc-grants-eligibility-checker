@@ -65,7 +65,7 @@ describe('Country Page', () => {
           method: 'POST',
           body: JSON.stringify({
             event: 'BACK',
-            nextPageId: 'second-question',
+            nextPageId: 'consent',
             previousPageId: 'start'
           })
         })
@@ -96,7 +96,7 @@ describe('Country Page', () => {
             body: JSON.stringify({
               event: 'NEXT',
               currentPageId: 'country',
-              nextPageId: 'second-question',
+              nextPageId: 'consent',
               previousPageId: 'start',
               answer
             })

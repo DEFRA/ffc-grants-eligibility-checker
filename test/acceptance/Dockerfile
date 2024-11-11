@@ -15,7 +15,7 @@ COPY wdio.conf.js ./
 COPY ./features /home/node/features
 COPY ./steps /home/node/steps
 
-RUN mkdir ./screenshots
-RUN chmod -R 666 ./screenshots
+RUN mkdir /home/node/screenshots
+RUN chown node /home/node/screenshots
 
 CMD [ "npm", "run", "test" ]

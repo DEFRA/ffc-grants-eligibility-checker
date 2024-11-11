@@ -9,3 +9,15 @@ Feature: Example Grant Checker Journey
         # country
         Then the user should be at URL "country"
         And should see heading "Is the planned project in England?"
+        When the user selects "Yes"
+        And continues
+
+        # second-question
+        Then the user should be at URL "second-question"
+        And should see heading "Is this a second question?"
+        When the user selects "Yes"
+        And continues
+
+        # final
+        Then the user should be at URL "final"
+        And should see heading "Final page"

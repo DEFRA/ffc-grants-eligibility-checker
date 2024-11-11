@@ -3,7 +3,6 @@
 
 ### Custom application ignores ###
 test/acceptance/html-reports
-test/acceptance/screenshots
 
 ### Node ###
 # Logs

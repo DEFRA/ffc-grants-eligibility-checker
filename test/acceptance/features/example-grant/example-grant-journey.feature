@@ -8,5 +8,4 @@ Feature: Example Grant Checker Journey
 
         # country
         Then the user should be at URL "country"
-        And screenshot "country-page" is taken
         And should see heading "Is the planned project in England?"

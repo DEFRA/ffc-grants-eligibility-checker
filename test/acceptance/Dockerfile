@@ -15,7 +15,4 @@ COPY wdio.conf.js ./
 COPY ./features /home/node/features
 COPY ./steps /home/node/steps
 
-RUN mkdir /home/node/screenshots
-RUN chmod 777 /home/node/screenshots
-
 CMD [ "npm", "run", "test" ]

@@ -40,7 +40,7 @@ describe('Grant Type Tests', () => {
     }
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.resetAllMocks();
     startGrantStateMachines();
   });

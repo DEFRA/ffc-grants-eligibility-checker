@@ -165,7 +165,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
+                    href="accessibility"
                     rel="noopener noreferrer"
                   >
                     Accessibility
@@ -174,7 +174,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
+                    href="cookies"
                     rel="noopener noreferrer"
                   >
                     Cookies

@@ -1,4 +1,13 @@
 {% extends "layout.njk" %}
+{% block header %}
+{{
+  govukHeader({
+    homepageUrl: "https://www.gov.uk/",
+    serviceName: "Generic checker screens",
+    serviceUrl: meta.grant.startUrl
+  })
+}}
+{% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">

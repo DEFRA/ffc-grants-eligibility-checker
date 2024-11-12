@@ -61,9 +61,9 @@ exports[`Start Page snapshot should match snapshot 1`] = `
     <div class="govuk-header__content">
     
       
-      <a href="/eligibility-checker/example-grant/start" class="govuk-header__link govuk-header__service-name">
+      <span class="govuk-header__service-name">
         Generic checker screens
-      </a>
+      </span>
       
     
     

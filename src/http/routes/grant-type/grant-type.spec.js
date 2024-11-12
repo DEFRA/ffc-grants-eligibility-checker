@@ -40,7 +40,7 @@ describe('Grant Type Tests', () => {
       },
       currentPageId: 'start',
       previousPageId: 'previous-page',
-      nextPageId: 'next-page',
+      nextPageId: 'country',
       grantTypeId: grantType.id
     }
   };
@@ -62,7 +62,7 @@ describe('Grant Type Tests', () => {
     viewGrantType(requestMock, mockH);
 
     expect(mockH.view).toHaveBeenCalledWith(
-      `pages/${grantType.id}/start.njk`,
+      `pages/start.njk`,
       expect.objectContaining(pageVariables)
     );
   });

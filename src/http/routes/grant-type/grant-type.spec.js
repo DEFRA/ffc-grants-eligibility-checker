@@ -19,6 +19,7 @@ describe('Grant Type Tests', () => {
   const pageVariables = {
     cookiesPolicy: { analytics: true, confirmed: false },
     meta: {
+      templateId: 'start',
       currentPageId: 'start',
       grant: { startUrl: '/eligibility-checker/example-grant/start' },
       grantTypeId: grantType.id,

@@ -44,37 +44,4 @@ conditionalButtons %}
       {{ multiSideBar(sidebar) }}
     {% endif %}
   </div>
-  <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      const form = document.getElementById("questionForm");
-      const formData = new FormData(form);
-
-      const url = "/eligibility-checker/{{ meta.grantTypeId }}/transition";
-      const data = { event: "NEXT", currentPageId: "{{ meta.currentPageId }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.currentPageId }}") };
-
-      fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => {
-        window.location.href = `/eligibility-checker/{{ meta.grantTypeId }}/${data.nextPageId}`;
-      })
-      .catch(error => {
-        // Handle any errors here
-        console.error(error);
-      });
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelector(".govuk-back-link").addEventListener("click", (event) => {
-      fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event: "BACK", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}" }),
-        })
-      });
-    });
-  </script>
 {% endblock %}

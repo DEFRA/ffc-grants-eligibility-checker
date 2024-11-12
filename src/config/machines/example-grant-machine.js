@@ -225,8 +225,8 @@ export const exampleGrantMachine = createMachine({
         templateId: 'consent-confirmation',
         currentPageId: 'confirmation',
         titleText: 'Details submitted',
-        messageHeader: 'Confirmation',
-        messageContent: 'This is a confirmation page'
+        messageHeader1: 'Confirmation',
+        messageContent: ['This is a confirmation page']
       }
     }
   }

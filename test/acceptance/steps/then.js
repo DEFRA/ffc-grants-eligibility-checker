@@ -7,6 +7,7 @@ Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
   await expect($(`//h1[contains(text(),"${text}")]`)).toBeDisplayed();
 });
 
-Then(/^(?:the user should|should) see button "([^"]*)?"$/, async (text) => {
-  await expect($(`//a[@role='button' and contains(text(),'${text}')]`)).toBeDisplayed();
+Then(/^(?:the user should|should) be at URL "([^"]*)?"$/, async (urlPath) => {
+  const fullUrl = await browser.getUrl();
+  await expect(fullUrl.endsWith(urlPath)).toBe(true);
 });

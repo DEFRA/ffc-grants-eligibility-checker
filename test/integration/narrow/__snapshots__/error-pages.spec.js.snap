@@ -21,7 +21,7 @@ exports[`error-pages plugin snapshot should match BAD_REQUEST snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.26">
+  <meta name="application-version" content="1.0.27">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -237,7 +237,7 @@ exports[`error-pages plugin snapshot should match FORBIDDEN snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.26">
+  <meta name="application-version" content="1.0.27">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -458,7 +458,7 @@ exports[`error-pages plugin snapshot should match INTERNAL_SERVER_ERROR snapshot
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.26">
+  <meta name="application-version" content="1.0.27">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -678,7 +678,7 @@ exports[`error-pages plugin snapshot should match NOT_FOUND snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.26">
+  <meta name="application-version" content="1.0.27">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 

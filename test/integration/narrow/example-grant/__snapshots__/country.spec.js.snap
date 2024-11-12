@@ -22,7 +22,7 @@ exports[`Country Page snapshot should match snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.27">
+  <meta name="application-version" content="1.0.29">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -271,7 +271,7 @@ Scotland, Wales and Northern Ireland have other grants available.</p>
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
+                    href="accessibility"
                     rel="noopener noreferrer"
                   >
                     Accessibility
@@ -280,7 +280,7 @@ Scotland, Wales and Northern Ireland have other grants available.</p>
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
+                    href="cookies"
                     rel="noopener noreferrer"
                   >
                     Cookies

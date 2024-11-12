@@ -21,7 +21,7 @@ exports[`error-pages plugin snapshot should match BAD_REQUEST snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.27">
+  <meta name="application-version" content="1.0.29">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -128,7 +128,7 @@ exports[`error-pages plugin snapshot should match BAD_REQUEST snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
+                    href="accessibility"
                     rel="noopener noreferrer"
                   >
                     Accessibility
@@ -137,7 +137,7 @@ exports[`error-pages plugin snapshot should match BAD_REQUEST snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
+                    href="cookies"
                     rel="noopener noreferrer"
                   >
                     Cookies
@@ -237,7 +237,7 @@ exports[`error-pages plugin snapshot should match FORBIDDEN snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.27">
+  <meta name="application-version" content="1.0.29">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -349,7 +349,7 @@ exports[`error-pages plugin snapshot should match FORBIDDEN snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
+                    href="accessibility"
                     rel="noopener noreferrer"
                   >
                     Accessibility
@@ -358,7 +358,7 @@ exports[`error-pages plugin snapshot should match FORBIDDEN snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
+                    href="cookies"
                     rel="noopener noreferrer"
                   >
                     Cookies
@@ -458,7 +458,7 @@ exports[`error-pages plugin snapshot should match INTERNAL_SERVER_ERROR snapshot
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.27">
+  <meta name="application-version" content="1.0.29">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -569,7 +569,7 @@ exports[`error-pages plugin snapshot should match INTERNAL_SERVER_ERROR snapshot
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
+                    href="accessibility"
                     rel="noopener noreferrer"
                   >
                     Accessibility
@@ -578,7 +578,7 @@ exports[`error-pages plugin snapshot should match INTERNAL_SERVER_ERROR snapshot
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
+                    href="cookies"
                     rel="noopener noreferrer"
                   >
                     Cookies
@@ -678,7 +678,7 @@ exports[`error-pages plugin snapshot should match NOT_FOUND snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.27">
+  <meta name="application-version" content="1.0.29">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -785,7 +785,7 @@ exports[`error-pages plugin snapshot should match NOT_FOUND snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
+                    href="accessibility"
                     rel="noopener noreferrer"
                   >
                     Accessibility
@@ -794,7 +794,7 @@ exports[`error-pages plugin snapshot should match NOT_FOUND snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
+                    href="cookies"
                     rel="noopener noreferrer"
                   >
                     Cookies

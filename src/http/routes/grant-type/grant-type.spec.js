@@ -24,24 +24,23 @@ describe('Grant Type Tests', () => {
   };
 
   const pageVariables = {
-    siteTitle: `FFC Grants Eligibility Checker - start`,
-    urlPrefix: '/eligibility-checker',
     showTimeout: true,
     surveyLink: 'https://example.com/survey',
-    sessionTimeoutInMin: 15,
+    sessionTimeoutInMin: '15',
     timeoutPath: '/timeout',
+    pageTitle: 'FFC Grants Eligibility Checker - start',
     cookiesPolicy: {
       confirmed: false,
       analytics: true
     },
     meta: {
+      currentPageId: 'start',
+      nextPageId: 'country',
       grant: {
         startUrl: '/eligibility-checker/example-grant/start'
       },
-      currentPageId: 'start',
-      previousPageId: 'previous-page',
-      nextPageId: 'country',
-      grantTypeId: grantType.id
+      grantTypeId: 'example-grant',
+      items: null
     }
   };
 

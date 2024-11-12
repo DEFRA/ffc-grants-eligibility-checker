@@ -24,6 +24,43 @@ exports[`Country Page snapshot should match snapshot 1`] = `
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
+  <script>
+    function handleSubmit(event, formId) {
+      event.preventDefault();
+      const form = document.getElementById("questionForm");
+      const formData = new FormData(form);
+      const url = "/eligibility-checker/example-grant/transition";
+      const data = { event: "NEXT", currentPageId: "country" , nextPageId: "consent", previousPageId: "start", answer: formData.get("country") };
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = \`/eligibility-checker/example-grant/\${data.nextPageId}\`;
+      })
+      .catch(error => {
+        // Handle any errors here
+        console.error(error);
+      });
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const backLink = document.querySelector(".govuk-back-link");
+      if (backLink) {
+        backLink.addEventListener("click", (event) => {
+        fetch("/eligibility-checker/example-grant/transition", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ event: "BACK", nextPageId: "consent", previousPageId: "start" }),
+          })
+        });
+      }
+    });
+  </script>
 
     
   </head>
@@ -216,39 +253,6 @@ Scotland, Wales and Northern Ireland have other grants available.</p>
 
     
   </div>
-  <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      const form = document.getElementById("questionForm");
-      const formData = new FormData(form);
-
-      const url = "/eligibility-checker/example-grant/transition";
-      const data = { event: "NEXT", currentPageId: "country" , nextPageId: "consent", previousPageId: "start", answer: formData.get("country") };
-
-      fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => {
-        window.location.href = \`/eligibility-checker/example-grant/\${data.nextPageId}\`;
-      })
-      .catch(error => {
-        // Handle any errors here
-        console.error(error);
-      });
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelector(".govuk-back-link").addEventListener("click", (event) => {
-      fetch("/eligibility-checker/example-grant/transition", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event: "BACK", nextPageId: "consent", previousPageId: "start" }),
-        })
-      });
-    });
-  </script>
 
         </main>
       </div>

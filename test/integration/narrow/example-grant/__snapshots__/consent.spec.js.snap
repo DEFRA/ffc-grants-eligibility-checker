@@ -24,6 +24,43 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
   <meta name="application-version" content="1.0.30">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
+  <script>
+    function handleSubmit(event, formId) {
+      event.preventDefault();
+      const form = document.getElementById("questionForm");
+      const formData = new FormData(form);
+      const url = "/eligibility-checker//transition";
+      const data = { event: "NEXT", currentPageId: "" , nextPageId: "", previousPageId: "", answer: formData.get("") };
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = \`/eligibility-checker//\${data.nextPageId}\`;
+      })
+      .catch(error => {
+        // Handle any errors here
+        console.error(error);
+      });
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const backLink = document.querySelector(".govuk-back-link");
+      if (backLink) {
+        backLink.addEventListener("click", (event) => {
+        fetch("/eligibility-checker//transition", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ event: "BACK", nextPageId: "", previousPageId: "" }),
+          })
+        });
+      }
+    });
+  </script>
 
     
   </head>

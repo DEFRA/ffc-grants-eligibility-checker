@@ -177,14 +177,16 @@ export const exampleGrantMachine = createMachine({
         currentPageId: 'consent', // NOSONAR:S1192 - need to improve this later
         previousPageId: 'country',
         nextPageId: 'confirmation',
-        messageHeader: 'Confirm and send',
-        messageContent: `I confirm that, to the best of my knowledge, the details I have provided are correct.</br></br>
-          I understand the project’s eligibility and score is based on the answers I provided.</br></br>
-          I am aware that the information I submit will be checked by the RPA.</br></br>
-          I am happy to be contacted by Defra and RPA (or third-party on their behalf) about my application.
-          <h2 class="govuk-heading-m">Improving our schemes</h2>
-          As we develop new services we get feedback from farmers and agents.</br></br>
-          You may be contacted by us or a third party that we work with.`,
+        messageHeader1: 'Confirm and send',
+        messageHeader2: 'Improving our schemes',
+        messageContent: [
+          'I confirm that, to the best of my knowledge, the details I have provided are correct.',
+          'I understand the project’s eligibility and score is based on the answers I provided.',
+          'I am aware that the information I submit will be checked by the RPA.',
+          'I am happy to be contacted by Defra and RPA (or third-party on their behalf) about my application.',
+          'As we develop new services we get feedback from farmers and agents.',
+          'You may be contacted by us or a third party that we work with.'
+        ],
         warning: {
           text: 'You can only submit your details once.'
         },

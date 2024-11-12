@@ -6,7 +6,7 @@
 {% set items = meta.items %}
 
 {% block pageTitle %}
-  {{meta.messageHeader}}{{meta.titleText}} - {{siteTitle}}
+  {{meta.messageHeader1}}{{meta.titleText}} - {{siteTitle}}
 {% endblock %}
 {# Do we want to extract back link? #}
 {% block beforeContent %}  
@@ -36,11 +36,19 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-body">
-      {%if meta.messageHeader%}
-      <h1 class="govuk-heading-l">{{meta.messageHeader}}</h1>
+      {%if meta.messageHeader1%}
+      <h1 class="govuk-heading-l">{{meta.messageHeader1}}</h1>
       {% endif %}
 
-      <p class="govuk-body">{{ meta.messageContent | safe}}</p>
+      <p class="govuk-body">
+        {{ meta.messageContent[0] }}<br/><br/>
+        {{ meta.messageContent[1] }}<br/><br/>
+        {{ meta.messageContent[2] }}<br/><br/>
+        {{ meta.messageContent[3] }}
+        <h2 class="govuk-heading-m">{{ meta.messageHeader2 }}</h2>
+        {{ meta.messageContent[4] }}<br/><br/>
+        {{ meta.messageContent[5] }}<br/><br/>
+      </p>
     </div>
   </div>
   {%if meta.currentPageId === 'consent' %}
@@ -70,10 +78,6 @@
       event.preventDefault();
       const form = document.getElementById("consentForm");
       const formData = new FormData(form);
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-
       const url = "/eligibility-checker/{{ meta.grantTypeId }}/transition";
       const data = { event: "NEXT", currentPageId: "{{ meta.currentPageId }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.currentPageId }}") };
 

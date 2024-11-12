@@ -3,13 +3,6 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
 import * as Boom from '@hapi/boom';
 import { startGrantStateMachines } from '../../../server.js';
 
-// Create mock functions
-const mockGetContext = jest.fn();
-
-jest.unstable_mockModule('./get-context.js', () => ({
-  getContext: mockGetContext
-}));
-
 const { routes, viewGrantType } = await import('./grant-type.js');
 
 describe('Grant Type Tests', () => {
@@ -46,9 +39,8 @@ describe('Grant Type Tests', () => {
     }
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.resetAllMocks();
-    mockGetContext.mockReturnValue(pageVariables);
     startGrantStateMachines();
   });
 

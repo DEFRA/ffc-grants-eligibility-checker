@@ -101,7 +101,12 @@ export const exampleGrantMachine = createMachine({
       meta: {
         // TODO: think about removing duplication with on.NEXT.target
         currentPageId: 'start',
-        nextPageId: 'country'
+        nextPageId: 'country',
+        grant: {
+          // Should be created rather than hard coded
+          startUrl: '/eligibility-checker/example-grant/start'
+        },
+        grantTypeId: 'example-grant'
       }
     },
 

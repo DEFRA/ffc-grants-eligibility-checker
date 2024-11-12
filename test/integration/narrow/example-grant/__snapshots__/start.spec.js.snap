@@ -21,7 +21,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
 
     
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="application-version" content="1.0.27">
+  <meta name="application-version" content="1.0.30">
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
   <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
 
@@ -61,9 +61,9 @@ exports[`Start Page snapshot should match snapshot 1`] = `
     <div class="govuk-header__content">
     
       
-      <span class="govuk-header__service-name">
+      <a href="/eligibility-checker/example-grant/start" class="govuk-header__link govuk-header__service-name">
         Generic checker screens
-      </span>
+      </a>
       
     
     
@@ -200,7 +200,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/accessibility"
+                    href="accessibility"
                     rel="noopener noreferrer"
                   >
                     Accessibility
@@ -209,7 +209,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href="<%= htmlWebpackPlugin.options.metadata %>/cookies"
+                    href="cookies"
                     rel="noopener noreferrer"
                   >
                     Cookies

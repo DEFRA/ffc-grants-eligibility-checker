@@ -23,7 +23,7 @@ describe('Grant Type Tests', () => {
       currentPageId: 'start',
       grant: { startUrl: '/eligibility-checker/example-grant/start' },
       grantTypeId: grantType.id,
-      items: null,
+      items: undefined,
       nextPageId: 'country'
     },
     pageTitle: 'FFC Grants Eligibility Checker - start',

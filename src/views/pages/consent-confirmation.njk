@@ -1,0 +1,75 @@
+{% extends 'layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% set items = meta.items %}
+
+{% block pageTitle %}
+  {{meta.messageHeader1}}{{meta.titleText}} - {{siteTitle}}
+{% endblock %}
+{# Do we want to extract back link? #}
+{% block beforeContent %}  
+
+  {% if meta.previousPageId %}
+    {{ govukBackLink({
+        id: "backLink",
+        text: "Back",
+        href: meta.previousPageId
+      })
+    }}
+  {% endif %}
+{% endblock %}
+
+{% set checkboxConfirmOptional = {
+    idPrefix: meta.consentOptionalData.idPrefix,
+    name: meta.consentOptionalData.name,
+    items: [{
+      value: items.items[0].value,
+      text: items.items[0].text,
+      checked: items.items[0].checked,
+      selected: items.items[0].selected
+    }]
+  }
+%}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-body">
+      {%if meta.messageHeader1%}
+      <h1 class="govuk-heading-l">{{meta.messageHeader1}}</h1>
+      {% endif %}
+
+      <p class="govuk-body">
+        {{ meta.messageContent[0] }}<br/><br/>
+        {{ meta.messageContent[1] }}<br/><br/>
+        {{ meta.messageContent[2] }}<br/><br/>
+        {{ meta.messageContent[3] }}
+        <h2 class="govuk-heading-m">{{ meta.messageHeader2 }}</h2>
+        {{ meta.messageContent[4] }}<br/><br/>
+        {{ meta.messageContent[5] }}<br/><br/>
+      </p>
+    </div>
+  </div>
+  {%if meta.currentPageId === 'consent' %}
+    <div class="govuk-grid-column-two-thirds">
+      <form id="questionForm" onsubmit="handleSubmit(event)" autocomplete="off" novalidate="novalidate">
+        {{ govukCheckboxes(checkboxConfirmOptional) }}
+        {{ govukButton({
+          text: "Confirm and send",
+          attributes: {id: "btnConfirmSend"}
+        }) }}
+        {{ govukWarningText(meta.warning) }}
+      </form>
+    </div>
+    <div class="govuk-grid-row govuk-body">
+      <div class="govuk-grid-column-full">
+        <hr/>
+        <p>
+          The Department for Environment, Food and Rural Affairs (Defra) is the data controller for personal data you give to RPA. For information on how we handle personal data go to <a class="govuk-link" href="https://www.gov.uk" target="_blank" rel="noopener noreferrer">GOV.UK (opens in new tab)</a> and search
+          <a class="govuk-link" href="https://www.gov.uk/government/organisations/rural-payments-agency/about/personal-information-charter" target="_blank" rel="noopener noreferrer">Rural Payments Agency personal information charter (opens in new tab).</a>
+        </p>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

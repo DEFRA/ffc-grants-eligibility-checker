@@ -36,7 +36,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  */
 export const getConfig = () => {
   const njkEnv = njk.configure(viewConfig.paths);
-  njkEnv.addGlobal('appVersion', pkg.version);
 
   return {
     port: appConfig.port,
@@ -148,6 +147,25 @@ export const addRoutes = (server, stylesheetsPath) => {
   const routes = getRouteDefinitions();
   routes.forEach((route) => server.route(route));
 };
+
+/**
+ * Adds a middleware function to the server that adds a custom HTTP response header, `X-App-Version`, to all
+ * responses with the value of the `APP_VERSION` environment variable or a default value of `1.0.0` if the variable
+ * is not set.
+ * @param {object} server - The server instance on which to add the middleware.
+ */
+export const addMiddleware = (server) => {
+  server.ext('onPreResponse', (request, h) => {
+    const response = request.response;
+    if (response.isBoom) {
+      response.output.headers['X-App-Version'] = pkg.version || 'unset';
+    } else {
+      response.header('X-App-Version', pkg.version || 'unset');
+    }
+    return h.continue;
+  });
+};
+
 /**
  * Configures the view rendering engine for a given server.
  * @param {object} server - The server instance to configure views for.
@@ -207,6 +225,7 @@ export const configureServer = async () => {
   });
 
   addRoutes(server, config.stylesheetsPath);
+  addMiddleware(server);
   configureViews(server, config.viewsPath, config.njkEnv, config.context);
 
   startGrantStateMachines();

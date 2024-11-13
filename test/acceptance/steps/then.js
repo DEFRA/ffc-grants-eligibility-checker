@@ -1,6 +1,7 @@
 import { Then } from '@wdio/cucumber-framework';
 
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
+  console.log(`Expecting heading: ${text}, actual heading: ${await $(`//h1`).getText()}`);
   if (text.indexOf("'") > -1) {
     text = text.substring(0, text.indexOf("'"));
   }

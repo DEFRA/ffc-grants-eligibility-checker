@@ -41,17 +41,17 @@ describe('Example Grant Machine Service', () => {
     // The currentPageId should now be updated to "country"
     expect(service.state.context.currentPageId).toBe('country');
 
-    // Send NEXT event again to move to "second-question"
-    service.send({ type: 'NEXT', nextPageId: 'second-question' });
+    // Send NEXT event again to move to "consent"
+    service.send({ type: 'NEXT', nextPageId: 'consent' });
 
-    // Check that currentPageId is updated to "second-question"
-    expect(service.state.context.currentPageId).toBe('second-question');
+    // Check that currentPageId is updated to "consent"
+    expect(service.state.context.currentPageId).toBe('consent');
   });
 
   it('should append page to completedPageIds with multiple transitions', () => {
     // Move through the states to test accumulation in completedPageIds
     service.send({ type: 'NEXT', nextPageId: 'country' }); // start -> country
-    service.send({ type: 'NEXT', nextPageId: 'second-question' }); // country -> second-question
+    service.send({ type: 'NEXT', nextPageId: 'consent' }); // country -> consent
 
     // Check completedPageIds array to contain both "start" and "country"
     expect(service.state.context.completedPageIds).toEqual(['start', 'country']);
@@ -60,7 +60,7 @@ describe('Example Grant Machine Service', () => {
   it('should handle BACK event and correctly update currentPageId', () => {
     // Move forward to "second-question"
     service.send({ type: 'NEXT', nextPageId: 'country' });
-    service.send({ type: 'NEXT', nextPageId: 'second-question' });
+    service.send({ type: 'NEXT', nextPageId: 'consent' });
 
     // Go back to "country"
     service.send({ type: 'BACK', previousPageId: 'country' });
@@ -69,5 +69,38 @@ describe('Example Grant Machine Service', () => {
     // Go back to "start"
     service.send({ type: 'BACK', previousPageId: 'start' });
     expect(service.state.context.currentPageId).toBe('start');
+  });
+
+  it('should reset state after reaching confirmation', async () => {
+    // Send events to move through the states
+    service.send({ type: 'NEXT', nextPageId: 'country' });
+    service.send({ type: 'NEXT', nextPageId: 'consent' });
+
+    // Transition to confirmation
+    service.send({ type: 'NEXT', nextPageId: 'confirmation' });
+
+    // Wait for 1 second before verifying the state
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Check if state is reset
+    expect(service.state.context.currentPageId).toBe('start');
+    expect(service.state.context.completedPageIds).toEqual([]);
+    expect(service.state.context.userAnswers).toEqual({});
+  });
+
+  it('should update userAnswers on updateAnswers', () => {
+    service.send({ type: 'NEXT', nextPageId: 'country' });
+    // Send event to update the answer for the "country" page
+    service.send({
+      type: 'NEXT',
+      nextPageId: 'consent',
+      answer: 'Yes',
+      currentPageId: 'country'
+    });
+
+    // Check that the userAnswers have been updated with the new answer
+    expect(service.state.context.userAnswers).toEqual({
+      country: 'Yes'
+    });
   });
 });

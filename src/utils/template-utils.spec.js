@@ -113,24 +113,33 @@ describe('Template utils', () => {
   });
 
   describe('getOptions', () => {
-    const stateMeta = {
+    const getStateMeta = (questionType = 'radio') => ({
       id: 'question1',
       title: 'Sample Question',
-      questionType: 'radio',
+      questionType,
       answers: [
         { value: 'option1', text: 'Option 1' },
         { value: 'option2', text: 'Option 2' }
       ]
-    };
+    });
 
-    test('calls inputOptions when questionType is default', () => {
-      const result = getOptions('option1', stateMeta);
+    test('calls inputOptions when questionType is radio', () => {
+      const result = getOptions('option1', getStateMeta());
+      expect(result).toHaveProperty('fieldset');
+      expect(result.items.length).toBe(2);
+    });
+
+    test('calls inputOptions when questionType is checkbox', () => {
+      const result = getOptions('option1', getStateMeta('checkbox'));
       expect(result).toHaveProperty('fieldset');
       expect(result.items.length).toBe(2);
     });
 
     test('returns undefined for unhandled questionType', () => {
-      const result = getOptions('option1', { ...stateMeta, questionType: 'unknownType' });
+      const result = getOptions('option1', {
+        ...getStateMeta(),
+        questionType: 'unknownType'
+      });
       expect(result).toBeUndefined();
     });
   });

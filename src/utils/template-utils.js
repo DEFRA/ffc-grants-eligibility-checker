@@ -90,6 +90,8 @@ export const inputOptions = (data, stateMeta) => {
  */
 export const getOptions = (data, stateMeta) => {
   switch (stateMeta.questionType) {
+    case 'checkbox':
+      return inputOptions(data, stateMeta);
     case 'radio': // Add specific cases as needed
       return inputOptions(data, stateMeta);
     default:

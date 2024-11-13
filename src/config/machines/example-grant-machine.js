@@ -73,7 +73,7 @@ export const actionImplementations = {
     userAnswers: (context, event) => {
       return {
         ...context.userAnswers,
-        [event.id]: event.answer
+        [event.currentPageId]: event.answer
       };
     }
   })
@@ -99,7 +99,7 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        // TODO: think about removing duplication with on.NEXT.target
+        templateId: 'start',
         currentPageId: 'start',
         nextPageId: 'country',
         grant: {
@@ -118,15 +118,16 @@ export const exampleGrantMachine = createMachine({
         },
 
         NEXT: {
-          target: 'second-question', // NOSONAR:S1192 - need to improve this later
+          target: 'consent', // NOSONAR:S1192 - need to improve this later
           actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
         }
       },
 
       meta: {
+        templateId: 'page',
         currentPageId: 'country',
         previousPageId: 'start',
-        nextPageId: 'second-question', // NOSONAR:S1192 - need to improve this later
+        nextPageId: 'consent', // NOSONAR:S1192 - need to improve this later
         classes: 'govuk-radios--inline govuk-fieldset__legend--l',
         title: 'Is the planned project in England?',
         hint: {
@@ -160,38 +161,59 @@ export const exampleGrantMachine = createMachine({
       }
     },
 
-    'second-question': {
+    consent: {
       on: {
         BACK: {
           target: 'country',
           actions: ['updateCurrentPageId']
         },
         NEXT: {
-          target: 'final',
+          target: 'confirmation',
           actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
         }
       },
       meta: {
-        currentPageId: 'second-question', // NOSONAR:S1192 - need to improve this later
+        templateId: 'consent-confirmation',
+        currentPageId: 'consent', // NOSONAR:S1192 - need to improve this later
         previousPageId: 'country',
-        nextPageId: 'final',
+        nextPageId: 'confirmation',
+        messageHeader1: 'Confirm and send',
+        messageHeader2: 'Improving our schemes',
+        messageContent: [
+          'I confirm that, to the best of my knowledge, the details I have provided are correct.',
+          'I understand the project’s eligibility and score is based on the answers I provided.',
+          'I am aware that the information I submit will be checked by the RPA.',
+          'I am happy to be contacted by Defra and RPA (or third-party on their behalf) about my application.',
+          'As we develop new services we get feedback from farmers and agents.',
+          'You may be contacted by us or a third party that we work with.'
+        ],
+        warning: {
+          text: 'You can only submit your details once.'
+        },
+        consentOptionalData: {
+          hiddenInput: {
+            id: 'consentMain',
+            name: 'consentMain',
+            value: 'true',
+            type: 'hidden'
+          },
+          idPrefix: 'consent',
+          name: 'consent'
+        },
         classes: 'govuk-radios--inline govuk-fieldset__legend--l',
-        title: 'Is this a second question?',
-        questionType: 'radio',
+        title: 'Confirm and send',
+        questionType: 'checkbox',
         answers: [
           {
-            key: 'second-question-A1',
-            value: 'Yes'
-          },
-          {
-            key: 'second-question-A2',
-            value: 'No'
+            key: 'consent-A1',
+            value: 'CONSENT_OPTIONAL',
+            text: '(Optional) I consent to being contacted by Defra or a third party about service improvements'
           }
         ]
       }
     },
 
-    final: {
+    confirmation: {
       entry: 'loadPageAction',
       after: {
         1000: {
@@ -200,7 +222,11 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        currentPageId: 'final'
+        templateId: 'consent-confirmation',
+        currentPageId: 'confirmation',
+        titleText: 'Details submitted',
+        messageHeader1: 'Confirmation',
+        messageContent: ['This is a confirmation page']
       }
     }
   }

@@ -188,7 +188,7 @@ export const exampleGrantMachine = createMachine({
           'You may be contacted by us or a third party that we work with.'
         ],
         warning: {
-          text: 'You can only submit your details once.'
+          text: 'You can only submit your details once'
         },
         consentOptionalData: {
           hiddenInput: {

@@ -178,12 +178,12 @@ export const exampleGrantMachine = createMachine({
         previousPageId: 'country',
         nextPageId: 'confirmation',
         messageHeader1: 'Confirm and send',
-        messageHeader2: 'Improving our schemes',
+        messageHeader3: 'Improving our schemes',
         messageContent: [
           'I confirm that, to the best of my knowledge, the details I have provided are correct.',
-          'I understand the project’s eligibility and score is based on the answers I provided.',
-          'I am aware that the information I submit will be checked by the RPA.',
-          'I am happy to be contacted by Defra and RPA (or third-party on their behalf) about my application.',
+          'I understand the score was based on the answers I provided.',
+          'I am aware the information I submit will be checked.',
+          'I am happy to be contacted by Defra and RPA (or a third-party on their behalf) about my application.',
           'As we develop new services we get feedback from farmers and agents.',
           'You may be contacted by us or a third party that we work with.'
         ],

@@ -1,6 +1,7 @@
 import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
 import { configureServer } from '../../../../src/server';
 import { JSDOM } from 'jsdom';
+import crypto from 'crypto';
 
 jest.setTimeout(30000);
 
@@ -84,7 +85,7 @@ describe('Consent Page', () => {
 
   describe('snapshot', () => {
     beforeEach(() => {
-      jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
+      jest.spyOn(crypto, 'randomBytes').mockReturnValue(Buffer.from([10]));
     });
 
     it('should match snapshot', async () => {

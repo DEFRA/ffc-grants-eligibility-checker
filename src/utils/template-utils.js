@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 /**
  * Checks if a given option is selected in a set of selectable options (e.g., radio buttons, checkboxes).
  * @param {string|string[]} answerData - The value of the radio buttons or checkboxes.
@@ -111,11 +113,11 @@ export const generateConfirmationId = () => {
    * Generates a random uppercase letter from A to Z.
    * @returns {string} A random uppercase letter.
    */
-  const randomChar = () => String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+  const randomChar = () => String.fromCharCode(65 + (crypto.randomBytes(1)[0] % 26));
   /**
    * Generates a random number between 0 and 9.
    * @returns {number} A random number between 0 and 9.
    */
-  const randomDigit = () => Math.floor(Math.random() * 10);
+  const randomDigit = () => crypto.randomBytes(1)[0] % 10;
   return `${randomChar()}${randomChar()}-${randomDigit()}${randomDigit()}${randomDigit()}-${randomDigit()}${randomDigit()}${randomDigit()}`;
 };

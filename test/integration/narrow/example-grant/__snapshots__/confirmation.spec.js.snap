@@ -143,7 +143,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
   </h1>
   
   <div class="govuk-panel__body">
-    Your reference number<br><strong>NN-555-555</strong>
+    Your reference number<br><strong>KK-000-000</strong>
   </div>
   
 </div>

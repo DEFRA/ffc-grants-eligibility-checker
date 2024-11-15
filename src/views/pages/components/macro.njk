@@ -16,8 +16,8 @@
   </div>
 {% endmacro %}
 {% macro multiSideBar(sideBars) %}
-  <div class="govuk-grid-column-one-third  govuk-!-padding-top-4 govuk-body">
-    <hr class="sideBarColor"/>
+  <div class="govuk-grid-column-one-third  govuk-!-padding-top-0 govuk-body">
+    <hr style="background-color:#1d70b8; height:2px; border:none;">
     {% set sideBarSubHeadingTag = 'h2' %}
     {% if sideBars.mainHeading %}
       {% set sideBarSubHeadingTag = 'h3' %}

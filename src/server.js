@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import { grantIdToMachineServiceMap } from './config/machines/index.js';
 import { Boom } from '@hapi/boom';
+import { checkPageForError } from './validation/check-page-for-error.js';
 const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
 
@@ -122,9 +123,12 @@ export const addRoutes = (server, stylesheetsPath) => {
       handler: (request, h) => {
         const { grantType } = request.params;
         const { event, currentPageId, nextPageId, previousPageId, answer } = request.payload;
-
         const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
+
         if (grantTypeMachineService) {
+          const pageError = checkPageForError(grantTypeMachineService, request, h);
+          if (pageError) return pageError;
+
           exampleGrantMachineService.send({
             type: event,
             currentPageId,

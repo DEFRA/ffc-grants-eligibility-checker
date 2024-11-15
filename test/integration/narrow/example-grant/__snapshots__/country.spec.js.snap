@@ -6,6 +6,7 @@ exports[`Country Page snapshot should match snapshot 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
+
   
   Is the planned project in England?
 </title>
@@ -23,40 +24,53 @@ exports[`Country Page snapshot should match snapshot 1`] = `
     
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
-  <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg" />
   <script>
     function handleSubmit(event, formId) {
       event.preventDefault();
-      const form = document.getElementById("questionForm");
+      const form = document.getElementById('questionForm');
       const formData = new FormData(form);
-      const url = "/eligibility-checker/example-grant/transition";
-      const data = { event: "NEXT", currentPageId: "country" , nextPageId: "consent", previousPageId: "start", answer: formData.get("country") };
+      const url = '/eligibility-checker/example-grant/transition';
+      const data = {
+        event: 'NEXT',
+        currentPageId: 'country',
+        nextPageId: 'consent',
+        previousPageId: 'start',
+        questionType: 'radio',
+        answer: formData.get('country')
+      };
 
       fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
-      .then(response => response.json())
-      .then(data => {
-        window.location.href = \`/eligibility-checker/example-grant/\${data.nextPageId}\`;
-      })
-      .catch(error => {
-        // Handle any errors here
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          const pageId = data.status === 'error' ? data.currentPageId : data.nextPageId;
+          window.location.href = \`/eligibility-checker/example-grant/\${pageId}\`;
+        })
+
+        .catch((error) => {
+          // Handle any errors here
+          console.error(error);
+        });
     }
   </script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const backLink = document.querySelector(".govuk-back-link");
+    document.addEventListener('DOMContentLoaded', function () {
+      const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
-        backLink.addEventListener("click", (event) => {
-        fetch("/eligibility-checker/example-grant/transition", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ event: "BACK", nextPageId: "consent", previousPageId: "start" }),
-          })
+        backLink.addEventListener('click', (event) => {
+          fetch('/eligibility-checker/example-grant/transition', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'BACK',
+              nextPageId: 'consent',
+              previousPageId: 'start'
+            })
+          });
         });
       }
     });
@@ -137,14 +151,18 @@ exports[`Country Page snapshot should match snapshot 1`] = `
     <a href="start" class="govuk-back-link">Back</a>
 
   
+
   
 
         <main class="govuk-main-wrapper" id="main-content">
           
   <div id="content" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-!-margin-top-2">
+      
       <form id="questionForm" onsubmit="handleSubmit(event)" novalidate="novalidate">
         
+          
+          
           
 
 
@@ -228,8 +246,8 @@ exports[`Country Page snapshot should match snapshot 1`] = `
     </div>
     
       
-  <div class="govuk-grid-column-one-third  govuk-!-padding-top-4 govuk-body">
-    <hr class="sideBarColor"/>
+  <div class="govuk-grid-column-one-third  govuk-!-padding-top-0 govuk-body">
+    <hr style="background-color:#1d70b8; height:2px; border:none;">
     
     
     
@@ -272,22 +290,12 @@ Scotland, Wales and Northern Ireland have other grants available.</p>
         <div class="govuk-footer__meta-custom">
           <ul class="govuk-footer__inline-list">
                 <li class="govuk-footer__inline-list-item">
-                  <a
-                    class="govuk-footer__link"
-                    href="accessibility"
-                    rel="noopener noreferrer"
-                  >
+                  <a class="govuk-footer__link" href="accessibility" rel="noopener noreferrer">
                     Accessibility
                   </a>
                 </li>
                 <li class="govuk-footer__inline-list-item">
-                  <a
-                    class="govuk-footer__link"
-                    href="cookies"
-                    rel="noopener noreferrer"
-                  >
-                    Cookies
-                  </a>
+                  <a class="govuk-footer__link" href="cookies" rel="noopener noreferrer"> Cookies </a>
                 </li>
                 <li class="govuk-footer__inline-list-item">
                   <a

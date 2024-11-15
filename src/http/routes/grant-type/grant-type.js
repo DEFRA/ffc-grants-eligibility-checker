@@ -26,7 +26,8 @@ export const viewGrantType = (request, h) => {
       const context = getContext(grantType, {
         ...stateMeta,
         currentPageId: grantTypeMachineService.state.context.currentPageId,
-        items: getOptions(userAnswers[page], stateMeta)
+        items: getOptions(userAnswers[page], stateMeta),
+        errors: grantTypeMachineService.state.event.errors
       });
 
       console.debug(

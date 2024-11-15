@@ -22,18 +22,18 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
     
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
-  <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg" />
   <script>
     function handleSubmit(event, formId) {
       event.preventDefault();
-      const form = document.getElementById("questionForm");
+      const form = document.getElementById('questionForm');
       const formData = new FormData(form);
       const url = "/eligibility-checker/example-grant/transition";
       const data = { event: "NEXT", currentPageId: "consent" , nextPageId: "confirmation", previousPageId: "country", answer: formData.get("consent") };
 
       fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
       .then(response => response.json())
@@ -47,8 +47,8 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
     }
   </script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const backLink = document.querySelector(".govuk-back-link");
+    document.addEventListener('DOMContentLoaded', function () {
+      const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
         backLink.addEventListener("click", (event) => {
         fetch("/eligibility-checker/example-grant/transition", {
@@ -244,22 +244,12 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
         <div class="govuk-footer__meta-custom">
           <ul class="govuk-footer__inline-list">
                 <li class="govuk-footer__inline-list-item">
-                  <a
-                    class="govuk-footer__link"
-                    href="accessibility"
-                    rel="noopener noreferrer"
-                  >
+                  <a class="govuk-footer__link" href="accessibility" rel="noopener noreferrer">
                     Accessibility
                   </a>
                 </li>
                 <li class="govuk-footer__inline-list-item">
-                  <a
-                    class="govuk-footer__link"
-                    href="cookies"
-                    rel="noopener noreferrer"
-                  >
-                    Cookies
-                  </a>
+                  <a class="govuk-footer__link" href="cookies" rel="noopener noreferrer"> Cookies </a>
                 </li>
                 <li class="govuk-footer__inline-list-item">
                   <a

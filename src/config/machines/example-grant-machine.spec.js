@@ -12,7 +12,20 @@ describe('Example Grant Machine Service', () => {
     )
       .onTransition((state) => {
         if (state.changed) {
-          console.debug('UPDATED STATE:', state.value);
+          console.log('State Update:', {
+            currentState: state.value,
+            currentContext: {
+              currentPageId: state.context.currentPageId,
+              completedPageIds: state.context.completedPageIds
+            },
+            event: state._event.name,
+            history: state.history
+              ? {
+                  previousState: state.history.value,
+                  previousContext: state.history.context
+                }
+              : 'No history available'
+          });
         }
       })
       .start();

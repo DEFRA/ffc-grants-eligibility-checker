@@ -109,11 +109,14 @@ export const getOptions = (data, stateMeta) => {
  * @returns {string} The confirmation ID as a string.
  */
 export const generateConfirmationId = () => {
+  const ASCII_UPPERCASE_A = 65;
+  const ALPHABET_LENGTH = 26;
   /**
    * Generates a random uppercase letter from A to Z.
    * @returns {string} A random uppercase letter.
    */
-  const randomChar = () => String.fromCharCode(65 + (crypto.randomBytes(1)[0] % 26));
+  const randomChar = () =>
+    String.fromCharCode(ASCII_UPPERCASE_A + (crypto.randomBytes(1)[0] % ALPHABET_LENGTH));
   /**
    * Generates a random number between 0 and 9.
    * @returns {number} A random number between 0 and 9.

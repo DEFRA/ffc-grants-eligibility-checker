@@ -19,4 +19,4 @@ Feature: Example Grant Checker Journey
 
         # confirmation
         Then the user should be at URL "confirmation"
-        And should see heading "Confirmation"
+        And should see heading "Details submitted"

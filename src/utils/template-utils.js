@@ -98,3 +98,24 @@ export const getOptions = (data, stateMeta) => {
       return undefined; // Explicitly return undefined for unhandled types
   }
 };
+
+/**
+ * This is a temporary solution until session management is implemented.
+ * Generates a confirmation ID as a string, in the format "XX-XXX-XXX".
+ * The first two characters are random uppercase letters, and the remaining characters are random digits.
+ * The ID is intended to be unique for each individual's submission.
+ * @returns {string} The confirmation ID as a string.
+ */
+export const generateConfirmationId = () => {
+  /**
+   * Generates a random uppercase letter from A to Z.
+   * @returns {string} A random uppercase letter.
+   */
+  const randomChar = () => String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+  /**
+   * Generates a random number between 0 and 9.
+   * @returns {number} A random number between 0 and 9.
+   */
+  const randomDigit = () => Math.floor(Math.random() * 10);
+  return `${randomChar()}${randomChar()}-${randomDigit()}${randomDigit()}${randomDigit()}-${randomDigit()}${randomDigit()}${randomDigit()}`;
+};

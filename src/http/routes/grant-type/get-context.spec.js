@@ -1,5 +1,6 @@
 import { getContext } from './get-context';
 import { app } from '../../../config/app.js';
+import { generateConfirmationId } from '../../../utils/template-utils.js';
 
 describe('getContext', () => {
   it('should return the correct context object', () => {
@@ -19,7 +20,8 @@ describe('getContext', () => {
         currentPageId: 'start',
         previousPageId: 'previous-page',
         nextPageId: 'next-page',
-        grantTypeId: 'example-grant'
+        grantTypeId: 'example-grant',
+        generateConfirmationId
       }
     };
 

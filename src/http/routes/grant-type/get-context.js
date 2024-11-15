@@ -1,4 +1,5 @@
 import { app } from '../../../config/app.js';
+import { generateConfirmationId } from '../../../utils/template-utils.js';
 
 /**
  * Returns the context for hapi view
@@ -19,7 +20,8 @@ export function getContext(grantTypeId, meta) {
     },
     meta: {
       ...meta,
-      grantTypeId
+      grantTypeId,
+      generateConfirmationId
     }
   };
 }

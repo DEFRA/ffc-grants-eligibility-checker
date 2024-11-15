@@ -156,7 +156,7 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        templateId: 'consent-confirmation',
+        templateId: 'consent',
         currentPageId: 'consent', // NOSONAR:S1192 - need to improve this later
         previousPageId: 'country',
         nextPageId: 'confirmation',
@@ -182,7 +182,7 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        templateId: 'consent-confirmation',
+        templateId: 'confirmation',
         currentPageId: 'confirmation',
         ...pageUIConfig.confirmation
       }

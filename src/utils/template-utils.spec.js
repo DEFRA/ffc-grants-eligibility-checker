@@ -1,4 +1,10 @@
-import { getOptions, inputOptions, isChecked, setOptionsLabel } from './template-utils';
+import {
+  generateConfirmationId,
+  getOptions,
+  inputOptions,
+  isChecked,
+  setOptionsLabel
+} from './template-utils';
 import { describe, it, expect } from '@jest/globals';
 
 describe('Template utils', () => {
@@ -141,6 +147,34 @@ describe('Template utils', () => {
         questionType: 'unknownType'
       });
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('generateConfirmationId', () => {
+    test('should generate a string in the format XX-XXX-XXX', () => {
+      const id = generateConfirmationId();
+      // Check if the ID matches the pattern: two uppercase letters, three digits, three digits
+      expect(id).toMatch(/^[A-Z]{2}-\d{3}-\d{3}$/);
+    });
+
+    test('should always return an ID of length 10', () => {
+      const id = generateConfirmationId();
+      expect(id.length).toBe(10);
+    });
+
+    test('should generate a different ID on each call', () => {
+      const id1 = generateConfirmationId();
+      const id2 = generateConfirmationId();
+      expect(id1).not.toBe(id2);
+    });
+
+    test('should return consistent results in multiple quick invocations', () => {
+      const ids = new Set();
+      for (let i = 0; i < 1000; i++) {
+        ids.add(generateConfirmationId());
+      }
+      // The set should contain a large number of unique values
+      expect(ids.size).toBeGreaterThan(900); // Adjust this number based on your needs
     });
   });
 });

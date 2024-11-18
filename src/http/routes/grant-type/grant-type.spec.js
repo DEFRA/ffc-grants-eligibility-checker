@@ -2,6 +2,7 @@ import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 import * as Boom from '@hapi/boom';
 import { startGrantStateMachines } from '../../../server.js';
+import { generateConfirmationId } from '../../../utils/template-utils.js';
 
 const { routes, viewGrantType } = await import('./grant-type.js');
 
@@ -24,7 +25,8 @@ describe('Grant Type Tests', () => {
       grant: { startUrl: '/eligibility-checker/example-grant/start' },
       grantTypeId: grantType.id,
       items: undefined,
-      nextPageId: 'country'
+      nextPageId: 'country',
+      generateConfirmationId
     },
     pageTitle: 'FFC Grants Eligibility Checker - start',
     sessionTimeoutInMin: '15',

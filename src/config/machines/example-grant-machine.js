@@ -1,4 +1,5 @@
 import { assign, createMachine, interpret } from 'xstate';
+import { pageUIConfig } from './page-ui-config.js';
 
 export const actionImplementations = {
   trackPageCompletion: assign({
@@ -128,25 +129,6 @@ export const exampleGrantMachine = createMachine({
         currentPageId: 'country',
         previousPageId: 'start',
         nextPageId: 'consent', // NOSONAR:S1192 - need to improve this later
-        classes: 'govuk-radios--inline govuk-fieldset__legend--l',
-        title: 'Is the planned project in England?',
-        hint: {
-          text: 'The site where the work will happen'
-        },
-        sidebar: {
-          values: [
-            {
-              heading: 'Eligibility',
-              content: [
-                {
-                  para: `This grant is only for projects in England.
-              
-              Scotland, Wales and Northern Ireland have other grants available.`
-                }
-              ]
-            }
-          ]
-        },
         questionType: 'radio',
         answers: [
           {
@@ -157,7 +139,8 @@ export const exampleGrantMachine = createMachine({
             key: 'country-A2',
             value: 'No'
           }
-        ]
+        ],
+        ...pageUIConfig.country
       }
     },
 
@@ -173,34 +156,10 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        templateId: 'consent-confirmation',
+        templateId: 'consent',
         currentPageId: 'consent', // NOSONAR:S1192 - need to improve this later
         previousPageId: 'country',
         nextPageId: 'confirmation',
-        messageHeader1: 'Confirm and send',
-        messageHeader3: 'Improving our schemes',
-        messageContent: [
-          'I confirm that, to the best of my knowledge, the details I have provided are correct.',
-          'I understand the score was based on the answers I provided.',
-          'I am aware the information I submit will be checked.',
-          'I am happy to be contacted by Defra and RPA (or a third-party on their behalf) about my application.',
-          'As we develop new services we get feedback from farmers and agents.',
-          'You may be contacted by us or a third party that we work with.'
-        ],
-        warning: {
-          text: 'You can only submit your details once'
-        },
-        consentOptionalData: {
-          hiddenInput: {
-            id: 'consentMain',
-            name: 'consentMain',
-            value: 'true',
-            type: 'hidden'
-          },
-          idPrefix: 'consent',
-          name: 'consent'
-        },
-        classes: 'govuk-radios--inline govuk-fieldset__legend--l',
         title: 'Confirm and send',
         questionType: 'checkbox',
         answers: [
@@ -209,7 +168,8 @@ export const exampleGrantMachine = createMachine({
             value: 'CONSENT_OPTIONAL',
             text: '(Optional) I consent to being contacted by Defra or a third party about service improvements'
           }
-        ]
+        ],
+        ...pageUIConfig.consent
       }
     },
 
@@ -222,11 +182,9 @@ export const exampleGrantMachine = createMachine({
         }
       },
       meta: {
-        templateId: 'consent-confirmation',
+        templateId: 'confirmation',
         currentPageId: 'confirmation',
-        titleText: 'Details submitted',
-        messageHeader1: 'Confirmation',
-        messageContent: ['This is a confirmation page']
+        ...pageUIConfig.confirmation
       }
     }
   }
@@ -240,6 +198,19 @@ export const exampleGrantMachineService = interpret(
 ).onTransition((state) => {
   // istanbul ignore next
   if (state.changed) {
-    console.debug('UPDATED STATE:', state);
+    console.log('State Update:', {
+      currentState: state.value,
+      currentContext: {
+        currentPageId: state.context.currentPageId,
+        completedPageIds: state.context.completedPageIds
+      },
+      event: state._event.name,
+      history: state.history
+        ? {
+            previousState: state.history.value,
+            previousContext: state.history.context
+          }
+        : 'No history available'
+    });
   }
 });

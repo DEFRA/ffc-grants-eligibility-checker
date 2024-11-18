@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 /**
  * Checks if a given option is selected in a set of selectable options (e.g., radio buttons, checkboxes).
  * @param {string|string[]} answerData - The value of the radio buttons or checkboxes.
@@ -97,4 +99,28 @@ export const getOptions = (data, stateMeta) => {
     default:
       return undefined; // Explicitly return undefined for unhandled types
   }
+};
+
+/**
+ * This is a temporary solution until session management is implemented.
+ * Generates a confirmation ID as a string, in the format "XX-XXX-XXX".
+ * The first two characters are random uppercase letters, and the remaining characters are random digits.
+ * The ID is intended to be unique for each individual's submission.
+ * @returns {string} The confirmation ID as a string.
+ */
+export const generateConfirmationId = () => {
+  const ASCII_UPPERCASE_A = 65;
+  const ALPHABET_LENGTH = 26;
+  /**
+   * Generates a random uppercase letter from A to Z.
+   * @returns {string} A random uppercase letter.
+   */
+  const randomChar = () =>
+    String.fromCharCode(ASCII_UPPERCASE_A + (crypto.randomBytes(1)[0] % ALPHABET_LENGTH));
+  /**
+   * Generates a random number between 0 and 9.
+   * @returns {number} A random number between 0 and 9.
+   */
+  const randomDigit = () => crypto.randomBytes(1)[0] % 10;
+  return `${randomChar()}${randomChar()}-${randomDigit()}${randomDigit()}${randomDigit()}-${randomDigit()}${randomDigit()}${randomDigit()}`;
 };

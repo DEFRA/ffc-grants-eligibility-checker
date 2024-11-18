@@ -20,3 +20,4 @@ Feature: Example Grant Checker Journey
         # confirmation
         Then the user should be at URL "confirmation"
         And should see heading "Details submitted"
+        And should see a reference number for their application

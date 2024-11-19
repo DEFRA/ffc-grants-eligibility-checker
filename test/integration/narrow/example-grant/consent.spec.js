@@ -121,7 +121,7 @@ describe('Consent Page', () => {
     it('should match snapshot', async () => {
       const response = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/country'
+        url: '/eligibility-checker/example-grant/consent'
       });
       expect(response.payload).toMatchSnapshot();
     });

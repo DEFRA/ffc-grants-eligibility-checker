@@ -28,7 +28,6 @@ describe('Grant Type Tests', () => {
       nextPageId: 'country',
       generateConfirmationId
     },
-    pageTitle: 'FFC Grants Eligibility Checker - start',
     sessionTimeoutInMin: '15',
     showTimeout: true,
     surveyLink: 'https://example.com/survey',

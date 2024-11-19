@@ -9,7 +9,6 @@ import { generateConfirmationId } from '../../../utils/template-utils.js';
  */
 export function getContext(grantTypeId, meta) {
   return {
-    pageTitle: `${app.siteTitle} - ${meta.currentPageId}`,
     showTimeout: true,
     surveyLink: `${app.surveyLink}`,
     sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,

@@ -5,9 +5,10 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% set items = meta.items %}
+{% set title = meta.title %}
 
 {% block pageTitle %}
-  Confirm and send - {{siteTitle}}
+  {{ title }}
 {% endblock %}
 
 {% set checkboxConfirmOptional = {

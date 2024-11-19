@@ -6,7 +6,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-  Generic checker screens - Page not found 
+  Confirm and send
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -28,8 +28,8 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
       event.preventDefault();
       const form = document.getElementById("questionForm");
       const formData = new FormData(form);
-      const url = "/eligibility-checker//transition";
-      const data = { event: "NEXT", currentPageId: "" , nextPageId: "", previousPageId: "", answer: formData.get("") };
+      const url = "/eligibility-checker/example-grant/transition";
+      const data = { event: "NEXT", currentPageId: "consent" , nextPageId: "confirmation", previousPageId: "country", answer: formData.get("consent") };
 
       fetch(url, {
         method: "POST",
@@ -38,7 +38,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
       })
       .then(response => response.json())
       .then(data => {
-        window.location.href = \`/eligibility-checker//\${data.nextPageId}\`;
+        window.location.href = \`/eligibility-checker/example-grant/\${data.nextPageId}\`;
       })
       .catch(error => {
         // Handle any errors here
@@ -51,10 +51,10 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
       const backLink = document.querySelector(".govuk-back-link");
       if (backLink) {
         backLink.addEventListener("click", (event) => {
-        fetch("/eligibility-checker//transition", {
+        fetch("/eligibility-checker/example-grant/transition", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ event: "BACK", nextPageId: "", previousPageId: "" }),
+              body: JSON.stringify({ event: "BACK", nextPageId: "confirmation", previousPageId: "country" }),
           })
         });
       }
@@ -118,7 +118,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
     </strong>
     <span class="govuk-phase-banner__text">
       This is a new service – your
-          <a class="govuk-link" href="" target="_blank" rel="noopener noreferrer"
+          <a class="govuk-link" href="https://example.com/survey" target="_blank" rel="noopener noreferrer"
             >feedback</a
           >
           will help us to improve it.
@@ -131,16 +131,98 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
 
     
       <div class="govuk-width-container">
-        
+          
+
+  
+    <a href="country" class="govuk-back-link">Back</a>
+
+  
+
         <main class="govuk-main-wrapper" id="main-content">
           
-  <div class="govuk-width-container">
-    <div class="govuk-main-wrapper--auto-spacing">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h1 class="govuk-heading-xl">Page not found</h1>
-        </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-form-group" style="margin-bottom: 0px;">
+          <h1 class="govuk-heading-l">Confirm and send</h1>
+
+          <p class="govuk-body">I confirm that, to the best of my knowledge, the details I have provided are correct.</p>
+          <p class="govuk-body">I understand the score was based on the answers I provided.</p>
+          <p class="govuk-body">I am aware the information I submit will be checked.</p>
+          <p class="govuk-body">I am happy to be contacted by Defra and RPA (or a third-party on their behalf) about my application.</p>
+          <h3 class="govuk-heading-s">Improving our schemes</h3>
+          <p class="govuk-body govuk-!-margin-bottom-2">As we develop new services we get feedback from farmers and agents.</p>
+          <p class="govuk-body">You may be contacted by us or a third party that we work with.</p>
       </div>
+      <form id="questionForm" onsubmit="handleSubmit(event)" autocomplete="off" novalidate="novalidate">
+        <fieldset class="govuk-fieldset" aria-describedby="consent-to-terms-hint">
+          
+
+
+
+
+<div class="govuk-form-group">
+
+  <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+    
+    
+      
+  
+  
+    
+    
+    
+    
+    
+    <div class="govuk-checkboxes__item">
+      <input class="govuk-checkboxes__input" id="consent" name="consent" type="checkbox" value="CONSENT_OPTIONAL">
+      <label class="govuk-label govuk-checkboxes__label" for="consent">
+        (Optional) I consent to being contacted by Defra or a third party about service improvements
+      </label>
+      
+    </div>
+    
+  
+
+    
+    
+  </div>
+
+</div>
+
+          
+  
+
+  
+    
+  
+
+<button type="submit" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button"
+    
+        
+      
+    
+   id="btnConfirmSend">
+  Confirm and send
+</button>
+
+        </fieldset>
+      </form>
+      <div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-visually-hidden">Warning</span>
+    You can only submit your details once
+  </strong>
+</div>
+
+    </div>
+    <div class="govuk-body govuk-grid-column-full">
+      <p></p>
+      <hr class="govuk-section-break govuk-section-break--visible"/>
+      <p>
+        The Department for Environment, Food and Rural Affairs (Defra) is the data controller for personal data you give to RPA. For information on how we handle personal data go to <a class="govuk-link" href="https://www.gov.uk" target="_blank" rel="noopener noreferrer">GOV.UK (opens in new tab)</a> and search
+        <a class="govuk-link" href="https://www.gov.uk/government/organisations/rural-payments-agency/about/personal-information-charter" target="_blank" rel="noopener noreferrer">Rural Payments Agency personal information charter (opens in new tab).</a>
+      </p>
     </div>
   </div>
 
@@ -182,7 +264,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
                 <li class="govuk-footer__inline-list-item">
                   <a
                     class="govuk-footer__link"
-                    href=""
+                    href="https://example.com/survey"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

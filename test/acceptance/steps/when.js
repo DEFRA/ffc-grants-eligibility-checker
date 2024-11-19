@@ -12,9 +12,9 @@ When(/^the user selects "([^"]*)?"$/, async (text) => {
 });
 
 When(/^(?:the user continues|continues)$/, async () => {
-  await $("//button[@id='Continue']").click();
+  await $(`//button[@id='Continue']`).click();
 });
 
 When(/^(?:the user confirms|confirms) and sends$/, async () => {
-  await $("//button[@id='btnConfirmSend']").click();
+  await $(`//button[@id='btnConfirmSend']`).click();
 });

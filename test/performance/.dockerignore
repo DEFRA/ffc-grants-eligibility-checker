@@ -1,6 +1,7 @@
-node_modules
+html-reports
 .dockerignore
 .env
-docker-compose*
+docker-compose.yaml
 Dockerfile
 README.md
+run.sh

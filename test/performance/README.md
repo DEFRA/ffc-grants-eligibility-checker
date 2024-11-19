@@ -1,19 +1,19 @@
 # Performance Tests
-This folder contains the performance tests for the Grants Eligibility Checker app. The framework used is Grafana k6.
+This folder contains the JMeter performance tests for the Grant Eligibility Checker.
 
 ## Set up
-k6 can be installed and run locally on the machine, or a docker container with k6 is available. See https://grafana.com/docs/k6/latest/set-up/install-k6/.
+JMeter must be installed and run locally on the machine in GUI mode to edit tests. See https://jmeter.apache.org/download_jmeter.cgi. To run tests a Docker container is used with JMeter run in command mode.
 
-k6 does not use NodeJS but _npm install_ can be used to install the _@types/k6_ package to give intellisense in VS Code.
+## Running tests locally
+Provide the following environment variables in a .env file using values for your targeted environment:
 
-## Running tests in a container
-```pwsh
-# TEST_ENVIRONMENT_ROOT_URL environment variable must be set, and can be provided via local .env file
-docker-compose run --build --rm perf-test
+```
+TEST_ENVIRONMENT_PROTOCOL=http
+TEST_ENVIRONMENT_HOST=host.docker.internal
+TEST_ENVIRONMENT_PORT=3000
 ```
 
-## Running tests against a local k6 installation
-```pwsh
-# TEST_ENVIRONMENT_ROOT_URL environment variable must be set, or can be provided on command line
-k6 run -e TEST_ENVIRONMENT_ROOT_URL=http://localhost:3000 script.js
+Then run the following script:
+```
+./run.sh
 ```

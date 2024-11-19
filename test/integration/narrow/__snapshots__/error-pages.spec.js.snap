@@ -6,7 +6,7 @@ exports[`error-pages plugin snapshot should match BAD_REQUEST snapshot 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-  FFC Grants Eligibility Checker - Bad request 
+  Generic checker screens - Bad request 
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -258,7 +258,7 @@ exports[`error-pages plugin snapshot should match FORBIDDEN snapshot 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-  FFC Grants Eligibility Checker - The requested URL was rejected.
+  Generic checker screens - The requested URL was rejected.
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -515,7 +515,7 @@ exports[`error-pages plugin snapshot should match INTERNAL_SERVER_ERROR snapshot
   <head>
     <meta charset="utf-8">
     <title>
-  FFC Grants Eligibility Checker - Problem with service 
+  Generic checker screens - Problem with service 
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -771,7 +771,7 @@ exports[`error-pages plugin snapshot should match NOT_FOUND snapshot 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-  FFC Grants Eligibility Checker - Page not found 
+  Generic checker screens - Page not found 
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">

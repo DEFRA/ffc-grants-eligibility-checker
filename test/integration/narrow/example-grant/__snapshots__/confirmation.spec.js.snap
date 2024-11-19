@@ -6,7 +6,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
   <head>
     <meta charset="utf-8">
     <title>
-  Confirm and send - FFC Grants Eligibility Checker
+  Confirmation
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">

@@ -37,6 +37,7 @@ export const pageUIConfig = {
     }
   },
   confirmation: {
+    title: 'Confirmation',
     reference: {
       titleText: 'Details submitted',
       html: 'Your reference number<br><strong>{{_confirmationId_}}</strong>',

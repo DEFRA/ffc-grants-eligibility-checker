@@ -22,10 +22,6 @@ export const viewGrantType = (request, h) => {
     const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${page}`];
 
     if (stateMeta) {
-      console.debug(
-        `viewGrantType: state ${page} is valid with meta: ${JSON.stringify(stateMeta, null, 2)}`
-      );
-
       const userAnswers = grantTypeMachineService.state.context.userAnswers;
       const context = getContext(grantType, {
         ...stateMeta,
@@ -33,6 +29,9 @@ export const viewGrantType = (request, h) => {
         items: getOptions(userAnswers[page], stateMeta)
       });
 
+      console.debug(
+        `viewGrantType: state ${page} is valid with context: ${JSON.stringify(context, null, 2)}`
+      );
       return h.view(`pages/${stateMeta.templateId}.njk`, context);
     }
     console.warn(`viewGrantType: state for ${page} is invalid`);

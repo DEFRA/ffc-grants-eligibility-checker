@@ -6,12 +6,13 @@
 conditionalButtons %}
 {% set items = meta.items %}
 {% set sidebar = meta.sidebar %}
+{% set title = meta.title %}
 
 {% block pageTitle %}
   {% if errorList %}
     Error:
   {% endif %}
-  {{ pageTitle }}
+  {{ title }}
 {% endblock %}
 
 {% block beforeContent %}

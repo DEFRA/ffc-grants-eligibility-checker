@@ -28,34 +28,47 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
       event.preventDefault();
       const form = document.getElementById('questionForm');
       const formData = new FormData(form);
-      const url = "/eligibility-checker/example-grant/transition";
-      const data = { event: "NEXT", currentPageId: "consent" , nextPageId: "confirmation", previousPageId: "country", answer: formData.get("consent") };
+      const url = '/eligibility-checker/example-grant/transition';
+      const data = {
+        event: 'NEXT',
+        currentPageId: 'consent',
+        nextPageId: 'confirmation',
+        previousPageId: 'country',
+        questionType: 'checkbox',
+        answer: formData.get('consent')
+      };
 
       fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
-      .then(response => response.json())
-      .then(data => {
-        window.location.href = \`/eligibility-checker/example-grant/\${data.nextPageId}\`;
-      })
-      .catch(error => {
-        // Handle any errors here
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          const pageId = data.status === 'error' ? data.currentPageId : data.nextPageId;
+          window.location.href = \`/eligibility-checker/example-grant/\${pageId}\`;
+        })
+
+        .catch((error) => {
+          // Handle any errors here
+          console.error(error);
+        });
     }
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
-        backLink.addEventListener("click", (event) => {
-        fetch("/eligibility-checker/example-grant/transition", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ event: "BACK", nextPageId: "confirmation", previousPageId: "country" }),
-          })
+        backLink.addEventListener('click', (event) => {
+          fetch('/eligibility-checker/example-grant/transition', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'BACK',
+              nextPageId: 'confirmation',
+              previousPageId: 'country'
+            })
+          });
         });
       }
     });

@@ -9,12 +9,11 @@
 {% set items = meta.items %}
 {% set errors = meta.errors %}
 {% set sidebar = meta.sidebar %}
-{% set title = meta.title %}
-{% set currentPageError = errors[meta.currentPageId] %}
+{% set hasErrors = meta.hasErrors %}
 
 {% block pageTitle %}
 
-  {% if currentPageError %}
+  {% if hasErrors  %}
     Error:
   {% endif %}
   {{ title }}
@@ -37,13 +36,13 @@
 {% block content %}
   <div id="content" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-!-margin-top-2">
-      {% if currentPageError %}
+      {% if hasErrors %}
         {{
           govukErrorSummary ({
             titleText: "There is a problem",
             errorList: [
               {
-                text: currentPageError.message,
+                text: errors.message,
                 href: "#" + meta.currentPageId
               }
             ]
@@ -53,7 +52,7 @@
       <form id="questionForm" onsubmit="handleSubmit(event)" novalidate="novalidate">
         {% if meta.questionType === 'radio' %}
           {% set radioConfig = items %}
-          {% if currentPageError %}
+          {% if hasErrors %}
             {%
               set radioConfig = {
                 classes: items.classes,
@@ -63,7 +62,7 @@
                 hint: items.hint,
                 items: items.items,
                 errorMessage: {
-                  text: currentPageError.message
+                  text: errors.message
                 }
               }
             %}

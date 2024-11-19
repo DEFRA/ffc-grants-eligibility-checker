@@ -124,3 +124,12 @@ export const generateConfirmationId = () => {
   const randomDigit = () => crypto.randomBytes(1)[0] % 10;
   return `${randomChar()}${randomChar()}-${randomDigit()}${randomDigit()}${randomDigit()}-${randomDigit()}${randomDigit()}${randomDigit()}`;
 };
+
+/**
+ * Checks if the given page has any errors.
+ * @param {object} errors - Error state
+ * @param {string} pageId - Page ID
+ * @returns {boolean} If the page has errors
+ */
+export const hasPageErrors = (errors, pageId) =>
+  Boolean(errors?.[pageId] && Object.keys(errors[pageId]).length > 0);

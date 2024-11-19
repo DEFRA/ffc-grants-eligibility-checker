@@ -223,7 +223,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
       fetch("/eligibility-checker/example-grant/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event: "NEXT", nextPageId: "country", previousPageId: ""}),
+            body: JSON.stringify({ event: "NEXT", nextPageId: "country", previousPageId: "", currentPageId: "start"}),
         })
       });
     });

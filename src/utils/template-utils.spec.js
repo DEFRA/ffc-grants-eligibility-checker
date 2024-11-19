@@ -1,6 +1,7 @@
 import {
   generateConfirmationId,
   getOptions,
+  hasPageErrors,
   inputOptions,
   isChecked,
   setOptionsLabel
@@ -175,6 +176,56 @@ describe('Template utils', () => {
       }
       // The set should contain a large number of unique values
       expect(ids.size).toBeGreaterThan(900); // Adjust this number based on your needs
+    });
+  });
+
+  describe('hasPageErrors', () => {
+    it('should return true if the page has errors', () => {
+      const errors = {
+        page1: { field1: 'Error message' }
+      };
+      const pageId = 'page1';
+      expect(hasPageErrors(errors, pageId)).toBe(true);
+    });
+
+    it('should return false if the page exists but has no errors', () => {
+      const errors = {
+        page1: {}
+      };
+      const pageId = 'page1';
+      expect(hasPageErrors(errors, pageId)).toBe(false);
+    });
+
+    it('should return false if the page does not exist in errors', () => {
+      const errors = {
+        page1: { field1: 'Error message' }
+      };
+      const pageId = 'page2';
+      expect(hasPageErrors(errors, pageId)).toBe(false);
+    });
+
+    it('should return false if errors object is empty', () => {
+      const errors = {};
+      const pageId = 'page1';
+      expect(hasPageErrors(errors, pageId)).toBe(false);
+    });
+
+    it('should handle undefined errors gracefully and return false', () => {
+      const errors = undefined;
+      const pageId = 'page1';
+      expect(hasPageErrors(errors, pageId)).toBe(false);
+    });
+
+    it('should handle null errors gracefully and return false', () => {
+      const errors = null;
+      const pageId = 'page1';
+      expect(hasPageErrors(errors, pageId)).toBe(false);
+    });
+
+    it('should handle non-object errors gracefully and return false', () => {
+      const errors = 'not-an-object';
+      const pageId = 'page1';
+      expect(hasPageErrors(errors, pageId)).toBe(false);
     });
   });
 });

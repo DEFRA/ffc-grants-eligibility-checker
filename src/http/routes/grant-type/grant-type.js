@@ -3,7 +3,7 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
 import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
 import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
 import * as Boom from '@hapi/boom';
-import { getOptions } from '../../../utils/template-utils.js';
+import { getOptions, hasPageErrors } from '../../../utils/template-utils.js';
 
 /**
  * Retrieves the grant type.
@@ -23,11 +23,18 @@ export const viewGrantType = (request, h) => {
 
     if (stateMeta) {
       const userAnswers = grantTypeMachineService.state.context.userAnswers;
+      const currentPageId = grantTypeMachineService.state.context.currentPageId;
+      const hasErrors = hasPageErrors(
+        grantTypeMachineService.state.context.pageErrors,
+        currentPageId
+      );
+      const errors = grantTypeMachineService.state.context.pageErrors[currentPageId];
       const context = getContext(grantType, {
         ...stateMeta,
-        currentPageId: grantTypeMachineService.state.context.currentPageId,
+        currentPageId,
         items: getOptions(userAnswers[page], stateMeta),
-        errors: grantTypeMachineService.state.event.errors
+        hasErrors,
+        errors
       });
 
       console.debug(

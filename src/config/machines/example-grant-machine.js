@@ -183,16 +183,6 @@ export const exampleGrantMachine = createMachine({
         previousPageId: 'start',
         nextPageId: 'consent', // NOSONAR:S1192 - need to improve this later
         questionType: 'radio',
-        answers: [
-          {
-            key: 'country-A1',
-            value: 'Yes'
-          },
-          {
-            key: 'country-A2',
-            value: 'No'
-          }
-        ],
         ...pageUIConfig.country
       }
     },
@@ -215,13 +205,6 @@ export const exampleGrantMachine = createMachine({
         nextPageId: 'confirmation',
         title: 'Confirm and send',
         questionType: 'checkbox',
-        answers: [
-          {
-            key: 'consent-A1',
-            value: 'CONSENT_OPTIONAL',
-            text: '(Optional) I consent to being contacted by Defra or a third party about service improvements'
-          }
-        ],
         ...pageUIConfig.consent
       }
     },

@@ -68,7 +68,8 @@ describe('Start Page', () => {
           body: JSON.stringify({
             event: 'NEXT',
             nextPageId: 'country',
-            previousPageId: ''
+            previousPageId: '',
+            currentPageId: 'start'
           })
         })
       );

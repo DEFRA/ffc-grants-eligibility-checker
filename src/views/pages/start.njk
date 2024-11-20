@@ -105,7 +105,7 @@
       fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event: "NEXT", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}"}),
+            body: JSON.stringify({ event: "NEXT", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", currentPageId: "{{ meta.currentPageId }}"}),
         })
       });
     });

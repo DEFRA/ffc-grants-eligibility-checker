@@ -77,11 +77,51 @@ export const actionImplementations = {
         [event.currentPageId]: event.answer
       };
     }
+  }),
+  setPageErrors: assign({
+    /**
+     * Updates the validation errors
+     * @param {object} context machine context
+     * @param {object} event triggered event
+     * @returns {string} event's question
+     */
+    pageErrors: (context, event) => {
+      return {
+        ...context.pageErrors,
+        [event.currentPageId]: {
+          key: `${event.currentPageId}Required`,
+          message: 'Select an option'
+        }
+      };
+    }
+  }),
+  clearPageErrors: assign({
+    /**
+     * Clears the validation errors for page
+     * @param {object} context machine context
+     * @param {object} event triggered event
+     * @returns {string} event's question
+     */
+    pageErrors: (context, event) => {
+      const newPageErrors = { ...context.pageErrors };
+      delete newPageErrors[event.currentPageId];
+      return newPageErrors;
+    }
   })
 };
 
+export const guardsImplementations = {
+  /**
+   * Checks if the input for the current page is valid by ensuring all required fields have values.
+   * @param {object} _context - The machine context containing the current page ID and user answers.
+   * @param {object} event - The triggered event (not used for validation).
+   * @returns {boolean} True if all required fields for the current page have values, false otherwise.
+   */
+  isRadioAnswerValid: (_context, event) => event.answer !== null
+};
+
 export const exampleGrantMachine = createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5RgB4EMC2AHANmA4gE5oB2ALgLJoDGAFgJYlgB0sZahZAxAHICiADQAqAbQAMAXUSgsAe1j0y9WSWkgUiABwB2AGzMAnLrGbNYgKwBGTec0AmADQgAnogDMBgCzM7lu3bdfO3NPCwMAX3CnVExcAmJyKjpGFmpZAFdyQmcuACEAQQBhAGlxKSQQOQUlFTUNBB1tZk9LMTEDAztdS08WgydXBCt9VstzczFtc38DKcjo9Gw8IlJKGgYmZjTMsmzeQVFJNSrFZVUK+p19IxMzKxt7Aa1LZkC7A0s3TwMbHrdLebgRZxFaJdYpVhgNIkCAAWgAjuk4DUSHkiqUjhUTii6ogAt4fpY9IE3MYiV4nghgi9Jp5NLpxm56dpTICYkt4qskhsWLAoSo4YjkWd9sIysd5Kdahc8V9DJoiboSWTtBSXIhQnYfAYme8xG43NpDQZzGzgcsEmtkpsAGaMNA4LgoNhoMgsNA2t2EAAUrTaAEouOyQZbuRC7SQHeKsZKcTKELpdFrxj9hobpuY3JTPB5mPYlaq7HSvETIlEQCRZBA4GpgxaueCmBLqmdcQhYbpKR3mG1e33+9ozbF62Drbz2Jxm1LzqB6iy3K8xhYDUnjNptNmmc0dbpZknfFchxzQVaeVsMllBjJY63460Ps1zCaGaEjLoFZS7KrF0qOiEQu0R4hg2Y6QtCgpImwt7Xi20qzhqjjqggfjmHmJpEtovReEmYieEBI6nuG9o4FOcbwQgOYGM0Zg5nY9KaP8VjZmMPYsqmtyeNoYhKmW4RAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5RgB4EMC2AHANmA4gE5oB2ALgLJoDGAFgJYlgB0sZahZAxAHICiADQAqAbQAMAXUSgsAe1j0y9WSWkgUiABwBmAIzMATHoDsAFjFjdF4wFYAbABoQAT0SnTx5qYO7Nd07o2egCcdpoAvuFOqJi4BMTkVHSMLNSyAK7khM5cAEIAggDCANLiUkggcgpKKmoaCJrBwcza9sZNoQYB2k6uCPbNBsG6djaB2mLawY2R0ejYeESklDQMTMxpmWTZvIKikmpVisqqFfU6+ka6ZhZWYraOLlr62gZDutqm02OmerPg8ziS0SqxSGwyWRy-GEIl05Rk8mOtTOiF0Vk0XjEdgMdjsaKxU16iCMBkMxjEmiG-mCvxsQ3+MQW8WWSTWqRUsDA5DyRVKBwqRxqp1A9RGzU0xmMdluHgMmhsQSJCAmpkMNJxIQ+ulMNgZgMWCRWyXWaRInO50P28MqiKFdVRdnFkullll8sVTwQ7lJulCIx0n00Vl0etiBpZoJNKgAZvRCBg0EKuCg2ImWGho2QwIQABR3MQASi4jKBhtZYNNsfjiZOZUOtpO9v6wU8Ops5O0mnuNiDxiVHjELW1dm0o7RphHBkiURAJFkEDgahL4ZBxrA9eqjZRCAAtI8+jubMx5Y1zGFjAYbB53KGmcCjWzWOxOBukcL1IhjNpPDZpsE5S6oQeP2wzMI6rT+GIl4fN+uozsuzKro+myQq+drbmiPbMME3a4miLa6Eqo6knS0p6O2IRNNot6lhGa7gmaXJkGhW4im4BhKoEpJfB0nwjq0tg0SuD4VjGcYJuhCKbsibHKmYLSUl2YhXvhkr9mEhiaH41xotieJ2NO4RAA */
   id: 'exampleGrantMachine',
   predictableActionArguments: true,
   initial: 'start',
@@ -89,7 +129,8 @@ export const exampleGrantMachine = createMachine({
     previousPageId: null, // Tracks previous page
     currentPageId: 'start', // Tracks current page
     userAnswers: {}, // Store answers here
-    completedPageIds: [] // Store completed pages here
+    completedPageIds: [], // Store completed pages here
+    pageErrors: {} // Store page errors here
   },
   states: {
     start: {
@@ -118,10 +159,22 @@ export const exampleGrantMachine = createMachine({
           actions: ['updateCurrentPageId']
         },
 
-        NEXT: {
-          target: 'consent', // NOSONAR:S1192 - need to improve this later
-          actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
-        }
+        NEXT: [
+          {
+            cond: 'isRadioAnswerValid',
+            target: 'consent', // NOSONAR:S1192 - need to improve this later
+            actions: [
+              'trackPageCompletion',
+              'updateCurrentPageId',
+              'updateAnswers',
+              'clearPageErrors'
+            ]
+          },
+          {
+            target: 'country', // Stay in the same state if condition fails
+            actions: ['setPageErrors'] // Fallback action
+          }
+        ]
       },
 
       meta: {
@@ -193,7 +246,8 @@ export const exampleGrantMachine = createMachine({
 // Server-side interpreter
 export const exampleGrantMachineService = interpret(
   exampleGrantMachine.withConfig({
-    actions: actionImplementations
+    actions: actionImplementations,
+    guards: guardsImplementations
   })
 ).onTransition((state) => {
   // istanbul ignore next

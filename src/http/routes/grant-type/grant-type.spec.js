@@ -26,6 +26,8 @@ describe('Grant Type Tests', () => {
       grantTypeId: grantType.id,
       items: undefined,
       nextPageId: 'country',
+      hasErrors: false,
+      errors: undefined,
       generateConfirmationId
     },
     sessionTimeoutInMin: '15',

@@ -110,8 +110,12 @@ describe('Consent Page', () => {
             currentPageId: 'consent',
             nextPageId: 'confirmation',
             previousPageId: 'country',
+            questionType: 'checkbox',
             answer: 'CONSENT_OPTIONAL'
-          })
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
         })
       );
     });

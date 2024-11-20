@@ -1,0 +1,5 @@
+services:
+  axe-tests:
+    build: .
+    image: axe-tests
+

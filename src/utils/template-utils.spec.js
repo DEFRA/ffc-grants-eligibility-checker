@@ -1,10 +1,10 @@
 import {
+  generateAnswers,
+  generateInputOptions,
+  generateOptions,
   generateConfirmationId,
-  getOptions,
   hasPageErrors,
-  inputOptions,
-  isChecked,
-  setOptionsLabel
+  isChecked
 } from './template-utils';
 import { describe, it, expect } from '@jest/globals';
 
@@ -33,7 +33,7 @@ describe('Template utils', () => {
     });
   });
 
-  describe('setOptionsLabel', () => {
+  describe('generateAnswers', () => {
     const answers = [
       { value: 'option1', text: 'Option 1' },
       { value: 'option2', hint: 'Hint text' },
@@ -43,7 +43,7 @@ describe('Template utils', () => {
 
     it('sets the checked and selected properties based on data', () => {
       const data = 'option1';
-      const result = setOptionsLabel(data, answers);
+      const result = generateAnswers(data, answers);
 
       expect(result).toEqual([
         { value: 'option1', text: 'Option 1', checked: true, selected: true },
@@ -61,27 +61,27 @@ describe('Template utils', () => {
 
     it('returns text as value if text property is missing', () => {
       const data = 'option2';
-      const result = setOptionsLabel(data, answers);
+      const result = generateAnswers(data, answers);
 
       expect(result[1].text).toBe('option2');
     });
 
     it('returns correct output when there is a divider', () => {
       const data = 'option3';
-      const result = setOptionsLabel(data, answers);
+      const result = generateAnswers(data, answers);
 
       expect(result[2]).toEqual({ divider: 'or' });
     });
 
     it('returns empty array when answers is null or undefined', () => {
-      expect(setOptionsLabel('option1', null)).toEqual([]);
-      expect(setOptionsLabel('option1', undefined)).toEqual([]);
+      expect(generateAnswers('option1', null)).toEqual([]);
+      expect(generateAnswers('option1', undefined)).toEqual([]);
     });
   });
 
-  describe('inputOptions', () => {
-    const stateMeta = {
-      currentPageId: 'question1',
+  describe('generateInputOptions', () => {
+    const currentPageId = 'question1';
+    const inputOptions = {
       title: 'Sample Question',
       answers: [
         { value: 'option1', text: 'Option 1' },
@@ -89,10 +89,10 @@ describe('Template utils', () => {
       ],
       classes: 'govuk-fieldset__legend--m'
     };
+    const userAnswers = 'option1';
 
     test('returns options object with correct structure', () => {
-      const data = 'option1';
-      const result = inputOptions(data, stateMeta);
+      const result = generateInputOptions(userAnswers, currentPageId, inputOptions);
 
       expect(result).toEqual({
         classes: 'govuk-fieldset__legend--m',
@@ -113,15 +113,19 @@ describe('Template utils', () => {
     });
 
     test('applies default class if none is specified in stateMeta', () => {
-      const result = inputOptions('option1', { ...stateMeta, classes: undefined });
+      const result = generateInputOptions(userAnswers, currentPageId, {
+        ...inputOptions,
+        classes: undefined
+      });
 
       expect(result.classes).toBe('govuk-fieldset__legend--l');
     });
   });
 
-  describe('getOptions', () => {
-    const getStateMeta = (questionType = 'radio') => ({
-      id: 'question1',
+  describe('generateOptions', () => {
+    const userAnswers = 'option1';
+    const currentPageId = 'question1';
+    const getInputOptions = (questionType = 'radio') => ({
       title: 'Sample Question',
       questionType,
       answers: [
@@ -131,21 +135,30 @@ describe('Template utils', () => {
     });
 
     test('calls inputOptions when questionType is radio', () => {
-      const result = getOptions('option1', getStateMeta());
+      const result = generateOptions(userAnswers, {
+        questionType: 'radio',
+        currentPageId,
+        inputOptions: getInputOptions('radio')
+      });
       expect(result).toHaveProperty('fieldset');
       expect(result.items.length).toBe(2);
     });
 
     test('calls inputOptions when questionType is checkbox', () => {
-      const result = getOptions('option1', getStateMeta('checkbox'));
+      const result = generateOptions(userAnswers, {
+        questionType: 'checkbox',
+        currentPageId,
+        inputOptions: getInputOptions('checkbox')
+      });
       expect(result).toHaveProperty('fieldset');
       expect(result.items.length).toBe(2);
     });
 
     test('returns undefined for unhandled questionType', () => {
-      const result = getOptions('option1', {
-        ...getStateMeta(),
-        questionType: 'unknownType'
+      const result = generateOptions(userAnswers, {
+        questionType: 'unknownType',
+        currentPageId,
+        inputOptions: getInputOptions()
       });
       expect(result).toBeUndefined();
     });

@@ -9,7 +9,7 @@
 {% set items = meta.items %}
 {% set errors = meta.errors %}
 {% set sidebar = meta.sidebar %}
-{% set title = meta.title %}
+{% set title = meta.items.fieldset.legend.text %}
 {% set hasErrors = meta.hasErrors %}
 
 {% block pageTitle %}

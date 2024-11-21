@@ -83,6 +83,7 @@ describe('Consent Page', () => {
           method: 'POST',
           body: JSON.stringify({
             event: 'BACK',
+            currentPageId: 'consent',
             nextPageId: 'confirmation',
             previousPageId: 'country'
           })

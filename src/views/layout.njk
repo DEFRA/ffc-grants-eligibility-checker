@@ -52,6 +52,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'BACK',
+              currentPageId: '{{ meta.currentPageId }}',
               nextPageId: '{{ meta.nextPageId }}',
               previousPageId: '{{ meta.previousPageId }}'
             })

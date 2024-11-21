@@ -1,5 +1,9 @@
 import { interpret } from 'xstate';
-import { exampleGrantMachine, actionImplementations } from './example-grant-machine';
+import {
+  exampleGrantMachine,
+  actionImplementations,
+  guardsImplementations
+} from './example-grant-machine';
 
 describe('Example Grant Machine Service', () => {
   let service;
@@ -7,7 +11,8 @@ describe('Example Grant Machine Service', () => {
   beforeEach(() => {
     service = interpret(
       exampleGrantMachine.withConfig({
-        actions: actionImplementations
+        actions: actionImplementations,
+        guards: guardsImplementations
       })
     )
       .onTransition((state) => {
@@ -114,6 +119,26 @@ describe('Example Grant Machine Service', () => {
     // Check that the userAnswers have been updated with the new answer
     expect(service.state.context.userAnswers).toEqual({
       country: 'Yes'
+    });
+  });
+
+  it('should set page errors correctly when validation fails', () => {
+    // Move to country page
+    service.send({ type: 'NEXT', nextPageId: 'country' });
+
+    // Send NEXT without an answer to trigger validation error
+    service.send({
+      type: 'NEXT',
+      currentPageId: 'country',
+      answer: null
+    });
+
+    // Check that pageErrors has been updated correctly
+    expect(service.state.context.pageErrors).toEqual({
+      country: {
+        key: 'countryRequired',
+        message: 'Select an option'
+      }
     });
   });
 });

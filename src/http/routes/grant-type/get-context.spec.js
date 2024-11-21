@@ -7,7 +7,6 @@ describe('getContext', () => {
     const grantTypeId = 'example-grant';
 
     const expectedContext = {
-      pageTitle: `${app.siteTitle} - start`,
       showTimeout: true,
       surveyLink: `${app.surveyLink}`,
       sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,

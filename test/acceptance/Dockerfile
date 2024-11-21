@@ -11,5 +11,6 @@ COPY package.json ./
 RUN npm install --ignore-scripts
 COPY wdio.conf.js ./
 COPY ./features /home/node/features
+COPY ./services /home/node/services
 COPY ./steps /home/node/steps
 CMD [ "npm", "run", "test" ]

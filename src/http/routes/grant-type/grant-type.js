@@ -3,7 +3,7 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
 import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
 import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
 import * as Boom from '@hapi/boom';
-import { getOptions } from '../../../utils/template-utils.js';
+import { generateOptions, hasPageErrors } from '../../../utils/template-utils.js';
 
 /**
  * Retrieves the grant type.
@@ -22,17 +22,31 @@ export const viewGrantType = (request, h) => {
     const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${page}`];
 
     if (stateMeta) {
-      console.debug(
-        `viewGrantType: state ${page} is valid with meta: ${JSON.stringify(stateMeta, null, 2)}`
-      );
-
       const userAnswers = grantTypeMachineService.state.context.userAnswers;
+      const currentPageId = grantTypeMachineService.state.context.currentPageId;
+      const hasErrors = hasPageErrors(
+        grantTypeMachineService.state.context.pageErrors,
+        currentPageId
+      );
+      const errors = grantTypeMachineService.state.context.pageErrors[currentPageId];
+      const { inputOptions, ...rest } = stateMeta;
       const context = getContext(grantType, {
-        ...stateMeta,
-        currentPageId: grantTypeMachineService.state.context.currentPageId,
-        items: getOptions(userAnswers[page], stateMeta)
+        ...rest,
+        currentPageId,
+        items: generateOptions(userAnswers[currentPageId], {
+          questionType: stateMeta.questionType,
+          currentPageId,
+          inputOptions
+        }),
+        hasErrors,
+        errors
       });
 
+      console.debug(
+        `viewGrantType: state ${page} is valid with context: ${JSON.stringify(context, null, 2)} and user answers: ${JSON.stringify(
+          userAnswers
+        )}`
+      );
       return h.view(`pages/${stateMeta.templateId}.njk`, context);
     }
     console.warn(`viewGrantType: state for ${page} is invalid`);

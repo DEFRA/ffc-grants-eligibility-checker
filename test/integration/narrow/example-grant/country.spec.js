@@ -98,8 +98,12 @@ describe('Country Page', () => {
               currentPageId: 'country',
               nextPageId: 'consent',
               previousPageId: 'start',
+              questionType: 'radio',
               answer
-            })
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
           })
         );
       }

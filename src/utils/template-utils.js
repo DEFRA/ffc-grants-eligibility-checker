@@ -13,16 +13,16 @@ export const isChecked = (answerData, option) => {
 };
 
 /**
- * Sets the label and other properties for each option in a set of selectable options (e.g., radio buttons, checkboxes).
- * @param {string} data - The value of the radio buttons.
- * @param {object[]} answers - An array of objects containing the value, text, hint and conditional properties for each option.
+ * Generates an array of objects with the properties value, text, conditional, hint, checked and selected.
+ * @param {string} userAnswers - The current data to be used for conditional logic.
+ * @param {object[]} definedAnswers - An array of objects containing the value, text, hint and conditional properties for each option.
  * @returns {object[]} - An array of objects with the properties value, text, conditional, hint, checked and selected.
  */
-export const setOptionsLabel = (data, answers) => {
-  if (!answers) {
+export const generateAnswers = (userAnswers, definedAnswers) => {
+  if (!definedAnswers) {
     return [];
   }
-  return answers?.map((answer) => {
+  return definedAnswers?.map((answer) => {
     const { value, hint, text, conditional } = answer;
 
     if (value === 'divider') {
@@ -34,8 +34,8 @@ export const setOptionsLabel = (data, answers) => {
         value,
         text: value,
         hint,
-        checked: isChecked(data, value),
-        selected: data === value
+        checked: isChecked(userAnswers, value),
+        selected: userAnswers === value
       };
     }
 
@@ -44,33 +44,26 @@ export const setOptionsLabel = (data, answers) => {
       text,
       conditional,
       hint,
-      checked: isChecked(data, value),
-      selected: data === value
+      checked: isChecked(userAnswers, value),
+      selected: userAnswers === value
     };
   });
 };
 
 /**
- * Returns the options configuration for a GOV.UK component with selectable options.
- * @param {object} data - The current data to be used for conditional logic.
- * @param {object} stateMeta - The state meta object containing the title, hint, yarKey, answers and classes.
+ * Generates the options to be passed to the GOV.UK radiobuttons component.
+ * @param {object} userAnswers - The current data to be used for conditional logic.
+ * @param {string} currentPageId - The ID of the current page
+ * @param {object} inputOptions - The state meta object, with properties like "title", "hint", "answers" and "classes"
  * @returns {object} The options to be passed to the GOV.UK radiobuttons component.
  */
-export const inputOptions = (data, stateMeta) => {
-  const {
-    currentPageId,
-    title,
-    hint,
-    sidebar,
-    answers,
-    classes = 'govuk-fieldset__legend--l'
-  } = stateMeta;
+export const generateInputOptions = (userAnswers, currentPageId, inputOptions) => {
+  const { title, hint, answers, classes = 'govuk-fieldset__legend--l' } = inputOptions;
   const options = {
     classes,
     id: currentPageId,
-    hint,
-    sidebar,
     name: currentPageId,
+    hint,
     fieldset: {
       legend: {
         text: title,
@@ -78,24 +71,27 @@ export const inputOptions = (data, stateMeta) => {
         classes
       }
     },
-    items: setOptionsLabel(data, answers)
+    items: generateAnswers(userAnswers, answers)
   };
 
   return options;
 };
 
 /**
- * Returns an object with options for the given question, accommodating different selectable option types.
- * @param {object} data - Data provided by the user so far
- * @param {object} stateMeta - The state meta object, with properties like "type", "text" and "options"
+ * Generates an object with options for the given question, accommodating different selectable option types.
+ * @param {object} userAnswers - Data provided by the user so far
+ * @param {object} questionConfig - Configuration for transitions and metadata
+ * @param {string} questionConfig.questionType - The type of question
+ * @param {string} questionConfig.currentPageId - The ID of the current page
+ * @param {object} questionConfig.inputOptions - The input options
  * @returns {object} An object with options for the given question
  */
-export const getOptions = (data, stateMeta) => {
-  switch (stateMeta.questionType) {
+export const generateOptions = (userAnswers, { questionType, currentPageId, inputOptions }) => {
+  switch (questionType) {
     case 'checkbox':
-      return inputOptions(data, stateMeta);
+      return generateInputOptions(userAnswers, currentPageId, inputOptions);
     case 'radio': // Add specific cases as needed
-      return inputOptions(data, stateMeta);
+      return generateInputOptions(userAnswers, currentPageId, inputOptions);
     default:
       return undefined; // Explicitly return undefined for unhandled types
   }
@@ -124,3 +120,12 @@ export const generateConfirmationId = () => {
   const randomDigit = () => crypto.randomBytes(1)[0] % 10;
   return `${randomChar()}${randomChar()}-${randomDigit()}${randomDigit()}${randomDigit()}-${randomDigit()}${randomDigit()}${randomDigit()}`;
 };
+
+/**
+ * Checks if the given page has any errors.
+ * @param {object} errors - Error state
+ * @param {string} pageId - Page ID
+ * @returns {boolean} If the page has errors
+ */
+export const hasPageErrors = (errors, pageId) =>
+  Boolean(errors?.[pageId] && Object.keys(errors[pageId]).length > 0);

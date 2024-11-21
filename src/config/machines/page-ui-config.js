@@ -1,10 +1,22 @@
 export const pageUIConfig = {
   country: {
-    title: 'Is the planned project in England?',
-    hint: {
-      text: 'The site where the work will happen'
+    inputOptions: {
+      title: 'Is the planned project in England?',
+      hint: {
+        text: 'The site where the work will happen'
+      },
+      classes: 'govuk-radios--inline govuk-fieldset__legend--l',
+      answers: [
+        {
+          key: 'country-A1',
+          value: 'Yes'
+        },
+        {
+          key: 'country-A2',
+          value: 'No'
+        }
+      ]
     },
-    classes: 'govuk-radios--inline govuk-fieldset__legend--l',
     sidebar: {
       values: [
         {
@@ -21,7 +33,16 @@ export const pageUIConfig = {
     }
   },
   consent: {
-    title: 'Confirm and send',
+    inputOptions: {
+      title: 'Confirm and send',
+      answers: [
+        {
+          key: 'consent-A1',
+          value: 'CONSENT_OPTIONAL',
+          text: '(Optional) I consent to being contacted by Defra or a third party about service improvements'
+        }
+      ]
+    },
     warning: {
       text: 'You can only submit your details once'
     },
@@ -37,6 +58,7 @@ export const pageUIConfig = {
     }
   },
   confirmation: {
+    title: 'Details submitted',
     reference: {
       titleText: 'Details submitted',
       html: 'Your reference number<br><strong>{{_confirmationId_}}</strong>',

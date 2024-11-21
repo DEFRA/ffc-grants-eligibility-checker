@@ -1,47 +1,60 @@
 {% extends "govuk/template.njk" %}
 {% from "govuk/components/header/macro.njk" import govukHeader %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
-{% set siteTitle = "FFC Grants Eligibility Checker" %}
+{% set siteTitle = "Generic checker screens" %}
 {% block pageTitle %}
   {{ siteTitle }}
 {% endblock %}
 {% block head %}
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="/eligibility-checker/stylesheets/main.css" />
-  <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/eligibility-checker/assets/images/favicon.svg" />
   <script>
     function handleSubmit(event, formId) {
       event.preventDefault();
-      const form = document.getElementById("questionForm");
+      const form = document.getElementById('questionForm');
       const formData = new FormData(form);
-      const url = "/eligibility-checker/{{ meta.grantTypeId }}/transition";
-      const data = { event: "NEXT", currentPageId: "{{ meta.currentPageId }}" , nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", answer: formData.get("{{ meta.currentPageId }}") };
+      const url = '/eligibility-checker/{{ meta.grantTypeId }}/transition';
+      const data = {
+        event: 'NEXT',
+        currentPageId: '{{ meta.currentPageId }}',
+        nextPageId: '{{ meta.nextPageId }}',
+        previousPageId: '{{ meta.previousPageId }}',
+        questionType: '{{ meta.questionType }}',
+        answer: formData.get('{{ meta.currentPageId }}')
+      };
 
       fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
-      .then(response => response.json())
-      .then(data => {
-        window.location.href = `/eligibility-checker/{{ meta.grantTypeId }}/${data.nextPageId}`;
-      })
-      .catch(error => {
-        // Handle any errors here
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          const pageId = data.status === 'error' ? data.currentPageId : data.nextPageId;
+          window.location.href = `/eligibility-checker/{{ meta.grantTypeId }}/${pageId}`;
+        })
+
+        .catch((error) => {
+          // Handle any errors here
+          console.error(error);
+        });
     }
   </script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const backLink = document.querySelector(".govuk-back-link");
+    document.addEventListener('DOMContentLoaded', function () {
+      const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
-        backLink.addEventListener("click", (event) => {
-        fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ event: "BACK", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}" }),
-          })
+        backLink.addEventListener('click', (event) => {
+          fetch('/eligibility-checker/{{ meta.grantTypeId }}/transition', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'BACK',
+              nextPageId: '{{ meta.nextPageId }}',
+              previousPageId: '{{ meta.previousPageId }}'
+            })
+          });
         });
       }
     });
@@ -77,22 +90,12 @@
   {% set footer_html_code %}
     <ul class="govuk-footer__inline-list">
       <li class="govuk-footer__inline-list-item">
-        <a
-          class="govuk-footer__link"
-          href="accessibility"
-          rel="noopener noreferrer"
-        >
+        <a class="govuk-footer__link" href="accessibility" rel="noopener noreferrer">
           Accessibility
         </a>
       </li>
       <li class="govuk-footer__inline-list-item">
-        <a
-          class="govuk-footer__link"
-          href="cookies"
-          rel="noopener noreferrer"
-        >
-          Cookies
-        </a>
+        <a class="govuk-footer__link" href="cookies" rel="noopener noreferrer"> Cookies </a>
       </li>
       <li class="govuk-footer__inline-list-item">
         <a

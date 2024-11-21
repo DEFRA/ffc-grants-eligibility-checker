@@ -138,14 +138,16 @@ exports[`Start Page snapshot should match snapshot 1`] = `
       <p class="govuk-body">Use this service to check:</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>if you are eligible to apply for a grant for your project (takes about x minutes)</li>
+        <li>
+          if you are eligible to apply for a grant for your project (takes about x minutes)
+        </li>
         <li>
           how well your project scores against the funding priorities (takes about xx minutes if you
-          have all the project details)
+ have all the project details)
         </li>
       </ul>
 
-      <h2 class="govuk-heading-m">Who can apply</h2>
+      <h2 class="govuk-heading-m">Use this service to check:</h2>
 
       <p class="govuk-body">You can apply if you either:</p>
 
@@ -156,13 +158,8 @@ exports[`Start Page snapshot should match snapshot 1`] = `
       </ul>
 
       <p class="govuk-body">You must do the grant-funded work in England.</p>
-
       <p class="govuk-body">You can apply for up to x% of the estimated cost of project items.</p>
-
-      <p class="govuk-body">
-        The minimum grant for project items is £xxx (x% of £xx,000). The maximum grant you can apply
-        for is £xxx.
-      </p>
+      <p class="govuk-body">The minimum grant for project items is £xxx (x% of £xx,000). The maximum grant you can apply for is £xxx.</p>
 
       <div class="govuk-inset-text">Highlighted content here</div>
 
@@ -193,27 +190,27 @@ exports[`Start Page snapshot should match snapshot 1`] = `
       <p class="govuk-body">To use the checker, you need:</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>item 1</li>
-        <li>item 2</li>
-        <li>item 3</li>
-        <li>item 4</li>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
       </ul>
 
       <h2 class="govuk-heading-m">Problems using the online service</h2>
 
-      <p class="govuk-body">If you have any problems using the online service, contact xxx</p>
+      <p class="govuk-body"></p>
 
-      <h3 class="govuk-heading-s">Telephone</h3>
+      <h3 class="govuk-heading-s"></h3>
 
-      <p class="govuk-body">Telephone: xxxx xxxx xx</p>
+      <p class="govuk-body"></p>
 
-      <p class="govuk-body">Monday to Friday, 9am to 5pm (except public holidays)</p>
+      <p class="govuk-body"></p>
 
       <p class="govuk-body">
-        <a href="https://www.gov.uk/call-charges"> Find out about call charges </a>
+        <a href="https://www.gov.uk/call-charges"></a>
       </p>
 
-      <h3 class="govuk-heading-s">Email</h3>
+      <h3 class="govuk-heading-s"></h3>
 
       <p class="govuk-body">
         <a href="mailto:FTF@rpa.gov.uk"> xxx@xxx.gov.uk </a>

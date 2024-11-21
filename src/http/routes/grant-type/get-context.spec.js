@@ -1,12 +1,14 @@
 import { getContext } from './get-context';
 import { app } from '../../../config/app.js';
 import { generateConfirmationId } from '../../../utils/template-utils.js';
+import { pages } from '../../../config/machines/locale/en.js';
 
 describe('getContext', () => {
   it('should return the correct context object', () => {
     const grantTypeId = 'example-grant';
 
     const expectedContext = {
+      pageTitle: `${app.siteTitle} - start`,
       showTimeout: true,
       surveyLink: `${app.surveyLink}`,
       sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,
@@ -20,6 +22,7 @@ describe('getContext', () => {
         previousPageId: 'previous-page',
         nextPageId: 'next-page',
         grantTypeId: 'example-grant',
+        localisation: { ...pages.start },
         generateConfirmationId
       }
     };

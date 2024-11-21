@@ -26,7 +26,8 @@ describe('Country Page', () => {
     });
 
     dom = new JSDOM(countryPageResponse.payload, {
-      runScripts: 'dangerously'
+      runScripts: 'dangerously',
+      url: 'https://checker-domain/eligibility-checker/example-grant'
     });
 
     // Mock `fetch` in the JSDOM window

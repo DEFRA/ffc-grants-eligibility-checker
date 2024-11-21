@@ -43,7 +43,8 @@ describe('Consent Page', () => {
     });
 
     dom = new JSDOM(consentPageResponse.payload, {
-      runScripts: 'dangerously'
+      runScripts: 'dangerously',
+      url: 'https://checker-domain/eligibility-checker/example-grant'
     });
 
     // Mock `fetch` in the JSDOM window

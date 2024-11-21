@@ -66,6 +66,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'BACK',
+              currentPageId: 'start',
               nextPageId: 'country',
               previousPageId: ''
             })

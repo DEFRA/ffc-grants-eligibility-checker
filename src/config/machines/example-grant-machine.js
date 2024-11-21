@@ -156,7 +156,7 @@ export const exampleGrantMachine = createMachine({
       on: {
         BACK: {
           target: 'start',
-          actions: ['updateCurrentPageId']
+          actions: ['updateCurrentPageId', 'clearPageErrors']
         },
 
         NEXT: [

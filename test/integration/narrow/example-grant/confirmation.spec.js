@@ -58,9 +58,7 @@ describe('Consent Page', () => {
       url: '/eligibility-checker/example-grant/confirmation'
     });
 
-    dom = new JSDOM(confirmationPageResponse.payload, {
-      runScripts: 'dangerously'
-    });
+    dom = new JSDOM(confirmationPageResponse.payload);
 
     // Mock `fetch` in the JSDOM window
     dom.window.fetch = jest.fn().mockResolvedValue({

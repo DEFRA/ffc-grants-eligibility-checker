@@ -43,6 +43,7 @@
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      event.preventDefault();
       const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
         backLink.addEventListener('click', (event) => {
@@ -54,7 +55,8 @@
               nextPageId: '{{ meta.nextPageId }}',
               previousPageId: '{{ meta.previousPageId }}'
             })
-          });
+          })
+          .then(() => window.location.href = backLink.href);
         });
       }
     });

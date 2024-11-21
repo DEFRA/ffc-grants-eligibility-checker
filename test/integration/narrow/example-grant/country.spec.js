@@ -66,6 +66,7 @@ describe('Country Page', () => {
           method: 'POST',
           body: JSON.stringify({
             event: 'BACK',
+            currentPageId: 'country',
             nextPageId: 'consent',
             previousPageId: 'start'
           })

@@ -1,5 +1,6 @@
 import { assign, createMachine } from 'xstate';
 import { pageGlobals, pageUIConfig } from './page-ui-config.js';
+import { handleSubmission } from '../../notification/handle-submission.js';
 
 export const actionImplementations = {
   trackPageCompletion: assign({
@@ -67,7 +68,20 @@ export const actionImplementations = {
       delete newPageErrors[event.currentPageId];
       return newPageErrors;
     }
-  })
+  }),
+
+  /**
+   * Sends a notification to the configured Azure Service Bus queue using the user's final answers from context.
+   * @param {object} context - The machine context containing the user's answers.
+   * @throws Will log an error to the console if the notification fails to send.
+   */
+  sendNotification: async (context) => {
+    try {
+      await handleSubmission(context);
+    } catch (error) {
+      console.error('Failed to send notification:', error);
+    }
+  }
 };
 
 export const guardsImplementations = {
@@ -157,7 +171,12 @@ export const exampleGrantMachine = createMachine({
         },
         NEXT: {
           target: 'confirmation',
-          actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
+          actions: [
+            'trackPageCompletion',
+            'updateCurrentPageId',
+            'updateAnswers',
+            'sendNotification'
+          ]
         }
       },
       meta: {

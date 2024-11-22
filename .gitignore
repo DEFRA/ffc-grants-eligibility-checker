@@ -270,3 +270,6 @@ test-output
 
 # Ignore nginx local logs
 nginx_logs/
+
+# VS Code Settings
+*.code-workspace

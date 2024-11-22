@@ -61,6 +61,7 @@
     "@hapi/vision": "^7.0.3",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
+    "ffc-messaging": "^2.10.1",
     "govuk-frontend": "^5.5.0",
     "nunjucks": "^3.2.4",
     "prettier-plugin-jinja-template": "^2.0.0",

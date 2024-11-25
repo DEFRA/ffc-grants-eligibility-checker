@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Country Validation Page snapshot should match snapshot 1`] = `
+exports[`Country Page Error Handling snapshot should match error state snapshot 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template">
   <head>

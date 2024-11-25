@@ -7,7 +7,7 @@ Feature: Backward Navigation
 
         # country
         Then the user should be at URL "country"
-        When the user goes back
+        When the user navigates backward
         Then the user should be at URL "start"
         When the user clicks on "Start now"
         Then the user should be at URL "country"
@@ -17,7 +17,7 @@ Feature: Backward Navigation
 
         # consent
         Then the user should be at URL "consent"
-        When the user goes back
+        When the user navigates backward
         Then the user should be at URL "country"
 
         # reset session state

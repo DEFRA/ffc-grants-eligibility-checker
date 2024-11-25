@@ -19,6 +19,6 @@ When(/^(?:the user confirms|confirms) and sends$/, async () => {
   await $(`//button[@id='btnConfirmSend']`).click();
 });
 
-When(/^(?:the user goes|goes) back$/, async () => {
+When(/^(?:the user navigates|navigates) backward$/, async () => {
   await $("//a[@class='govuk-back-link']").click();
 });

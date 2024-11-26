@@ -57,6 +57,7 @@ exports[`error-pages plugin snapshot should match BAD_REQUEST snapshot 1`] = `
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      event.preventDefault();
       const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
         backLink.addEventListener('click', (event) => {
@@ -65,10 +66,12 @@ exports[`error-pages plugin snapshot should match BAD_REQUEST snapshot 1`] = `
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'BACK',
+              currentPageId: '',
               nextPageId: '',
               previousPageId: ''
             })
-          });
+          })
+          .then(() => window.location.href = backLink.href);
         });
       }
     });
@@ -312,6 +315,7 @@ exports[`error-pages plugin snapshot should match FORBIDDEN snapshot 1`] = `
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      event.preventDefault();
       const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
         backLink.addEventListener('click', (event) => {
@@ -320,10 +324,12 @@ exports[`error-pages plugin snapshot should match FORBIDDEN snapshot 1`] = `
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'BACK',
+              currentPageId: '',
               nextPageId: '',
               previousPageId: ''
             })
-          });
+          })
+          .then(() => window.location.href = backLink.href);
         });
       }
     });
@@ -572,6 +578,7 @@ exports[`error-pages plugin snapshot should match INTERNAL_SERVER_ERROR snapshot
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      event.preventDefault();
       const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
         backLink.addEventListener('click', (event) => {
@@ -580,10 +587,12 @@ exports[`error-pages plugin snapshot should match INTERNAL_SERVER_ERROR snapshot
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'BACK',
+              currentPageId: '',
               nextPageId: '',
               previousPageId: ''
             })
-          });
+          })
+          .then(() => window.location.href = backLink.href);
         });
       }
     });
@@ -831,6 +840,7 @@ exports[`error-pages plugin snapshot should match NOT_FOUND snapshot 1`] = `
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      event.preventDefault();
       const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
         backLink.addEventListener('click', (event) => {
@@ -839,10 +849,12 @@ exports[`error-pages plugin snapshot should match NOT_FOUND snapshot 1`] = `
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'BACK',
+              currentPageId: '',
               nextPageId: '',
               previousPageId: ''
             })
-          });
+          })
+          .then(() => window.location.href = backLink.href);
         });
       }
     });

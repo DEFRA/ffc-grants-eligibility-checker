@@ -57,6 +57,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      event.preventDefault();
       const backLink = document.querySelector('.govuk-back-link');
       if (backLink) {
         backLink.addEventListener('click', (event) => {
@@ -65,10 +66,12 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'BACK',
+              currentPageId: 'consent',
               nextPageId: 'confirmation',
               previousPageId: 'country'
             })
-          });
+          })
+          .then(() => window.location.href = backLink.href);
         });
       }
     });

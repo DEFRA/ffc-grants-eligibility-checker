@@ -122,7 +122,7 @@ describe('Example Grant Machine Service', () => {
     });
   });
 
-  it('should set page errors correctly when validation fails', () => {
+  it('should set page errors correctly when validation fails and clear when answer is given', () => {
     // Move to country page
     service.send({ type: 'NEXT', nextPageId: 'country' });
 
@@ -140,5 +140,41 @@ describe('Example Grant Machine Service', () => {
         message: 'Select an option'
       }
     });
+
+    // Send NEXT with a valid answer
+    service.send({
+      type: 'NEXT',
+      currentPageId: 'country',
+      answer: 'UK'
+    });
+
+    // Check that the error is cleared
+    expect(service.state.context.pageErrors).toEqual({});
+  });
+
+  it('should clear page errors when navigating backward', () => {
+    // Move to country page
+    service.send({ type: 'NEXT', nextPageId: 'country' });
+
+    // Send NEXT without an answer to trigger validation error
+    service.send({
+      type: 'NEXT',
+      currentPageId: 'country',
+      answer: null
+    });
+
+    // Ensure validation error is set
+    expect(service.state.context.pageErrors).toEqual({
+      country: {
+        key: 'countryRequired',
+        message: 'Select an option'
+      }
+    });
+
+    // Navigate backward
+    service.send({ type: 'BACK', currentPageId: 'country', previousPageId: 'start' });
+
+    // Check that the error is cleared
+    expect(service.state.context.pageErrors).toEqual({});
   });
 });

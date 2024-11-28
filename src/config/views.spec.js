@@ -1,5 +1,5 @@
 // Import the viewsConfig object
-import { viewsConfig } from './views.js';
+import { viewsConfig } from './views-config.js';
 
 describe('viewsConfig Configuration', () => {
   describe('paths and assets', () => {

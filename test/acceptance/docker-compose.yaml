@@ -2,8 +2,9 @@ services:
   wdio-cucumber:
     build: .
     image: wdio-cucumber
+    container_name: wdio-cucumber
     depends_on:
-      - selenium
+      - selenium-cucumber
     environment:
       TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
       CHROME_ARGS: "--headless --ignore-certificate-errors"
@@ -13,10 +14,10 @@ services:
     ports:
       - "9228:9229"
 
-  selenium:
+  selenium-cucumber:
     image: selenium/standalone-chrome
     # change to following image for ARM architectures
     #image: seleniarm/standalone-chromium
-    container_name: chrome-browser
+    container_name: selenium-cucumber
     volumes:
       - /dev/shm:/dev/shm

@@ -1,5 +1,20 @@
 services:
-  axe-tests:
+  wdio-axe:
     build: .
-    image: axe-tests
+    image: wdio-axe
+    container_name: wdio-axe
+    depends_on:
+      - selenium-axe
+    environment:
+      TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
+      CHROME_ARGS: "--headless --ignore-certificate-errors"
+    volumes:
+      - ./json-reports/example-grant:/json-reports/example-grant
 
+  selenium-axe:
+    image: selenium/standalone-chrome
+    # change to following image for ARM architectures
+    #image: seleniarm/standalone-chromium
+    container_name: selenium-axe
+    volumes:
+      - /dev/shm:/dev/shm

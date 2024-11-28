@@ -16,17 +16,17 @@ TEST_ENVIRONMENT_ROOT_URL
 When the tests are run by Jenkins the `TEST_ENVIRONMENT_ROOT_URL` variable is generated and exposed by the pipeline to point to the PR-specific Sandbox deployment. 
 
 ## Running tests inside a container
-Docker is used to create containers for both the tests (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`). This is how the tests run in the Jenkins pipeline. Headless browser mode is used.
+Docker is used to create containers for both the tests and the Selenium instance of Chrome. This is how the tests run in the Jenkins pipeline. Headless browser mode is used.
 
 1. For ARM architectures, change the image used for Chrome in `docker-compose.yaml`:
 
 ```dockerfile
-  selenium:
+  selenium-cucumber:
     image: selenium/standalone-chrome
 
 # CHANGES TO..
 
-  selenium:
+  selenium-cucumber:
     image: seleniarm/standalone-chromium
 ```   
 

@@ -29,17 +29,23 @@ Ensure you have the following installed on your local machine:
 
 Environment variables for the application in **all environments**:
 
-| Variable                               | Description                                     | Helm configuration                                          | Default                             |
-| -------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- | ----------------------------------- |
-| `NODE_ENV`                             | The environment the application is running in   |                                                             | `production`                        |
-| `LOG_LEVEL`                            | The level of logging to use                     |                                                             | `info`                              |
-| `LOG_OUTPUT`                           | The output of the logs                          |                                                             | `stdout`                            |
-| `LOG_PRETTY`                           | Whether to pretty print logs                    |                                                             | `true`                              |
-| `SERVICE_BUS_HOST`                     | The host of the service bus                     | `{{ .Values.container.messageQueueHost }}`                  | `localhost`                         |
-| `SCORE_REQUEST_QUEUE_ADDRESS`          | The address of the score request queue          | `{{ .Values.container.scoreRequestQueueAddress }}`          | `ffc-grants-score-request`          |
-| `SCORE_RESPONSE_QUEUE_ADDRESS`         | The address of the score response queue         | `{{ .Values.container.scoreResponseQueueAddress }}`         | `ffc-grants-score-response`         |
-| `DESIRABILITY_SUBMITTED_TOPIC_ADDRESS` | The address of the desirability submitted topic | `{{ .Values.container.desirabilitySubmittedTopicAddress }}` | `ffc-grants-desirability-submitted` |
-| `NOTIFY_EMAIL_TEMPLATE`                | The email template for the notify service       | `{{ .Values.container.notifyEmailTemplate }}`               | `ffc-grants-eligibility-checker`    |
+| Variable                               | Description                                         | Helm configuration                                          | Default                             |
+| -------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------- |
+| `NODE_ENV`                             | The environment the application is running in       |                                                             | `production`                        |
+| `LOG_LEVEL`                            | The level of logging to use                         |                                                             | `info`                              |
+| `LOG_OUTPUT`                           | The output of the logs                              |                                                             | `stdout`                            |
+| `LOG_PRETTY`                           | Whether to pretty print logs                        |                                                             | `true`                              |
+| `SERVICE_BUS_HOST`                     | The host of the service bus                         | `{{ .Values.container.messageQueueHost }}`                  | `localhost`                         |
+| `SCORE_REQUEST_QUEUE_ADDRESS`          | The address of the score request queue              | `{{ .Values.container.scoreRequestQueueAddress }}`          | `ffc-grants-score-request`          |
+| `SCORE_RESPONSE_QUEUE_ADDRESS`         | The address of the score response queue             | `{{ .Values.container.scoreResponseQueueAddress }}`         | `ffc-grants-score-response`         |
+| `DESIRABILITY_SUBMITTED_TOPIC_ADDRESS` | The address of the desirability submitted topic     | `{{ .Values.container.desirabilitySubmittedTopicAddress }}` | `ffc-grants-desirability-submitted` |
+| `NOTIFY_EMAIL_TEMPLATE`                | The email template for the notify service           | `{{ .Values.container.notifyEmailTemplate }}`               | `ffc-grants-eligibility-checker`    |
+| `SESSION_CACHE_TTL`                    | The TTL in millis for the cookie and cache          | N/A                                                         |
+| `COOKIE_PASSWORD`                      | The password needed for authorizing the cookies     | N/A                                                         |
+| `REDIS_HOSTNAME`                       | The hostname needed for connecting to Azure Redis   | N/A                                                         |                                     |
+| `REDIS_PORT`                           | The port needed for connecting to Azure Redis       | N/A                                                         |                                     |
+| `REDIS_PASSWORD`                       | The password needed for connecting to Azure Redis   | N/A                                                         |                                     |
+| `REDIS_PARTITION`                      | The name of the application, needed for Azure Redis | ffc-grants-eligibility-checker (TBC?)                       |                                     |
 
 Environment variables for the application in **development**:
 

@@ -2,8 +2,6 @@ import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals
 import { configureServer } from '../../../../src/server';
 import crypto from 'crypto';
 
-jest.setTimeout(30000);
-
 describe('Consent Page', () => {
   let server;
   let cookie;

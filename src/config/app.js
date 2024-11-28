@@ -51,7 +51,7 @@ const config = {
 
   cookiePassword: process.env.COOKIE_PASSWORD,
   cookieOptions: {
-    ttl: process.env.COOKIE_TTL_IN_MILLIS,
+    ttl: process.env.SESSION_CACHE_TTL,
     encoding: 'base64json',
     isSecure: process.env.NODE_ENV === 'production',
     isHttpOnly: true,

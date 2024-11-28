@@ -1,5 +1,5 @@
 import 'dotenv/config';
 
-export { cacheConfig } from './cache.js';
-export { appConfig } from './app.js';
-export { viewsConfig } from './views.js';
+export { cacheConfig } from './cache-config.js';
+export { appConfig } from './app-config.js';
+export { viewsConfig } from './views-config.js';

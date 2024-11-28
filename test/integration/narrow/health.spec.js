@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, afterEach } from '@jest/globals';
 import { configureServer } from '../../../src/server.js';
 
 describe('Service Health', () => {
@@ -6,6 +6,11 @@ describe('Service Health', () => {
 
   beforeEach(async () => {
     server = await configureServer();
+    await server.start();
+  });
+
+  afterEach(async () => {
+    await server.stop();
   });
 
   it('should return 200 OK from /healthy endpoint', async () => {

@@ -7,17 +7,25 @@ jest.setTimeout(30000);
 describe('Start Page', () => {
   let server;
   let dom;
+  let cookie;
 
   beforeEach(async () => {
     server = await configureServer();
+    await server.start();
+  });
+
+  afterEach(async () => {
+    await server.stop();
   });
 
   describe('response', () => {
-    it('should redirect to start page successfully', async () => {
+    it('should redirect to starsert page successfully', async () => {
       const redirectResponse = await server.inject({
         method: 'GET',
         url: '/eligibility-checker/example-grant'
       });
+
+      cookie = redirectResponse.headers['set-cookie'][0].split(';')[0];
 
       expect(redirectResponse.statusCode).toBe(302);
       expect(redirectResponse.statusMessage).toBe('Found');
@@ -25,7 +33,10 @@ describe('Start Page', () => {
 
       const startPageResponse = await server.inject({
         method: 'GET',
-        url: redirectResponse.headers.location
+        url: redirectResponse.headers.location,
+        headers: {
+          cookie
+        }
       });
 
       expect(startPageResponse.statusCode).toBe(200);
@@ -39,13 +50,19 @@ describe('Start Page', () => {
         url: '/eligibility-checker/example-grant'
       });
 
+      cookie = redirectResponse.headers['set-cookie'][0].split(';')[0];
+
       const startPageResponse = await server.inject({
         method: 'GET',
-        url: redirectResponse.headers.location
+        url: redirectResponse.headers.location,
+        headers: {
+          cookie
+        }
       });
 
       dom = new JSDOM(startPageResponse.payload, {
-        runScripts: 'dangerously'
+        runScripts: 'dangerously',
+        url: 'https://checker-domain/eligibility-checker/example-grant'
       });
 
       // Mock `fetch` in the JSDOM window
@@ -67,9 +84,9 @@ describe('Start Page', () => {
           method: 'POST',
           body: JSON.stringify({
             event: 'NEXT',
+            currentPageId: 'start',
             nextPageId: 'country',
-            previousPageId: '',
-            currentPageId: 'start'
+            previousPageId: ''
           })
         })
       );

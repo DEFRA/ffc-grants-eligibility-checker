@@ -1,4 +1,4 @@
-import { assign, createMachine, interpret } from 'xstate';
+import { assign, createMachine } from 'xstate';
 import { pageUIConfig } from './page-ui-config.js';
 
 export const actionImplementations = {
@@ -223,31 +223,5 @@ export const exampleGrantMachine = createMachine({
         ...pageUIConfig.confirmation
       }
     }
-  }
-});
-
-// Server-side interpreter
-export const exampleGrantMachineService = interpret(
-  exampleGrantMachine.withConfig({
-    actions: actionImplementations,
-    guards: guardsImplementations
-  })
-).onTransition((state) => {
-  // istanbul ignore next
-  if (state.changed) {
-    console.log('State Update:', {
-      currentState: state.value,
-      currentContext: {
-        currentPageId: state.context.currentPageId,
-        completedPageIds: state.context.completedPageIds
-      },
-      event: state._event.name,
-      history: state.history
-        ? {
-            previousState: state.history.value,
-            previousContext: state.history.context
-          }
-        : 'No history available'
-    });
   }
 });

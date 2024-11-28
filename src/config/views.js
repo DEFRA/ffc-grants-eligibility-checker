@@ -1,4 +1,4 @@
-export const views = {
+export const viewsConfig = {
   paths: ['src/views', 'node_modules/govuk-frontend/dist'],
   assets: {
     gov: '/assets',

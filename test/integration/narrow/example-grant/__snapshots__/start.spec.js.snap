@@ -222,13 +222,23 @@ exports[`Start Page snapshot should match snapshot 1`] = `
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById("continueBtn").addEventListener("click", (event) => {
-      fetch("/eligibility-checker/example-grant/transition", {
+      event.preventDefault();
+      const continueLink = document.getElementById("continueBtn");
+      if (continueLink) {
+        continueLink.addEventListener("click", (event) => {
+          fetch("/eligibility-checker/example-grant/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event: "NEXT", nextPageId: "country", previousPageId: "", currentPageId: "start"}),
-        })
-      });
+            body: JSON.stringify({ 
+              event: "NEXT",
+              currentPageId: "start",
+              nextPageId: "country",
+              previousPageId: ""
+            }),
+          })
+          .then(() => window.location.href = continueLink.href);
+        });
+      }
     });
   </script>
 

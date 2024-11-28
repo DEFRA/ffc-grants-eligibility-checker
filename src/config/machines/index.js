@@ -1,5 +1,13 @@
-import { exampleGrantMachineService } from './example-grant-machine.js';
+import {
+  actionImplementations,
+  exampleGrantMachine,
+  guardsImplementations
+} from './example-grant-machine.js';
 
-export const grantIdToMachineServiceMap = {
-  'example-grant': exampleGrantMachineService
+export const grantTypeToMachineMap = {
+  'example-grant': {
+    machine: exampleGrantMachine,
+    actions: actionImplementations,
+    guards: guardsImplementations
+  }
 };

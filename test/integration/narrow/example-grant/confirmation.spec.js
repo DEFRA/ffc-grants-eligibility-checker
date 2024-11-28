@@ -1,19 +1,19 @@
 import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
 import { configureServer } from '../../../../src/server';
-import { JSDOM } from 'jsdom';
 import crypto from 'crypto';
 
 jest.setTimeout(30000);
 
 describe('Consent Page', () => {
   let server;
-  let dom;
+  let cookie;
 
   beforeEach(async () => {
     server = await configureServer();
+    await server.start();
 
-    // Initial navigation setup to "country" page
-    await server.inject({
+    // Initial transition to "country" state
+    const transitionResponse = await server.inject({
       method: 'POST',
       url: '/eligibility-checker/example-grant/transition',
       payload: {
@@ -22,12 +22,10 @@ describe('Consent Page', () => {
         nextPageId: 'country'
       }
     });
-    // Load the "country" page with a base URL
-    await server.inject({
-      method: 'GET',
-      url: '/eligibility-checker/example-grant/country'
-    });
-    // Transition to the "consent" page
+
+    cookie = transitionResponse.headers['set-cookie'][0].split(';')[0];
+
+    // Transition to the "consent" state
     await server.inject({
       method: 'POST',
       url: '/eligibility-checker/example-grant/transition',
@@ -35,14 +33,12 @@ describe('Consent Page', () => {
         event: 'NEXT',
         currentPageId: 'country',
         nextPageId: 'consent'
+      },
+      headers: {
+        cookie
       }
     });
-    // Load the "consent" page with a base URL
-    await server.inject({
-      method: 'GET',
-      url: '/eligibility-checker/example-grant/consent'
-    });
-    // Transition to the "confirmation" page
+    // Transition to the "confirmation" state
     await server.inject({
       method: 'POST',
       url: '/eligibility-checker/example-grant/transition',
@@ -50,31 +46,25 @@ describe('Consent Page', () => {
         event: 'NEXT',
         currentPageId: 'consent',
         nextPageId: 'confirmation'
+      },
+      headers: {
+        cookie
       }
-    });
-    // Load the "consent" page with a base URL
-    const confirmationPageResponse = await server.inject({
-      method: 'GET',
-      url: '/eligibility-checker/example-grant/confirmation'
-    });
-
-    dom = new JSDOM(confirmationPageResponse.payload);
-
-    // Mock `fetch` in the JSDOM window
-    dom.window.fetch = jest.fn().mockResolvedValue({
-      json: async () => ({ previousPageId: 'consent' })
     });
   });
 
-  afterEach(() => {
-    server.stop();
+  afterEach(async () => {
+    await server.stop();
   });
 
   describe('response', () => {
     it('should return 200 on successfull page load', async () => {
       const response = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/confirmation'
+        url: '/eligibility-checker/example-grant/confirmation',
+        headers: {
+          cookie
+        }
       });
 
       expect(response.statusCode).toBe(200);
@@ -89,7 +79,10 @@ describe('Consent Page', () => {
     it('should match snapshot', async () => {
       const response = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/confirmation'
+        url: '/eligibility-checker/example-grant/confirmation',
+        headers: {
+          cookie
+        }
       });
       expect(response.payload).toMatchSnapshot();
     });

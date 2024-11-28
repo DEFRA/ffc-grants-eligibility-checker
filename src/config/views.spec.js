@@ -1,17 +1,17 @@
-// Import the views object
-import { views } from './views.js';
+// Import the viewsConfig object
+import { viewsConfig } from './views.js';
 
-describe('Views Configuration', () => {
+describe('viewsConfig Configuration', () => {
   describe('paths and assets', () => {
     it('should have the correct configuration', () => {
-      expect(views.paths).toHaveLength(2);
-      expect(views.paths).toContain('src/views');
-      expect(views.paths).toContain('node_modules/govuk-frontend/dist');
-      expect(views.assets).toHaveProperty('gov');
-      expect(views.assets).toHaveProperty('app');
-      expect(views.assets.gov).toBe('/assets');
-      expect(views.assets.app).toBe('/assets');
-      expect(views.assets.gov).toBe(views.assets.app);
+      expect(viewsConfig.paths).toHaveLength(2);
+      expect(viewsConfig.paths).toContain('src/views');
+      expect(viewsConfig.paths).toContain('node_modules/govuk-frontend/dist');
+      expect(viewsConfig.assets).toHaveProperty('gov');
+      expect(viewsConfig.assets).toHaveProperty('app');
+      expect(viewsConfig.assets.gov).toBe('/assets');
+      expect(viewsConfig.assets.app).toBe('/assets');
+      expect(viewsConfig.assets.gov).toBe(viewsConfig.assets.app);
     });
   });
 });

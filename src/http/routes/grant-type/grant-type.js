@@ -1,9 +1,9 @@
 import { getContext } from './get-context.js';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 import redirectToStartPage from '../../../utils/redirect-to-start-page.js';
-import { grantIdToMachineServiceMap } from '../../../config/machines/index.js';
 import * as Boom from '@hapi/boom';
 import { generateOptions, hasPageErrors } from '../../../utils/template-utils.js';
+import { initializeMachine } from '../../../config/machines/machine-utils.js';
 
 /**
  * Retrieves the grant type.
@@ -15,46 +15,38 @@ export const viewGrantType = (request, h) => {
   const { grantType, page } = request.params;
   console.log(`viewGrantType grantType: ${grantType}, page: ${page}`);
 
-  const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
-  if (grantTypeMachineService) {
-    console.debug('viewGrantType: Grant is valid');
+  const grantTypeMachineService = initializeMachine(request, grantType);
 
-    const stateMeta = grantTypeMachineService.state.meta[`exampleGrantMachine.${page}`];
+  const state = grantTypeMachineService.getSnapshot();
+  const stateMeta = state.meta[`exampleGrantMachine.${page}`];
 
-    if (stateMeta) {
-      const userAnswers = grantTypeMachineService.state.context.userAnswers;
-      const currentPageId = grantTypeMachineService.state.context.currentPageId;
-      const hasErrors = hasPageErrors(
-        grantTypeMachineService.state.context.pageErrors,
-        currentPageId
-      );
-      const errors = grantTypeMachineService.state.context.pageErrors[currentPageId];
-      const { inputOptions, ...rest } = stateMeta;
-      const context = getContext(grantType, {
-        ...rest,
+  if (stateMeta) {
+    const userAnswers = state.context.userAnswers;
+    const currentPageId = state.context.currentPageId;
+    const hasErrors = hasPageErrors(state.context.pageErrors, currentPageId);
+    const errors = state.context.pageErrors[currentPageId];
+    const { inputOptions, ...rest } = stateMeta;
+    const context = getContext(grantType, {
+      ...rest,
+      currentPageId,
+      items: generateOptions(userAnswers[currentPageId], {
+        questionType: stateMeta.questionType,
         currentPageId,
-        items: generateOptions(userAnswers[currentPageId], {
-          questionType: stateMeta.questionType,
-          currentPageId,
-          inputOptions
-        }),
-        hasErrors,
-        errors
-      });
+        inputOptions
+      }),
+      hasErrors,
+      errors
+    });
 
-      console.debug(
-        `viewGrantType: state ${page} is valid with context: ${JSON.stringify(context, null, 2)} and user answers: ${JSON.stringify(
-          userAnswers
-        )}`
-      );
-      return h.view(`pages/${stateMeta.templateId}.njk`, context);
-    }
-    console.warn(`viewGrantType: state for ${page} is invalid`);
-    throw Boom.notFound('Page not found');
+    console.debug(
+      `viewGrantType: state ${page} is valid with context: ${JSON.stringify(context, null, 2)} and user answers: ${JSON.stringify(
+        userAnswers
+      )}`
+    );
+    return h.view(`pages/${stateMeta.templateId}.njk`, context);
   }
-
-  console.warn('viewGrantType: Grant type is invalid');
-  throw Boom.notFound('Grant type not found');
+  console.warn(`viewGrantType: state for ${page} is invalid`);
+  throw Boom.notFound('Page not found');
 };
 
 /**

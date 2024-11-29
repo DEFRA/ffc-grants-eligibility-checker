@@ -45,7 +45,7 @@ Environment variables for the application in **all environments**:
 | `REDIS_HOSTNAME`                       | The hostname needed for connecting to Azure Redis   | N/A                                                         |                                     |
 | `REDIS_PORT`                           | The port needed for connecting to Azure Redis       | N/A                                                         |                                     |
 | `REDIS_PASSWORD`                       | The password needed for connecting to Azure Redis   | N/A                                                         |                                     |
-| `REDIS_PARTITION`                      | The name of the application, needed for Azure Redis | ffc-grants-eligibility-checker (TBC?)                       |                                     |
+| `REDIS_PARTITION`                      | The name of the application, needed for Azure Redis | ffc-grants-eligibility-checker                              |                                     |
 
 Environment variables for the application in **development**:
 

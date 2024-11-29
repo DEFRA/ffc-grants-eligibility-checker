@@ -39,6 +39,12 @@ container:
   limitCpu: 120m
   port: 3000
   readOnlyRootFilesystem: true
+  redisHostname: redis
+  redisPassword: redis
+  cookiePassword: thisisnotarealpasswordthisisnotarealpassword
+  redisPort: 6379
+  redisPartition: ffc-grants-eligibility-checker
+  sessionCacheTTL: 3600000
   scoreRequestQueueAddress: ffc-grants-desirability-scoring-req
   scoreResponseQueueAddress: ffc-grants-desirability-scoring-res
   desirabilitySubmittedTopicAddress: desirability-submitted

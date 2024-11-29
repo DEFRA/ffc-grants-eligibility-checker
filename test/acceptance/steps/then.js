@@ -1,4 +1,7 @@
 import { Then } from '@wdio/cucumber-framework';
+import { $, browser, expect } from '@wdio/globals';
+import AxeBuilder from '@axe-core/webdriverio';
+import fs from 'node:fs/promises';
 import poller from '../services/poller.js';
 
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
@@ -31,4 +34,21 @@ Then(/^(?:the user completes|completes) the journey$/, async () => {
   await $(`//input[contains(@value,'Yes')]`).click();
   await $(`//button[@id='Continue']`).click();
   await $(`//button[@id='btnConfirmSend']`).click();
+});
+
+Then(/^the page should meet accessibility standards$/, async () => {
+  const results = await new AxeBuilder({ client: browser })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    .analyze();
+
+  let path = (await browser.getUrl()).split('/').pop();
+  if (await $(`//div[@class='govuk-error-summary']`).isDisplayed()) {
+    path = `${path}-validation`;
+  }
+
+  await fs.writeFile(
+    `${process.env.RUNNING_IN_CONTAINER ? '/json-reports' : './json-reports'}/example-grant/${path}.json`,
+    JSON.stringify(results, null, 4)
+  );
+  await expect(results.violations.length).toBe(0);
 });

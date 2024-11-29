@@ -11,8 +11,7 @@ services:
       RUNNING_IN_CONTAINER: "true"
     volumes:
       - ./html-reports:/html-reports
-    ports:
-      - "9228:9229"
+      - ./json-reports/example-grant:/json-reports/example-grant
 
   selenium-cucumber:
     image: selenium/standalone-chrome

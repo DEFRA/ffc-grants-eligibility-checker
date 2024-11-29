@@ -1,6 +1,10 @@
 # Acceptance Tests
-This folder contains the acceptance test project for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Cucumber and the tests are containerised, running against a single browser (Chrome).
-.
+This folder contains the acceptance tests for the Grants Eligibility Checker web app.
+- The framework used is WebdriverIO with Cucumber
+- Tests are containerised
+- Tests run against a single browser (Chrome)
+- Tests cover functional acceptance criteria and non-functional accessibility requirements
+
 ## Requirements
 - Docker
 - Node
@@ -34,7 +38,11 @@ Docker is used to create containers for both the tests and the Selenium instance
 
 3. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all acceptance tests.
 
-5. HTML reports will be output to `/test/acceptance/html-reports`.
+4. HTML reports will be output to `/test/acceptance/html-reports`.
+
+5. JSON Axe accessibility reports will be output as individual page results to `/test/acceptance/json-reports/example-grant`.
+
+6. Any WCAG 2.0/2.1 A/AA violations will fail the tests.
 
 ## Running tests outside a container
 To run tests outside a container, with the browser interaction visible:

@@ -1,10 +1,5 @@
 FROM defradigital/node-development:2.3.0-node22.4.0
 
-
-RUN mkdir /home/node/json-reports
-RUN mkdir /home/node/json-reports/example-grant
-RUN chown -R node:node /home/node/json-reports
-
 USER node
 COPY ./features /home/node/features
 COPY ./services /home/node/services

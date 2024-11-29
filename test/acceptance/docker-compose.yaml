@@ -11,6 +11,7 @@ services:
       RUNNING_IN_CONTAINER: "true"
     volumes:
       - ./html-reports:/html-reports
+      - ./json-reports:/json-reports
       - ./json-reports/example-grant:/json-reports/example-grant
 
   selenium-cucumber:

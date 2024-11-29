@@ -10,8 +10,8 @@ services:
       CHROME_ARGS: "--headless --ignore-certificate-errors"
       RUNNING_IN_CONTAINER: "true"
     volumes:
-      - ./html-reports:/html-reports
-      - ./json-reports:/json-reports
+      - ./html-reports:/home/node/html-reports
+      - ./json-reports:/home/node/json-reports
 
   selenium-cucumber:
     image: selenium/standalone-chrome

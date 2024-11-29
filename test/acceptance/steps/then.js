@@ -49,7 +49,7 @@ Then(/^the page should meet accessibility standards$/, async () => {
   const grantName = urlParts.pop();
 
   await fs.writeFile(
-    `${process.env.RUNNING_IN_CONTAINER ? '/json-reports' : './json-reports'}/${grantName}-${path}.json`,
+    `${process.env.RUNNING_IN_CONTAINER ? '/home/node/json-reports' : './json-reports'}/${grantName}-${path}.json`,
     JSON.stringify(results, null, 4)
   );
   await expect(results.violations.length).toBe(0);

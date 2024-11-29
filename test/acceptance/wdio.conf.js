@@ -124,7 +124,9 @@ export let config = {
     [
       'cucumberjs-json',
       {
-        jsonFolder: process.env.RUNNING_IN_CONTAINER ? '/html-reports/json' : './html-reports/json',
+        jsonFolder: process.env.RUNNING_IN_CONTAINER
+          ? '/home/node/html-reports/json'
+          : './html-reports/json',
         language: 'en'
       }
     ]
@@ -316,8 +318,12 @@ export let config = {
    */
   onComplete: function (exitCode, config, capabilities, results) {
     generate({
-      jsonDir: process.env.RUNNING_IN_CONTAINER ? '/html-reports/json' : './html-reports/json',
-      reportPath: process.env.RUNNING_IN_CONTAINER ? '/html-reports/html' : './html-reports/html'
+      jsonDir: process.env.RUNNING_IN_CONTAINER
+        ? '/home/node/html-reports/json'
+        : './html-reports/json',
+      reportPath: process.env.RUNNING_IN_CONTAINER
+        ? '/home/node/html-reports/html'
+        : './html-reports/html'
     });
   }
   /**

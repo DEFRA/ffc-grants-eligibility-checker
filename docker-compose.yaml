@@ -9,6 +9,7 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
+      PORT: 3000
       SESSION_CACHE_TTL: 3600000
       COOKIE_PASSWORD: thisistestcookiepasswordthisistestcookiepasswordthisistestcookiepassword
       REDIS_HOSTNAME: redis

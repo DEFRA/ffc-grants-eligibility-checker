@@ -8,6 +8,7 @@ services:
     image: ffc-grants-eligibility-checker-development
     environment:
       NODE_ENV: test
+      PORT: 0 # Allow application logic to randomize the port
       SESSION_CACHE_TTL: 3600000
     command: npm run test
     volumes:

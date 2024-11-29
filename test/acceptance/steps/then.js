@@ -41,13 +41,15 @@ Then(/^the page should meet accessibility standards$/, async () => {
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
     .analyze();
 
-  let path = (await browser.getUrl()).split('/').pop();
+  const urlParts = (await browser.getUrl()).split('/');
+  let path = urlParts.pop();
   if (await $(`//div[@class='govuk-error-summary']`).isDisplayed()) {
     path = `${path}-validation`;
   }
+  const grantName = urlParts.pop();
 
   await fs.writeFile(
-    `${process.env.RUNNING_IN_CONTAINER ? '/json-reports' : './json-reports'}/example-grant/${path}.json`,
+    `${process.env.RUNNING_IN_CONTAINER ? '/json-reports' : './json-reports'}/${grantName}-${path}.json`,
     JSON.stringify(results, null, 4)
   );
   await expect(results.violations.length).toBe(0);

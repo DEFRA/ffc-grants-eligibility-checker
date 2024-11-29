@@ -12,7 +12,6 @@ services:
     volumes:
       - ./html-reports:/html-reports
       - ./json-reports:/json-reports
-      - ./json-reports/example-grant:/json-reports/example-grant
 
   selenium-cucumber:
     image: selenium/standalone-chrome

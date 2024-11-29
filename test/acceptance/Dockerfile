@@ -1,8 +1,7 @@
 FROM defradigital/node-development:2.3.0-node22.4.0
 
 USER node
-RUN mkdir ./json-reports
-RUN chmod -R 777 ./json-reports
+RUN mkdir 777 ./json-reports
 COPY ./features ./features
 COPY ./services ./services
 COPY ./steps ./steps

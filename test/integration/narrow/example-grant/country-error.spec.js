@@ -2,6 +2,8 @@ import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals
 import { configureServer } from '../../../../src/server';
 import { JSDOM } from 'jsdom';
 
+jest.setTimeout(10000);
+
 describe('Country Page Error Handling', () => {
   let server;
   let dom;

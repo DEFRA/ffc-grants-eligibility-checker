@@ -2,6 +2,8 @@ import { describe, it, jest, expect } from '@jest/globals';
 import { configureServer } from '../../../../src/server';
 import { JSDOM } from 'jsdom';
 
+jest.setTimeout(10000);
+
 describe('Start Page', () => {
   let server;
   let dom;

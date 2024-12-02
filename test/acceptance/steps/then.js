@@ -6,6 +6,8 @@ import jsonFile from 'jsonfile';
 import path from 'node:path';
 import poller from '../services/poller.js';
 
+let accessibilityViolationsFound = false;
+
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
   if (text.indexOf("'") > -1) {
     text = text.substring(0, text.indexOf("'"));
@@ -38,7 +40,7 @@ Then(/^(?:the user completes|completes) the journey$/, async () => {
   await $(`//button[@id='btnConfirmSend']`).click();
 });
 
-Then(/^the page should meet accessibility standards$/, async () => {
+Then(/^the page is analysed for accessibility$/, async () => {
   const results = await new AxeBuilder({ client: browser })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
     .analyze();
@@ -60,5 +62,9 @@ Then(/^the page should meet accessibility standards$/, async () => {
     { spaces: 4 }
   );
 
-  await expect(results.violations.length).toBe(0);
+  accessibilityViolationsFound = accessibilityViolationsFound || results.violations.length > 0;
+});
+
+Then(/^no accessibility violations should be present in the journey$/, async () => {
+  await expect(accessibilityViolationsFound).toBe(false);
 });

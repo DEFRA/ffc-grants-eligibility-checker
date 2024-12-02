@@ -1,9 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { EmailService } from './Email-Service.js';
 import { EmailFormatter } from './Email-Formatter.js';
+import { getConnecter } from '../lib/service-bus/get-connector.js';
+import { app } from '../config/app.js';
 
-const emailService = new EmailService();
-const emailFormatter = new EmailFormatter();
+const connector = getConnecter(app);
+const service = new EmailService(connector, app);
+const emailFormatter = new EmailFormatter(app);
 
 /**
  * Handles a submission by formatting it into an email and sending it.
@@ -15,14 +18,8 @@ const emailFormatter = new EmailFormatter();
  * @returns {Promise<boolean>} - true if the email is sent successfully, false if not.
  */
 export async function handleSubmission(machineContext) {
-  console.log('handleSubmission');
   const formattedEmail = emailFormatter.formatSubmissionEmail(machineContext);
-  const correlationId = uuidv4();
+  const correlationId = app.environment === 'local' ? app.serviceBus.local.correlationId : uuidv4();
 
-  console.log('Processing submission:', {
-    formattedEmail,
-    correlationId
-  });
-
-  return emailService.sendSubmissionEmail(formattedEmail, correlationId);
+  return await service.sendSubmissionEmail(formattedEmail, correlationId);
 }

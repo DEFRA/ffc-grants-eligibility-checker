@@ -55,6 +55,7 @@
     "supertest": "^7.0.0"
   },
   "dependencies": {
+    "@azure/service-bus": "^7.9.5",
     "@hapi/boom": "^10.0.1",
     "@hapi/hapi": "^21.3.10",
     "@hapi/inert": "^7.1.0",

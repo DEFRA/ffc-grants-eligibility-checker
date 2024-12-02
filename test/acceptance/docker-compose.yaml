@@ -11,7 +11,6 @@ services:
       RUNNING_IN_CONTAINER: "true"
     volumes:
       - ./html-reports:/home/node/html-reports
-      - ./json-reports:/home/node/json-reports
 
   selenium-cucumber:
     image: selenium/standalone-chrome

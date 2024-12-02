@@ -51,13 +51,14 @@ Then(/^the page should meet accessibility standards$/, async () => {
   const grantName = urlParts.pop();
 
   const reportDirectory = process.env.RUNNING_IN_CONTAINER
-    ? '/home/node/json-reports'
-    : './json-reports';
-  fs.ensureDirSync(reportDirectory);
-  fs.ensureDirSync(path.resolve(reportDirectory, grantName));
-  jsonFile.writeFileSync(path.resolve(`${reportDirectory}/${grantName}`, `${page}.json`), results, {
-    spaces: 4
-  });
+    ? '/home/node/html-reports'
+    : './html-reports';
+  fs.ensureDirSync(path.resolve(reportDirectory, 'axe-reports', grantName));
+  jsonFile.writeFileSync(
+    path.resolve(`${reportDirectory}/axe-reports/${grantName}`, `${page}.json`),
+    results,
+    { spaces: 4 }
+  );
 
   await expect(results.violations.length).toBe(0);
 });

@@ -1,8 +1,9 @@
 import { Then } from '@wdio/cucumber-framework';
 import { $, browser, expect } from '@wdio/globals';
 import AxeBuilder from '@axe-core/webdriverio';
-import fs from 'node:fs/promises';
-import fsex from 'fs-extra';
+import fs from 'fs-extra';
+import jsonFile from 'jsonfile';
+import path from 'node:path';
 import poller from '../services/poller.js';
 
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
@@ -15,7 +16,7 @@ Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
 Then(/^(?:the user should|should) be at URL "([^"]*)?"$/, async (expectedPath) => {
   const doesActualUrlEndWithExpectedPath = await poller.pollForSuccess(async () => {
     const actualUrl = await browser.getUrl();
-    return await actualUrl.endsWith(expectedPath);
+    return actualUrl.endsWith(expectedPath);
   });
   await expect(doesActualUrlEndWithExpectedPath).toBe(true);
 });
@@ -43,20 +44,20 @@ Then(/^the page should meet accessibility standards$/, async () => {
     .analyze();
 
   const urlParts = (await browser.getUrl()).split('/');
-  let path = urlParts.pop();
+  let page = urlParts.pop();
   if (await $(`//div[@class='govuk-error-summary']`).isDisplayed()) {
-    path = `${path}-validation`;
+    page = `${page}-validation`;
   }
   const grantName = urlParts.pop();
 
   const reportDirectory = process.env.RUNNING_IN_CONTAINER
     ? '/home/node/json-reports'
     : './json-reports';
-  await fsex.ensureDir(reportDirectory);
-  await fs.writeFile(
-    `${reportDirectory}/${grantName}-${path}.json`,
-    JSON.stringify(results, null, 4)
-  );
+  fs.ensureDirSync(reportDirectory);
+  fs.ensureDirSync(path.resolve(reportDirectory, grantName));
+  jsonFile.writeFileSync(path.resolve(`${reportDirectory}/${grantName}`, `${page}.json`), results, {
+    spaces: 4
+  });
 
   await expect(results.violations.length).toBe(0);
 });

@@ -3,10 +3,8 @@
 data:
   NODE_ENV: {{ quote .Values.environment }}
   PORT: {{ quote .Values.container.port }}  
+  CHECKER_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.checkerSubmittedTopicAddress }}
   SERVICE_BUS_HOST: {{ .Values.container.messageQueueHost | quote }}
-  SCORE_REQUEST_QUEUE_ADDRESS: {{ .Values.container.scoreRequestQueueAddress | quote }}
-  SCORE_RESPONSE_QUEUE_ADDRESS: {{ .Values.container.scoreResponseQueueAddress | quote }}
-  DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
   NOTIFY_EMAIL_TEMPLATE: {{ .Values.container.notifyEmailTemplate | quote }}
   SESSION_CACHE_TTL: {{ .Values.container.sessionCacheTTL | quote }}  
   USE_REDIS: {{ .Values.container.useRedis | quote }}

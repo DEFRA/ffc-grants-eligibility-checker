@@ -1,16 +1,16 @@
-import config from '../config/notification/notification.config.js';
-import { MessageSender } from 'ffc-messaging';
-
 /**
  * EmailService class responsible for sending submission emails and managing the connection to the message broker.
  */
 export class EmailService {
   /**
    * Constructs an instance of EmailService.
-   * Initializes a message sender for sending emails using the configured contact details queue.
+   * Sends a message sender to the message broker.
+   * @param {*} messageService
+   * @param config
    */
-  constructor() {
-    this.sender = new MessageSender(config.contactDetailsQueue);
+  constructor(messageService, config) {
+    this.messageService = messageService;
+    this.config = config;
   }
 
   /**
@@ -22,28 +22,19 @@ export class EmailService {
   async sendSubmissionEmail(submissionData, correlationId) {
     const message = {
       body: submissionData,
-      type: 'uk.gov.ffc.grants.aaa.bbb.ccc.ddd',
-      source: config.msgSrc,
+      type: this.config.serviceBus.type,
+      source: this.config.serviceBus.msgSrc,
       correlationId
     };
 
-    console.log('sendSubmissionEmail', message);
-
     try {
-      const result = await this.sender.sendMessage(message);
-      console.log('Email Result', result);
+      await this.messageService.sendMessage(message);
+      if (this.config.environment === 'local') await this.messageService.checkQueue();
+
       return true;
     } catch (error) {
       console.error('Email send failed:', error);
       return false;
     }
-  }
-
-  /**
-   * Closes the connection to the message broker.
-   * @returns {Promise<void>} - Resolves when the connection is closed.
-   */
-  async close() {
-    await this.sender.closeConnection();
   }
 }

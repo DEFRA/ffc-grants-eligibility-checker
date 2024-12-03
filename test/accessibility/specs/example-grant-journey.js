@@ -1,6 +1,8 @@
 import { $, browser, expect } from '@wdio/globals';
 import AxeBuilder from '@axe-core/webdriverio';
-import fs from 'node:fs/promises';
+import fs from 'fs-extra';
+import jsonFile from 'jsonfile';
+import path from 'node:path';
 
 describe('Example Grant Journey', () => {
   it('should meet accessibility standards', async () => {
@@ -34,8 +36,6 @@ async function analyzeAccessibility() {
   const results = await new AxeBuilder({ client: browser })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
     .analyze();
-
-  console.log('URL: ' + (await browser.getUrl()));
 
   const urlParts = (await browser.getUrl()).split('/');
   let page = urlParts.pop();

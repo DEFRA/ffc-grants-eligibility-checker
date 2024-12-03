@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: protestduction
+      NODE_ENV: test
 
   axe:
     build: ./test/accessibility

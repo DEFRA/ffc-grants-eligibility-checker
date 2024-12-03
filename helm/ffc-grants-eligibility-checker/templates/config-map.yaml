@@ -8,10 +8,8 @@ data:
   SCORE_RESPONSE_QUEUE_ADDRESS: {{ .Values.container.scoreResponseQueueAddress | quote }}
   DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
   NOTIFY_EMAIL_TEMPLATE: {{ .Values.container.notifyEmailTemplate | quote }}
-  COOKIE_PASSWORD: {{ .Values.container.cookiePassword | quote }}
   SESSION_CACHE_TTL: {{ .Values.container.sessionCacheTTL | quote }}  
   REDIS_HOSTNAME: {{ .Values.container.redisHostname | quote }}
   REDIS_PORT: {{ .Values.container.redisPort | quote }}
   REDIS_PARTITION: {{ .Values.container.redisPartition | quote }}
-  REDIS_PASSWORD: {{ .Values.container.redisPassword | quote }}
 {{- end -}}

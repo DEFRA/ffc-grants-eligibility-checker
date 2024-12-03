@@ -2,6 +2,7 @@ services:
   axe:
     build: ./test/accessibility
     depends_on:
+      - ffc-grants-eligibility-checker
       - selenium-axe
     environment:
       TEST_ENVIRONMENT_ROOT_URL: ffc-grants-eligibility-checker:3000

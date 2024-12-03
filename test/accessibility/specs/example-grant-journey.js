@@ -13,16 +13,16 @@ describe('Example Grant Journey', () => {
     await $(`//*[contains(text(),'Start now')]`).click();
 
     // country
-    //hasViolations = hasViolations || (await analyzeAccessibility());
-    //await $(`//input[contains(@value,'Yes')]`).click();
-    //await $(`//button[@id='Continue']`).click();
+    hasViolations = hasViolations || (await analyzeAccessibility());
+    await $(`//input[contains(@value,'Yes')]`).click();
+    await $(`//button[@id='Continue']`).click();
 
     // consent
-    //hasViolations = hasViolations || (await analyzeAccessibility());
-    //await $(`//button[@id='btnConfirmSend']`).click();
+    hasViolations = hasViolations || (await analyzeAccessibility());
+    await $(`//button[@id='btnConfirmSend']`).click();
 
     // confirmation
-    //hasViolations = hasViolations || (await analyzeAccessibility());
+    hasViolations = hasViolations || (await analyzeAccessibility());
 
     expect(hasViolations).toBe(false);
   });

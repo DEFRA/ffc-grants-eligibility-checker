@@ -2,7 +2,7 @@
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { schema } from './app-schema';
+import { schema } from './app-schema.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +25,7 @@ const config = {
   version: pkg.version,
 
   host: '0.0.0.0',
-  port: process.env.PORT === '0' ? getRandomPort() : process.env.PORT,
+  port: process.env.PORT === '0' ? getRandomPort() : process.env.PORT || '3000',
   siteTitle: process.env.SITE_TITLE || 'FFC Grants Eligibility Checker',
   surveyLink: process.env.SURVEY_LINK || 'https://example.com/survey',
   sessionTimeoutInMins: process.env.SESSION_TIMEOUT_IN_MINS || '60',
@@ -39,7 +39,7 @@ const config = {
     isHttpOnly: true,
     clearInvalid: false,
     strictHeader: false,
-    isSameSite: 'Lax'
+    isSameSite: 'Strict'
   }
 };
 

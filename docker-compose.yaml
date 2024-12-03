@@ -12,7 +12,7 @@ services:
       PORT: 3000
       SESSION_CACHE_TTL: 3600000
       COOKIE_PASSWORD: thisistestcookiepasswordthisistestcookiepasswordthisistestcookiepassword
-      REDIS_HOSTNAME: redis
+      REDIS_HOSTNAME: ${REDIS_HOSTNAME}
       REDIS_PORT: 6379
       REDIS_PARTITION: ffc-grants-eligibility-checker
-      REDIS_PASSWORD: ""
+      REDIS_PASSWORD: ${REDIS_PASSWORD}

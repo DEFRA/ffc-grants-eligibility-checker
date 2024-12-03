@@ -1,8 +1,6 @@
 services:
-  wdio-axe:
+  axe:
     build: ./test/accessibility
-    image: wdio-axe
-    container_name: wdio-axe
     depends_on:
       - selenium-axe
     environment:

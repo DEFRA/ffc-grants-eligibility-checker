@@ -35,6 +35,8 @@ async function analyzeAccessibility() {
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
     .analyze();
 
+  console.log('URL: ' + (await browser.getUrl()));
+
   const urlParts = (await browser.getUrl()).split('/');
   let page = urlParts.pop();
   if (await $(`//div[@class='govuk-error-summary']`).isDisplayed()) {

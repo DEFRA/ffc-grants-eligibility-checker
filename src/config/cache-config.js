@@ -2,7 +2,7 @@
 import { schema } from './cache-schema.js';
 
 const config = {
-  useRedis: process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development',
+  useRedis: process.env.NODE_ENV !== 'test',
   expiresIn: process.env.SESSION_CACHE_TTL,
   catboxOptions: {
     host: process.env.REDIS_HOSTNAME,

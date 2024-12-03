@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Consent Page snapshot should match snapshot 1`] = `
+exports[`Confirmation Page snapshot should match snapshot 1`] = `
 "<!DOCTYPE html>
 <html lang="en" class="govuk-template">
   <head>

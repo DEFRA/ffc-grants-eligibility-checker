@@ -4,7 +4,7 @@ import crypto from 'crypto';
 
 jest.setTimeout(10000);
 
-describe('Consent Page', () => {
+describe('Confirmation Page', () => {
   let server;
   let cookie;
 
@@ -73,7 +73,17 @@ describe('Consent Page', () => {
 
   describe('snapshot', () => {
     beforeEach(() => {
-      jest.spyOn(crypto, 'randomBytes').mockReturnValue(Buffer.from([10]));
+      const realRandomBytes = crypto.randomBytes; // Store the original function
+      // Mock crypto.randomBytes to return predictable values
+      jest.spyOn(crypto, 'randomBytes').mockImplementation((size) => {
+        // Return a fixed sequence of random bytes for the given size
+        if (size === 1) {
+          // Return specific bytes to generate a predictable confirmation ID
+          return Buffer.from([10]); // 'A' for the first randomChar()
+        }
+        // Default return value for larger sizes if necessary
+        return realRandomBytes(size);
+      });
     });
 
     it('should match snapshot', async () => {

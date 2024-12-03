@@ -7,7 +7,7 @@ services:
       TEST_ENVIRONMENT_ROOT_URL: ffc-grants-eligibility-checker:3000
       CHROME_ARGS: "--headless --ignore-certificate-errors"
     volumes:
-      - ./test-output:/test-reports
+      - ./test-output:/test-output
 
   selenium-axe:
     image: selenium/standalone-chrome

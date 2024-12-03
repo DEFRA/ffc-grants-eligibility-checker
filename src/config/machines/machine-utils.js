@@ -21,6 +21,12 @@ export const initializeMachine = (request, grantType) => {
     return newService;
   }
 
+  // Check if the final state has been reached (e.g., a confirmation page)
+  if (storedState.done) {
+    // Clear the session data in Yar
+    request.yar.clear(sessionKey);
+  }
+
   console.debug(`Rehydrating state for grantType: "${grantType}"`);
   const rehydratedState = State.create(storedState);
   const service = createAndStartGrantMachineService(grantType, rehydratedState);

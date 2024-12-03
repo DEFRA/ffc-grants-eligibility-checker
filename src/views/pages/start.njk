@@ -3,7 +3,7 @@
 {{
   govukHeader({
     homepageUrl: "https://www.gov.uk/",
-    serviceName: "Generic checker screens",
+    serviceName: meta.localisation.title,
     serviceUrl: meta.grant.startUrl
   })
 }}
@@ -12,21 +12,22 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">Generic checker screens</h1>
+      <h1 class="govuk-heading-xl">{{ meta.localisation.title }}</h1>
 
-      <p class="govuk-body">Use this service to check:</p>
+      <p class="govuk-body">{{  meta.localisation.useThisServiceToCheck }}</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>if you are eligible to apply for a grant for your project (takes about x minutes)</li>
         <li>
-          how well your project scores against the funding priorities (takes about xx minutes if you
-          have all the project details)
+          {{ meta.localisation.listItem1 }}
+        </li>
+        <li>
+          {{ meta.localisation.listItem2 }}
         </li>
       </ul>
 
-      <h2 class="govuk-heading-m">Who can apply</h2>
+      <h2 class="govuk-heading-m">{{  meta.localisation.useThisServiceToCheck }}</h2>
 
-      <p class="govuk-body">You can apply if you either:</p>
+      <p class="govuk-body">{{  meta.localisation.body2 }}</p>
 
       <ul class="govuk-list govuk-list--bullet">
         <li>item 1</li>
@@ -34,16 +35,11 @@
         <li>item 3</li>
       </ul>
 
-      <p class="govuk-body">You must do the grant-funded work in England.</p>
+      <p class="govuk-body">{{  meta.localisation.body3 }}</p>
+      <p class="govuk-body">{{  meta.localisation.body4 }}</p>
+      <p class="govuk-body">{{  meta.localisation.body5 }}</p>
 
-      <p class="govuk-body">You can apply for up to x% of the estimated cost of project items.</p>
-
-      <p class="govuk-body">
-        The minimum grant for project items is £xxx (x% of £xx,000). The maximum grant you can apply
-        for is £xxx.
-      </p>
-
-      <div class="govuk-inset-text">Highlighted content here</div>
+      <div class="govuk-inset-text">{{  meta.localisation.notification }}</div>
 
       <a
         id="continueBtn"
@@ -53,7 +49,7 @@
         class="govuk-button govuk-button--start"
         data-module="govuk-button"
       >
-        Start now
+        {{  meta.localisation.startNow }}
         <svg
           class="govuk-button__start-icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -67,32 +63,32 @@
         </svg>
       </a>
 
-      <h2 class="govuk-heading-m">Before you start</h2>
+      <h2 class="govuk-heading-m">{{  meta.localisation.beforeYouStart }}</h2>
 
-      <p class="govuk-body">To use the checker, you need:</p>
+      <p class="govuk-body">{{  meta.localisation.toUseThisChecker }}</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>item 1</li>
-        <li>item 2</li>
-        <li>item 3</li>
-        <li>item 4</li>
+        <li>{{ meta.localisation.toUseThisCheckerItem1 }}</li>
+        <li>{{ meta.localisation.toUseThisCheckerItem2 }}</li>
+        <li>{{ meta.localisation.toUseThisCheckerItem3 }}</li>
+        <li>{{ meta.localisation.toUseThisCheckerItem4 }}</li>
       </ul>
 
-      <h2 class="govuk-heading-m">Problems using the online service</h2>
+      <h2 class="govuk-heading-m">{{  meta.localisation.problemsUsing.title }}</h2>
 
-      <p class="govuk-body">If you have any problems using the online service, contact xxx</p>
+      <p class="govuk-body">{{  meta.localisation.problemsUser.body }}</p>
 
-      <h3 class="govuk-heading-s">Telephone</h3>
+      <h3 class="govuk-heading-s">{{  meta.localisation.problemsUser.contactType1 }}</h3>
 
-      <p class="govuk-body">Telephone: xxxx xxxx xx</p>
+      <p class="govuk-body">{{  meta.localisation.problemsUser.body2 }}</p>
 
-      <p class="govuk-body">Monday to Friday, 9am to 5pm (except public holidays)</p>
+      <p class="govuk-body">{{  meta.localisation.problemsUser.body3 }}</p>
 
       <p class="govuk-body">
-        <a href="https://www.gov.uk/call-charges"> Find out about call charges </a>
+        <a href="https://www.gov.uk/call-charges">{{ meta.localisation.problemsUser.callChargesLink }}</a>
       </p>
 
-      <h3 class="govuk-heading-s">Email</h3>
+      <h3 class="govuk-heading-s">{{  meta.localisation.problemsUser.contactType2 }}</h3>
 
       <p class="govuk-body">
         <a href="mailto:FTF@rpa.gov.uk"> xxx@xxx.gov.uk </a>
@@ -101,7 +97,7 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById("continueBtn").addEventListener("click", (event) => {
+      document.getElementById("continueBtn").addEventListener("click", () => {
       fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

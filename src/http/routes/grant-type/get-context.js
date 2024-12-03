@@ -1,5 +1,6 @@
 import { app } from '../../../config/app.js';
 import { generateConfirmationId } from '../../../utils/template-utils.js';
+import { pages } from '../../../config/machines/locale/en.js';
 
 /**
  * Returns the context for hapi view
@@ -9,6 +10,7 @@ import { generateConfirmationId } from '../../../utils/template-utils.js';
  */
 export function getContext(grantTypeId, meta) {
   return {
+    pageTitle: `${app.siteTitle} - ${meta.currentPageId}`,
     showTimeout: true,
     surveyLink: `${app.surveyLink}`,
     sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,
@@ -18,6 +20,7 @@ export function getContext(grantTypeId, meta) {
       analytics: true
     },
     meta: {
+      localisation: { ...pages[meta.currentPageId] },
       ...meta,
       grantTypeId,
       generateConfirmationId

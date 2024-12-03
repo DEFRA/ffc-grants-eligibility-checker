@@ -3,6 +3,7 @@ import statusCodes, { OK } from '../../../constants/status-codes.js';
 import * as Boom from '@hapi/boom';
 import { startGrantStateMachines } from '../../../server.js';
 import { generateConfirmationId } from '../../../utils/template-utils.js';
+import { pages } from '../../../config/machines/locale/en.js';
 
 const { routes, viewGrantType } = await import('./grant-type.js');
 
@@ -28,8 +29,10 @@ describe('Grant Type Tests', () => {
       nextPageId: 'country',
       hasErrors: false,
       errors: undefined,
+      localisation: { ...pages.start },
       generateConfirmationId
     },
+    pageTitle: 'FFC Grants Eligibility Checker - start',
     sessionTimeoutInMin: '15',
     showTimeout: true,
     surveyLink: 'https://example.com/survey',

@@ -1,4 +1,14 @@
 {% extends 'layout.njk' %}
+{% block header %}
+{{
+  govukHeader({
+    homepageUrl: "https://www.gov.uk/",
+    serviceName: meta.localisation.title,
+    serviceUrl: meta.grant.startUrl
+  })
+}}
+{% endblock %}
+
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}

@@ -1,11 +1,21 @@
 services:
+  ffc-grants-eligibility-checker:
+    build:
+      context: .
+      target: development
+    image: ffc-grants-eligibility-checker
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: protestduction
+
   axe:
     build: ./test/accessibility
     depends_on:
       - ffc-grants-eligibility-checker
       - selenium-axe
     environment:
-      TEST_ENVIRONMENT_ROOT_URL: ffc-grants-eligibility-checker:3000
+      TEST_ENVIRONMENT_ROOT_URL: https://ffc-grants-eligibility-checker:3000
       CHROME_ARGS: "--headless --ignore-certificate-errors"
     volumes:
       - ./test-output:/test-output

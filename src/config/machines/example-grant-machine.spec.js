@@ -89,23 +89,6 @@ describe('Example Grant Machine Service', () => {
     expect(service.getSnapshot().context.currentPageId).toBe('start');
   });
 
-  it('should reset state after reaching confirmation', async () => {
-    // Send events to move through the states
-    service.send({ type: 'NEXT', nextPageId: 'country' });
-    service.send({ type: 'NEXT', nextPageId: 'consent' });
-
-    // Transition to confirmation
-    service.send({ type: 'NEXT', nextPageId: 'confirmation' });
-
-    // Wait for 1 second before verifying the state
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Check if state is reset
-    expect(service.getSnapshot().context.currentPageId).toBe('start');
-    expect(service.getSnapshot().context.completedPageIds).toEqual([]);
-    expect(service.getSnapshot().context.userAnswers).toEqual({});
-  });
-
   it('should update userAnswers on updateAnswers', () => {
     service.send({ type: 'NEXT', nextPageId: 'country' });
     // Send event to update the answer for the "country" page

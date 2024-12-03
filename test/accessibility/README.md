@@ -1,17 +1,13 @@
 # Accessibility Tests
-This folder contains the accessibility tests for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Axe and the tests are containerised, running against a single browser (Chrome).
+This folder contains the accessibility tests for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Axe and the tests are containerised, running against a single browser (Chrome). The Defra design is to use axe-core cli, but this does not support posting and navigating through pages to move through the eligibility checker journey.
 .
 ## Requirements
 - Docker
 - Node
 - npm
 
-## Environment Variables
-Provide the following environment variables, typically in a `.env` file in the `/test/accessibility` directory:
-
-```pwsh
-TEST_ENVIRONMENT_ROOT_URL=http://host.docker.internal:3000
-```
+## docker-compose file
+The docker-compose file used is at the root of the repository, `docker-compose-axe.yaml`. This file is detected and executed by the Jenkins pipeline. The host base URL is defined in this file.
 
 ## Running tests
 Docker is used to create containers for both the tests and the Selenium instance of Chrome. Headless browser mode is used.

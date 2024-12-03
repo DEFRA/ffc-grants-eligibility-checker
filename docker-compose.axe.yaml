@@ -1,15 +1,15 @@
 services:
   wdio-axe:
-    build: .
+    build: ./test/accessibility
     image: wdio-axe
     container_name: wdio-axe
     depends_on:
       - selenium-axe
     environment:
-      TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
+      TEST_ENVIRONMENT_ROOT_URL: http://host.docker.internal:3000
       CHROME_ARGS: "--headless --ignore-certificate-errors"
     volumes:
-      - ./json-reports/example-grant:/json-reports/example-grant
+      - ./test-output:/test-reports
 
   selenium-axe:
     image: selenium/standalone-chrome

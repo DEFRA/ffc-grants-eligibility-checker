@@ -1,14 +1,4 @@
 services:
-  ffc-grants-eligibility-checker:
-    build:
-      context: .
-      target: development
-    image: ffc-grants-eligibility-checker
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: test
-
   axe:
     build: ./test/accessibility
     depends_on:

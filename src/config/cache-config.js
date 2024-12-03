@@ -1,5 +1,5 @@
 // istanbul ignore file
-import { schema } from './cache-schema';
+import { schema } from './cache-schema.js';
 
 const config = {
   useRedis: process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development',

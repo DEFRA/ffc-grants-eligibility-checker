@@ -114,7 +114,7 @@ exports[`Country Page snapshot should match snapshot 1`] = `
     
       
       <span class="govuk-header__service-name">
-        Country
+        Generic checker screens
       </span>
       
     

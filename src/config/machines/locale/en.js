@@ -38,6 +38,6 @@ export const pages = {
     }
   },
   country: {
-    title: 'Country'
+    title: 'Generic checker screens'
   }
 };

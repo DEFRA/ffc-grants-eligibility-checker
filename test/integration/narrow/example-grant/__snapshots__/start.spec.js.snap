@@ -219,7 +219,7 @@ exports[`Start Page snapshot should match snapshot 1`] = `
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById("continueBtn").addEventListener("click", (event) => {
+      document.getElementById("continueBtn").addEventListener("click", () => {
       fetch("/eligibility-checker/example-grant/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

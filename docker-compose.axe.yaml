@@ -5,7 +5,7 @@ services:
       - ffc-grants-eligibility-checker
       - selenium-axe
     environment:
-      TEST_ENVIRONMENT_ROOT_URL: ffc-grants-eligibility-checker:3000
+      TEST_ENVIRONMENT_ROOT_URL: http://ffc-grants-eligibility-checker:3000
       CHROME_ARGS: "--headless --ignore-certificate-errors"
     volumes:
       - ./test-output:/home/node/test-output

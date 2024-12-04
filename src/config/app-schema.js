@@ -1,12 +1,14 @@
 // istanbul ignore file
 import Joi from 'joi';
 
+const DEFAULT_PORT = 3000;
+
 export const schema = Joi.object({
   name: Joi.string().required().default('ffc-grants-eligibility-checker"'),
   description: Joi.string().required().default('FFC Grant Eligibility Checker'),
   version: Joi.string().required().default('1.0.0'),
   host: Joi.string().required().default('0.0.0.0'),
-  port: Joi.number().required().default(3000),
+  port: Joi.number().required().default(DEFAULT_PORT),
   siteTitle: Joi.string().required().default('FFC Grants Eligibility Checker'),
   surveyLink: Joi.string().required().default('https://example.com/survey'),
   sessionTimeoutInMins: Joi.string().required().default('60'),

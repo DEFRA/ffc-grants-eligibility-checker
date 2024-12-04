@@ -18,9 +18,9 @@ describe('Example Grant journey', () => {
       }
       const grantName = urlParts.pop();
 
-      fs.ensureDirSync(path.resolve('home/node/test-output', 'axe-reports', grantName));
+      fs.ensureDirSync(path.resolve('/home/node/test-output', 'axe-reports', grantName));
       jsonFile.writeFileSync(
-        path.resolve(`home/node/test-output/axe-reports/${grantName}`, `${page}.json`),
+        path.resolve(`/home/node/test-output/axe-reports/${grantName}`, `${page}.json`),
         results,
         { spaces: 4 }
       );

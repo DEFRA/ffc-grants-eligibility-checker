@@ -3,12 +3,16 @@ import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { schema } from './app-schema.js';
+import crypto from 'crypto';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const currentFileName = fileURLToPath(import.meta.url);
+const currentDirName = path.dirname(currentFileName);
 const require = createRequire(import.meta.url);
 
-const pkg = require(path.join(__dirname, '../../package.json'));
+const pkg = require(path.join(currentDirName, '../../package.json'));
+
+const PORT_MIN = 1024; // Minimum port number (non-privileged ports)
+const PORT_MAX = 65535; // Maximum port number (highest valid port)
 
 /**
  * Generates a random port number within the range of 1024 to 65535.
@@ -16,7 +20,7 @@ const pkg = require(path.join(__dirname, '../../package.json'));
  * Note that the port range is chosen to avoid privileged ports (below 1024).
  * @returns {number} A random port number.
  */
-const getRandomPort = () => Math.floor(Math.random() * (65535 - 1024) + 1024); // Random port between 1024 and 65535
+const getRandomPort = () => crypto.randomInt(PORT_MIN, PORT_MAX); // Secure random port between 1024 and 65535
 
 const config = {
   // Application data

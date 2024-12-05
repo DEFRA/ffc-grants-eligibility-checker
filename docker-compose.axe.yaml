@@ -1,5 +1,7 @@
 services:
   ffc-grants-eligibility-checker:
+    ports:
+      - "3001:3001"
     volumes:
       - ./test-output/:/home/node/test-output/
 

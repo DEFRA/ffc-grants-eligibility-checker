@@ -267,7 +267,7 @@ export const configureServer = async () => {
   await registerPlugins(server)();
 
   server.ext('onRequest', (request, h) => {
-    console.log(`[${request.yar.id}] Request URL: ${request.url}`);
+    console.log(`Request URL: ${request.url}`);
     return h.continue;
   });
 

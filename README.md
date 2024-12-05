@@ -70,6 +70,17 @@ In development, we use `NODE_ENV=development`
   npm start
 ```
 
+Note: Please make sure you define the following `.env` file for the in memory catbox caching (to configure redis please follow the docker-compose.override.yaml setup - see \*\*Run the local server)
+
+```
+NODE_ENV=development
+#PLATFORM=linux/arm64
+SESSION_CACHE_TTL=3600000
+COOKIE_PASSWORD="thisistestcookiepasswordthisistestcookiepasswordthisistestcookiepassword"
+USE_REDIS=false
+PORT=3000
+```
+
 This will start the Hapi.js server and your project will be available at
 `http://localhost:3000/eligibility-checker/<checker_name>`.
 

@@ -1,7 +1,6 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 import * as Boom from '@hapi/boom';
-import { startGrantStateMachines } from '../../../server.js';
 import { generateConfirmationId } from '../../../utils/template-utils.js';
 
 const { routes, viewGrantType } = await import('./grant-type.js');
@@ -30,7 +29,7 @@ describe('Grant Type Tests', () => {
       errors: undefined,
       generateConfirmationId
     },
-    sessionTimeoutInMin: '15',
+    sessionTimeoutInMin: '60',
     showTimeout: true,
     surveyLink: 'https://example.com/survey',
     timeoutPath: '/timeout'
@@ -40,12 +39,15 @@ describe('Grant Type Tests', () => {
     params: {
       grantType: grantType.id,
       page: 'start'
+    },
+    yar: {
+      get: jest.fn(),
+      set: jest.fn()
     }
   };
 
   beforeEach(() => {
     jest.resetAllMocks();
-    startGrantStateMachines();
   });
 
   it('should create a view with structured page data', () => {
@@ -58,14 +60,32 @@ describe('Grant Type Tests', () => {
   });
 
   it('should return invalid grant type response when grant type is invalid', () => {
-    expect(() => viewGrantType({ params: { grantType: 'invalid-grant' } }, mockH)).toThrow(
-      Boom.notFound('Grant type not found')
-    );
+    expect(() =>
+      viewGrantType(
+        {
+          params: { grantType: 'invalid-grant' },
+          yar: {
+            get: jest.fn(),
+            set: jest.fn()
+          }
+        },
+        mockH
+      )
+    ).toThrow(Boom.notFound('Invalid grantType: "invalid-grant"'));
   });
 
   it('should return invalid page response when page is invalid', () => {
     expect(() =>
-      viewGrantType({ params: { ...requestMock.params, page: 'invalid-page' } }, mockH)
+      viewGrantType(
+        {
+          params: { ...requestMock.params, page: 'invalid-page' },
+          yar: {
+            get: jest.fn(),
+            set: jest.fn()
+          }
+        },
+        mockH
+      )
     ).toThrow(Boom.notFound('Page not found'));
   });
 

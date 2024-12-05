@@ -101,13 +101,23 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById("continueBtn").addEventListener("click", (event) => {
-      fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
+      event.preventDefault();
+      const continueLink = document.getElementById("continueBtn");
+      if (continueLink) {
+        continueLink.addEventListener("click", (event) => {
+          fetch("/eligibility-checker/{{ meta.grantTypeId }}/transition", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event: "NEXT", nextPageId: "{{ meta.nextPageId }}", previousPageId: "{{ meta.previousPageId }}", currentPageId: "{{ meta.currentPageId }}"}),
-        })
-      });
+            body: JSON.stringify({ 
+              event: "NEXT",
+              currentPageId: "{{ meta.currentPageId }}",
+              nextPageId: "{{ meta.nextPageId }}",
+              previousPageId: "{{ meta.previousPageId }}"
+            }),
+          })
+          .then(() => window.location.href = continueLink.href);
+        });
+      }
     });
   </script>
 {% endblock %}

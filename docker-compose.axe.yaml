@@ -10,15 +10,11 @@ services:
     volumes:
       - ./test-output:/home/node/test-output
     networks:
-      ffc-grants-eligibility-checker-network:
-        aliases:
-          - "ffc-grants-eligibility-checker-network"
+      - ffc-grants-eligibility-checker-network
 
   selenium-axe:
     image: selenium/standalone-chrome
     volumes:
       - /dev/shm:/dev/shm
     networks:
-      ffc-grants-eligibility-checker-network:
-        aliases:
-          - "ffc-grants-eligibility-checker-network"
+      - ffc-grants-eligibility-checker-network

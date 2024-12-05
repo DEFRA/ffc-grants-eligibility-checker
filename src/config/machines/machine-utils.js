@@ -14,9 +14,9 @@ export const initializeMachine = (request, grantType) => {
 
   if (!storedState) {
     console.warn(
-      `No state found in session for grantType: "${grantType}". Initializing new machine.`
+      `[${request.yar.id}] No state found in session for grantType: "${grantType}". Initializing new machine.`
     );
-    const newService = createAndStartGrantMachineService(grantType);
+    const newService = createAndStartGrantMachineService(request, grantType);
     request.yar.set(sessionKey, newService.state);
     return newService;
   }
@@ -27,20 +27,21 @@ export const initializeMachine = (request, grantType) => {
     request.yar.clear(sessionKey);
   }
 
-  console.debug(`Rehydrating state for grantType: "${grantType}"`);
+  console.debug(`[${request.yar.id}] Rehydrating state for grantType: "${grantType}"`);
   const rehydratedState = State.create(storedState);
-  const service = createAndStartGrantMachineService(grantType, rehydratedState);
+  const service = createAndStartGrantMachineService(request, grantType, rehydratedState);
 
   return service;
 };
 
 /**
  * Creates and starts an XState interpreter for the given grant type, optionally with an initial state.
+ * @param {import('@hapi/hapi').Request} request - The Hapi request object.
  * @param {string} grantType - The grant type for this machine.
  * @param {import('xstate').State<any, any> | undefined} initialState - Optional initial state for rehydration.
  * @returns {import('xstate').Interpreter<any, any, any>} - The initialized interpreter instance.
  */
-export const createAndStartGrantMachineService = (grantType, initialState) => {
+export const createAndStartGrantMachineService = (request, grantType, initialState) => {
   const grantConfig = grantTypeToMachineMap[grantType];
 
   if (!grantConfig) {
@@ -58,24 +59,27 @@ export const createAndStartGrantMachineService = (grantType, initialState) => {
 
   if (initialState) {
     service.start(initialState);
-    console.info(`Service started with rehydrated state for grantType: "${grantType}".`);
+    console.info(
+      `[${request.yar.id}] Service started with rehydrated state for grantType: "${grantType}".`
+    );
   } else {
     service.start();
-    console.info(`New service initialized for grantType: "${grantType}".`);
+    console.info(`[${request.yar.id}] New service initialized for grantType: "${grantType}".`);
   }
 
-  service.onTransition((state) => logStateTransition(state));
+  service.onTransition((state) => logStateTransition(request, state));
 
   return service;
 };
 
 /**
  * Logs detailed information about state transitions.
+ * @param {import('@hapi/hapi').Request} request - The Hapi request object.
  * @param {import('xstate').State<any, any>} state - The current state object after a transition.
  */
-const logStateTransition = (state) => {
+const logStateTransition = (request, state) => {
   if (state.changed) {
-    console.log('[State Transition]', {
+    console.log(`[${request.yar.id}][State Transition]`, {
       currentState: state.value,
       currentContext: {
         currentPageId: state.context.currentPageId,

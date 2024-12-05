@@ -44,13 +44,13 @@ describe('createAndStartGrantMachineService', () => {
     const invalidGrantType = 'invalidGrant';
 
     expect(() => {
-      createAndStartGrantMachineService(invalidGrantType);
+      createAndStartGrantMachineService(mockRequest, invalidGrantType);
     }).toThrow('Invalid grantType: "invalidGrant"');
   });
 
   it('should return service for the given grantType in initial state', () => {
     const grantType = 'example-grant';
-    const service = createAndStartGrantMachineService(grantType);
+    const service = createAndStartGrantMachineService(mockRequest, grantType);
 
     expect(service).toBeDefined();
     service.send({ type: 'NEXT' });
@@ -71,7 +71,7 @@ describe('createAndStartGrantMachineService', () => {
         type: 'xstate.event' // Internal XState marker for the event type
       }
     };
-    const service = createAndStartGrantMachineService(grantType, cachedState);
+    const service = createAndStartGrantMachineService(mockRequest, grantType, cachedState);
 
     expect(service).toBeDefined();
     service.send({ type: 'NEXT' });

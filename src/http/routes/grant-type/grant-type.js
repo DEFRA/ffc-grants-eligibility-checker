@@ -13,7 +13,7 @@ import { initializeMachine } from '../../../config/machines/machine-utils.js';
  */
 export const viewGrantType = (request, h) => {
   const { grantType, page } = request.params;
-  console.log(`viewGrantType grantType: ${grantType}, page: ${page}`);
+  console.log(`[${request.yar.id}] viewGrantType grantType: ${grantType}, page: ${page}`);
 
   const grantTypeMachineService = initializeMachine(request, grantType);
 
@@ -39,13 +39,13 @@ export const viewGrantType = (request, h) => {
     });
 
     console.debug(
-      `viewGrantType: state ${page} is valid with context: ${JSON.stringify(context, null, 2)} and user answers: ${JSON.stringify(
+      `[${request.yar.id}] viewGrantType: state ${page} is valid with context: ${JSON.stringify(context, null, 2)} and user answers: ${JSON.stringify(
         userAnswers
       )}`
     );
     return h.view(`pages/${stateMeta.templateId}.njk`, context);
   }
-  console.warn(`viewGrantType: state for ${page} is invalid`);
+  console.warn(`[${request.yar.id}] viewGrantType: state for ${page} is invalid`);
   throw Boom.notFound('Page not found');
 };
 

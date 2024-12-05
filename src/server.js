@@ -185,7 +185,7 @@ export const addRoutes = (server, stylesheetsPath) => {
             .code(statusCodes(OK));
         }
 
-        console.warn('viewGrantType: Grant type is invalid');
+        console.warn(`[${request.yar.id}] viewGrantType: Grant type is invalid`);
         throw Boom.notFound('Grant type not found');
       }
     }
@@ -267,7 +267,7 @@ export const configureServer = async () => {
   await registerPlugins(server)();
 
   server.ext('onRequest', (request, h) => {
-    console.log(`Request URL: ${request.url}`);
+    console.log(`[${request.yar.id}] Request URL: ${request.url}`);
     return h.continue;
   });
 

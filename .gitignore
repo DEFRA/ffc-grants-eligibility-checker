@@ -3,6 +3,7 @@
 
 ### Custom application ignores ###
 html-reports
+json-reports
 
 ### Node ###
 # Logs

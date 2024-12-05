@@ -1,0 +1,20 @@
+services:
+  axe:
+    build: ./test/accessibility
+    depends_on:
+      - ffc-grants-eligibility-checker
+      - selenium-axe
+    environment:
+      TEST_ENVIRONMENT_ROOT_URL: http://ffc-grants-eligibility-checker:3000
+      CHROME_ARGS: "--headless --ignore-certificate-errors"
+    volumes:
+      - ./test-output:/home/node/test-output
+    networks:
+      - ffc-grants-eligibility-checker-network
+
+  selenium-axe:
+    image: selenium/standalone-chrome
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - ffc-grants-eligibility-checker-network

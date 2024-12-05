@@ -1,7 +1,7 @@
 {
-  "name": "acceptance",
+  "name": "accessibility",
   "version": "1.0.0",
-  "description": "Grants Eligibility Checker Acceptance Tests",
+  "description": "Grants Eligibility Checker Accessibility Tests",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -12,16 +12,11 @@
   "license": "ISC",
   "devDependencies": {
     "@axe-core/webdriverio": "^4.10.1",
-    "@hapi/wreck": "^18.1.0",
-    "@pnp/nodejs-commonjs": "^2.15.0",
     "@wdio/cli": "^8.40.6",
-    "@wdio/cucumber-framework": "^8.40.6",
     "@wdio/local-runner": "^8.40.6",
+    "@wdio/mocha-framework": "^8.40.6",
     "@wdio/spec-reporter": "^8.40.6",
     "fs-extra": "^11.2.0",
-    "jsonfile": "^6.1.0",
-    "lodash": "^4.17.21",
-    "multiple-cucumber-html-reporter": "^3.7.0",
-    "wdio-cucumberjs-json-reporter": "^5.2.1"
+    "jsonfile": "^6.1.0"
   }
 }

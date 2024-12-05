@@ -1,10 +1,4 @@
 services:
-  ffc-grants-eligibility-checker:
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./test-output/:/home/node/test-output/
-
   axe:
     build: ./test/accessibility
     depends_on:
@@ -15,13 +9,16 @@ services:
       CHROME_ARGS: "--headless --ignore-certificate-errors"
     volumes:
       - ./test-output:/home/node/test-output
+    networks:
+      ffc-grants-eligibility-checker-network:
+        aliases:
+          - "ffc-grants-eligibility-checker-network"
 
   selenium-axe:
     image: selenium/standalone-chrome
-    # change to following image for ARM architectures
-    #image: seleniarm/standalone-chromium
-    container_name: selenium-axe
-    depends_on:
-      - ffc-grants-eligibility-checker
     volumes:
       - /dev/shm:/dev/shm
+    networks:
+      ffc-grants-eligibility-checker-network:
+        aliases:
+          - "ffc-grants-eligibility-checker-network"

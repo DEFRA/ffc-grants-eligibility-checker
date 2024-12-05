@@ -9,7 +9,19 @@
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
-      <DNSCacheManager guiclass="DNSCachePanel" testclass="DNSCacheManager" testname="DNS Cache">
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
+        <stringProp name="delimiter">;</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="filename">./jmeterConfig.csv</stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="variableNames">TEST_ENVIRONMENT_PROTOCOL,TEST_ENVIRONMENT_HOST,TEST_ENVIRONMENT_PORT</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <DNSCacheManager guiclass="DNSCachePanel" testclass="DNSCacheManager" testname="DNS Cache" enabled="true">
         <collectionProp name="DNSCacheManager.servers"/>
         <collectionProp name="DNSCacheManager.hosts"/>
         <boolProp name="DNSCacheManager.clearEachIteration">true</boolProp>
@@ -28,7 +40,7 @@
         <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
       </CookieManager>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
         <stringProp name="HTTPSampler.domain">${TEST_ENVIRONMENT_HOST}</stringProp>
         <stringProp name="HTTPSampler.port">${TEST_ENVIRONMENT_PORT}</stringProp>
         <stringProp name="HTTPSampler.protocol">${TEST_ENVIRONMENT_PROTOCOL}</stringProp>
@@ -40,21 +52,6 @@
       <hashTree/>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="TEST_ENVIRONMENT_PROTOCOL" elementType="Argument">
-            <stringProp name="Argument.name">TEST_ENVIRONMENT_PROTOCOL</stringProp>
-            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;TEST_ENVIRONMENT_PROTOCOL&quot;))}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="TEST_ENVIRONMENT_HOST" elementType="Argument">
-            <stringProp name="Argument.name">TEST_ENVIRONMENT_HOST</stringProp>
-            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;TEST_ENVIRONMENT_HOST&quot;))}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="TEST_ENVIRONMENT_PORT" elementType="Argument">
-            <stringProp name="Argument.name">TEST_ENVIRONMENT_PORT</stringProp>
-            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;TEST_ENVIRONMENT_PORT&quot;))}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="HUMAN_INTERACTION_DELAY_MILLISECONDS" elementType="Argument">
             <stringProp name="Argument.name">HUMAN_INTERACTION_DELAY_MILLISECONDS</stringProp>
             <stringProp name="Argument.value">2000</stringProp>
@@ -81,7 +78,7 @@
           <stringProp name="DurationAssertion.duration">500</stringProp>
         </DurationAssertion>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="start">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="start" enabled="true">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/start</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -92,7 +89,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Pause between iterations">
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Pause between iterations" enabled="true">
             <stringProp name="ConstantTimer.delay">1000</stringProp>
             <stringProp name="TestPlan.comments">Necessary with current session management</stringProp>
           </ConstantTimer>
@@ -232,7 +229,7 @@
           </ConstantTimer>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="confirmation">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="confirmation" enabled="true">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/confirmation</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -243,7 +240,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Results Table" enabled="true">
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Results Table">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>

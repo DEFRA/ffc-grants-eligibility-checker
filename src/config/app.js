@@ -22,21 +22,22 @@ export const app = {
   timeoutPath: process.env.TIMEOUT_PATH || '/timeout',
   environment: process.env.NODE_ENV || 'local',
   serviceBus: {
-    local: {
-      serviceBusConnectionString:
-        process.env.SERVICE_BUS_CONNECTION_STRING ||
-        'Endpoint=sb://servicebus-emulator;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;',
-      correlationId: 'id1',
-      notifyTemplate: 'local-notify-template'
-    },
     msgSrc: 'ffc-grants-eligibility-checker',
-    address: process.env.CHECKER_SUBMITTED_TOPIC_ADDRESS,
-    type: 'uk.gov.ffc.grants.elegibility.notification',
+    type: 'uk.gov.ffc.grants.eligibility.notification',
     host: process.env.SERVICE_BUS_HOST,
     password: process.env.SERVICE_BUS_PASSWORD,
     username: process.env.SERVICE_BUS_USER,
     useCredentialChain: process.env.NODE_ENV || 'local',
     notifyTemplate: process.env.NOTIFY_EMAIL_TEMPLATE,
-    notifyEmailAddress: process.env.NOTIFY_EMAIL_ADDRESS
+    notifyEmailAddress: process.env.NOTIFY_EMAIL_ADDRESS,
+    serviceBusConnectionString: process.env.CHECKER_SUBMITTED_ENDPOINT
+  },
+  serviceBusLocal: {
+    serviceBusConnectionString:
+      'Endpoint=sb://servicebus-emulator;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;',
+    correlationId: 'id1',
+    notifyTemplate: 'local-notify-template',
+    type: 'uk.gov.ffc.grants.eligibility.notification',
+    msgSrc: 'ffc-grants-eligibility-checker'
   }
 };

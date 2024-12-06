@@ -22,19 +22,11 @@ export class EmailService {
   async sendSubmissionEmail(submissionData, correlationId) {
     const message = {
       body: submissionData,
-      type: this.config.serviceBus.type,
-      source: this.config.serviceBus.msgSrc,
+      type: this.config.type,
+      source: this.config.msgSrc,
       correlationId
     };
 
-    try {
-      await this.messageService.sendMessage(message);
-      if (this.config.environment === 'local') await this.messageService.checkQueue();
-
-      return true;
-    } catch (error) {
-      console.error('Email send failed:', error);
-      return false;
-    }
+    await this.messageService.sendMessage(message);
   }
 }

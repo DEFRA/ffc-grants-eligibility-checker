@@ -76,11 +76,7 @@ export const actionImplementations = {
    * @throws Will log an error to the console if the notification fails to send.
    */
   sendNotification: async (context) => {
-    try {
-      await handleSubmission(context);
-    } catch (error) {
-      console.error('Failed to send notification:', error);
-    }
+    await handleSubmission(context);
   }
 };
 

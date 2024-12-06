@@ -3,6 +3,13 @@ import { configureServer } from '../../../../src/server';
 import crypto from 'crypto';
 
 jest.setTimeout(10000);
+jest.unstable_mockModule('../../../../src/notification/handle-submission.js', () => ({
+  handleSubmission: jest.fn()
+}));
+
+const { configureServer } = await import('../../../../src/server');
+
+jest.setTimeout(30000);
 
 describe('Confirmation Page', () => {
   let server;

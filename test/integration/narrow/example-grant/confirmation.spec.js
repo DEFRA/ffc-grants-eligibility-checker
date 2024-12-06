@@ -1,7 +1,12 @@
 import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
-import { configureServer } from '../../../../src/server';
 import { JSDOM } from 'jsdom';
 import crypto from 'crypto';
+
+jest.unstable_mockModule('../../../../src/notification/handle-submission.js', () => ({
+  handleSubmission: jest.fn()
+}));
+
+const { configureServer } = await import('../../../../src/server');
 
 jest.setTimeout(30000);
 

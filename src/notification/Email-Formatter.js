@@ -44,17 +44,10 @@ export class EmailFormatter {
    * @returns {object} - The formatted email data object.
    */
   formatSubmissionEmail(machineContext) {
-    const env = this.config.environment;
     const email = {
       applicantEmail: {
-        notifyTemplate:
-          env === 'local'
-            ? this.config.serviceBus.notifyTemplate
-            : this.config.serviceBus.local.notifyTemplate,
-        emailAddress:
-          env === 'local'
-            ? this.config.serviceBus.notifyEmailAddress
-            : this.config.serviceBus.local.notifyEmailAddress,
+        notifyTemplate: this.config.notifyTemplate,
+        emailAddress: this.config.notifyEmailAddress,
         details: {
           firstName: 'temp-first-name',
           lastName: 'temp-last-name',

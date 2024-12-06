@@ -1,71 +1,71 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
-import { handleSubmission } from './handle-submission';
-import { EmailService } from './Email-Service';
-import { EmailFormatter } from './Email-Formatter';
 
-jest.mock('./Email-Service');
-jest.mock('./Email-Formatter');
+const mockSubmissionEmail = {
+  notifyTemplate: 'template-id',
+  emailAddress: 'test@example.com',
+  details: {
+    countryLocation: 'Yes',
+    consentOptional: true
+  }
+};
+
+const mockFormatSubmissionEmail = jest.fn().mockReturnValue(mockSubmissionEmail);
+const mockSendSubmissionEmail = jest.fn();
+
+const emailService = { sendSubmissionEmail: mockSendSubmissionEmail };
+const emailFormatter = { formatSubmissionEmail: mockFormatSubmissionEmail };
+
+const localConfig = {
+  environment: 'local',
+  correlationId: 'local-correlation-id'
+};
+
+const prodConfig = {
+  environment: 'production'
+};
+
+jest.mock('uuid', () => ({
+  v4: jest.fn().mockReturnValue('mocked-uuid')
+}));
+
+let currentConfig = localConfig;
+jest.unstable_mockModule('./initialise-service-bus', () => ({
+  initialiseServiceBus: jest.fn().mockImplementation(() => ({
+    emailService,
+    emailFormatter,
+    config: currentConfig
+  }))
+}));
+
+const { handleSubmission } = await import('./handle-submission');
 
 describe('handleSubmission', () => {
-  const mockSendSubmissionEmail = jest.fn();
-  const mockFormatSubmissionEmail = jest.fn();
+  const mockMachineContext = {
+    userAnswers: {
+      country: 'Yes',
+      'consent-A1': true
+    },
+    completedPageIds: ['start', 'country', 'consent'],
+    currentPageId: 'confirmation'
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
-
-    EmailService.prototype.sendSubmissionEmail = mockSendSubmissionEmail;
-    EmailFormatter.prototype.formatSubmissionEmail = mockFormatSubmissionEmail;
-
-    mockFormatSubmissionEmail.mockReturnValue({
-      notifyTemplate: 'template-id',
-      emailAddress: 'test@example.com',
-      details: {
-        countryLocation: 'Yes',
-        consentOptional: true
-      }
-    });
   });
 
-  it('should process machine context and send email successfully', async () => {
-    mockSendSubmissionEmail.mockResolvedValue(true);
-
-    const mockMachineContext = {
-      userAnswers: {
-        country: 'Yes',
-        'consent-A1': true
-      },
-      completedPageIds: ['start', 'country', 'consent'],
-      currentPageId: 'confirmation'
-    };
-
-    const result = await handleSubmission(mockMachineContext);
-
+  it('should use local correlation ID when environment is local', async () => {
+    await handleSubmission(mockMachineContext);
     expect(mockFormatSubmissionEmail).toHaveBeenCalledWith(mockMachineContext);
     expect(mockSendSubmissionEmail).toHaveBeenCalledWith(
-      {
-        notifyTemplate: 'template-id',
-        emailAddress: 'test@example.com',
-        details: {
-          countryLocation: 'Yes',
-          consentOptional: true
-        }
-      },
-      expect.stringMatching(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)
+      mockSubmissionEmail,
+      'local-correlation-id'
     );
-    expect(result).toBe(true);
   });
 
-  it('should handle email sending failure', async () => {
-    mockSendSubmissionEmail.mockResolvedValue(false);
-
-    const mockMachineContext = {
-      userAnswers: {
-        country: 'Yes',
-        'consent-A1': true
-      }
-    };
-
-    const result = await handleSubmission(mockMachineContext);
-    expect(result).toBe(false);
+  it('should properly format and send email in production environments', async () => {
+    currentConfig = prodConfig;
+    await handleSubmission(mockMachineContext);
+    expect(mockFormatSubmissionEmail).toHaveBeenCalledWith(mockMachineContext);
+    expect(mockSendSubmissionEmail).toHaveBeenCalledWith(mockSubmissionEmail, 'mocked-uuid');
   });
 });

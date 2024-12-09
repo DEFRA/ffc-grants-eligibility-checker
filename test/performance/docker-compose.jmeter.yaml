@@ -1,5 +1,5 @@
 services:
   jmeter-test:
-    build: .
+    build: ./test/performance
     volumes:
       - ./html-reports:/html-reports

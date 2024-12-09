@@ -1,5 +1,5 @@
 # Performance Tests
-This folder contains the JMeter performance test for the Grant Eligibility Checker. The test is designed to run over a 60 second period in the Jenkins pipeline to catch any regression in performance that is introduced.
+This folder contains the JMeter performance test for the Grant Eligibility Checker. The test is designed to run over a 30 second period in the Jenkins pipeline to catch any regression in performance that is introduced.
 
 ## Editing the JMeter test plan
 To edit the test plan, ideally JMeter should be installed and run locally on your machine in GUI mode. See https://jmeter.apache.org/download_jmeter.cgi. Small changes can be made by hand to the XML file.
@@ -18,4 +18,3 @@ The following script can then be used to run the test with the same command as t
 ```
 
 The report is written to the `/html_reports` directory at the root of the repository.
- 

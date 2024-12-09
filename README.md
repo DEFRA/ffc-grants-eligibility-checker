@@ -40,12 +40,12 @@ Environment variables for the application in **all environments**:
 | `SCORE_RESPONSE_QUEUE_ADDRESS`         | The address of the score response queue             | `{{ .Values.container.scoreResponseQueueAddress }}`         | `ffc-grants-score-response`         |
 | `DESIRABILITY_SUBMITTED_TOPIC_ADDRESS` | The address of the desirability submitted topic     | `{{ .Values.container.desirabilitySubmittedTopicAddress }}` | `ffc-grants-desirability-submitted` |
 | `NOTIFY_EMAIL_TEMPLATE`                | The email template for the notify service           | `{{ .Values.container.notifyEmailTemplate }}`               | `ffc-grants-eligibility-checker`    |
-| `SESSION_CACHE_TTL`                    | The TTL in millis for the cookie and cache          | N/A                                                         |
-| `COOKIE_PASSWORD`                      | The password needed for authorizing the cookies     | N/A                                                         |
-| `REDIS_HOSTNAME`                       | The hostname needed for connecting to Azure Redis   | N/A                                                         |                                     |
-| `REDIS_PORT`                           | The port needed for connecting to Azure Redis       | N/A                                                         |                                     |
-| `REDIS_PASSWORD`                       | The password needed for connecting to Azure Redis   | N/A                                                         |                                     |
-| `REDIS_PARTITION`                      | The name of the application, needed for Azure Redis | ffc-grants-eligibility-checker                              |                                     |
+| `SESSION_CACHE_TTL`                    | The TTL in millis for the cookie and cache          | `{{ .Values.container.sessionCacheTTL }}`                   |                                     |
+| `COOKIE_PASSWORD`                      | The password needed for authorizing the cookies     | `{{ .Values.container.cookiePassword }}`                    |                                     |
+| `REDIS_HOSTNAME`                       | The hostname needed for connecting to Azure Redis   | `{{ .Values.container.redisHostname }}`                     |                                     |
+| `REDIS_PORT`                           | The port needed for connecting to Azure Redis       | `{{ .Values.container.redisPort }}`                         |                                     |
+| `REDIS_PASSWORD`                       | The password needed for connecting to Azure Redis   | `{{ .Values.container.redisPassword }}`                     |                                     |
+| `REDIS_PARTITION`                      | The name of the application, needed for Azure Redis | `{{ .Values.container.redisPartition }}`                    | `ffc-grants-eligibility-checker`    |
 
 Environment variables for the application in **development**:
 

@@ -156,6 +156,9 @@ export const addRoutes = (server, stylesheetsPath) => {
       handler: (request, h) => {
         const { grantType } = request.params;
         const { event, currentPageId, nextPageId, previousPageId, answer } = request.payload;
+        console.log(
+          `[${request.yar.id}] stateTransitionHandler grantType: ${grantType}, page: ${currentPageId}`
+        );
 
         const grantTypeMachineService = initializeMachine(request, grantType);
 
@@ -185,7 +188,7 @@ export const addRoutes = (server, stylesheetsPath) => {
             .code(statusCodes(OK));
         }
 
-        console.warn(`[${request.yar.id}] viewGrantType: Grant type is invalid`);
+        console.warn(`[${request.yar.id}] stateTransitionHandler: Grant type is invalid`);
         throw Boom.notFound('Grant type not found');
       }
     }

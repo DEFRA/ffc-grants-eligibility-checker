@@ -1,5 +1,8 @@
 // istanbul ignore file
 import { init } from './server.js';
+import { enhanceConsoleWithTimestamp } from './utils/enhanced-console.js';
+
+enhanceConsoleWithTimestamp();
 
 /**
  * handleError is a function that handles errors by logging them to the console

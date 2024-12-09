@@ -1,5 +1,4 @@
 {% extends 'layout.njk' %}
-{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {%
@@ -14,20 +13,6 @@
 
 {% block pageTitle %}
   {{ title }}
-{% endblock %}
-
-{% block beforeContent %}
-  {% if meta.previousPageId %}
-    {{
-      govukBackLink({
-        id: "backLink",
-        text: "Back",
-        href: meta.previousPageId
-      })
-    }}
-  {% endif %}
-
-  
 {% endblock %}
 
 {% block content %}

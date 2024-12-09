@@ -71,7 +71,8 @@ exports[`Country Page Error Handling snapshot should match error state snapshot 
               previousPageId: 'start'
             })
           })
-          .then(() => window.location.href = backLink.href);
+          .then((response) => response.json())
+          .then((data) => window.location.href = \`/eligibility-checker/example-grant/\${data.previousPageId}\`);
         });
       }
     });
@@ -147,11 +148,9 @@ exports[`Country Page Error Handling snapshot should match error state snapshot 
 
     
       <div class="govuk-width-container">
-        
+          
   
-    <a href="start" class="govuk-back-link">Back</a>
-
-  
+    <a href="#" class="govuk-back-link">Back</a>
 
   
 

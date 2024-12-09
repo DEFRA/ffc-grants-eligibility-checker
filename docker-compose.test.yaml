@@ -8,6 +8,11 @@ services:
     image: ffc-grants-eligibility-checker-development
     environment:
       NODE_ENV: test
+      REDIS_HOSTNAME: redis
+      REDIS_PASSWORD: ''
+      USE_REDIS: false
+      PORT: 0 # Allow application logic to randomize the port
+      SESSION_CACHE_TTL: 3600000
     command: npm run test
     volumes:
       - ./test-output/:/home/node/test-output/

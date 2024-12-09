@@ -1,7 +1,9 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import { configureServer } from '../../../src/server';
 import supertest from 'supertest';
 import { JSDOM } from 'jsdom';
+
+jest.setTimeout(10000);
 
 describe('Smoke test', () => {
   let server;
@@ -28,7 +30,7 @@ describe('Smoke test', () => {
     expect(heading).not.toBeNull();
     expect(heading.textContent).toBe('Generic checker screens');
 
-    const continueButton = document.querySelector('#continueBtn');
+    const continueButton = document.querySelector('.govuk-button');
     expect(continueButton).not.toBeNull();
     expect(continueButton.textContent).toContain('Start now');
   });

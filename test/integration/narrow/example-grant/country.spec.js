@@ -2,15 +2,19 @@ import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals
 import { configureServer } from '../../../../src/server';
 import { JSDOM } from 'jsdom';
 
+jest.setTimeout(10000);
+
 describe('Country Page', () => {
   let server;
   let dom;
+  let cookie;
 
   beforeEach(async () => {
     server = await configureServer();
+    await server.start();
 
-    // Initial navigation setup to "country" page
-    await server.inject({
+    // Initial transition to "country" state
+    const transitionResponse = await server.inject({
       method: 'POST',
       url: '/eligibility-checker/example-grant/transition',
       payload: {
@@ -19,10 +23,16 @@ describe('Country Page', () => {
         nextPageId: 'country'
       }
     });
+
+    cookie = transitionResponse.headers['set-cookie'][0].split(';')[0];
+
     // Load the "country" page with a base URL
     const countryPageResponse = await server.inject({
       method: 'GET',
-      url: '/eligibility-checker/example-grant/country'
+      url: '/eligibility-checker/example-grant/country',
+      headers: {
+        cookie
+      }
     });
 
     dom = new JSDOM(countryPageResponse.payload, {
@@ -36,15 +46,18 @@ describe('Country Page', () => {
     });
   });
 
-  afterEach(() => {
-    server.stop();
+  afterEach(async () => {
+    await server.stop();
   });
 
   describe('response', () => {
     it('should return 200 on successfull page load', async () => {
       const response = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/country'
+        url: '/eligibility-checker/example-grant/country',
+        headers: {
+          cookie
+        }
       });
 
       expect(response.statusCode).toBe(200);
@@ -116,7 +129,10 @@ describe('Country Page', () => {
     it('should match snapshot', async () => {
       const response = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/country'
+        url: '/eligibility-checker/example-grant/country',
+        headers: {
+          cookie
+        }
       });
       expect(response.payload).toMatchSnapshot();
     });

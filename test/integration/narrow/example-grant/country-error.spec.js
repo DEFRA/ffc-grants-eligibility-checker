@@ -2,9 +2,12 @@ import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals
 import { configureServer } from '../../../../src/server';
 import { JSDOM } from 'jsdom';
 
+jest.setTimeout(10000);
+
 describe('Country Page Error Handling', () => {
   let server;
   let dom;
+  let cookie;
   const mockErrorContent = {
     key: 'countryRequired',
     message: 'Select an option'
@@ -12,9 +15,10 @@ describe('Country Page Error Handling', () => {
 
   beforeEach(async () => {
     server = await configureServer();
+    await server.start();
 
-    // Initial navigation setup to "country" page
-    await server.inject({
+    // Initial navigation to "country" state
+    const response = await server.inject({
       method: 'POST',
       url: '/eligibility-checker/example-grant/transition',
       payload: {
@@ -23,10 +27,16 @@ describe('Country Page Error Handling', () => {
         nextPageId: 'country'
       }
     });
+
+    cookie = response.headers['set-cookie'][0].split(';')[0];
+
     // Load the "country" page with a base URL
     const countryPageResponse = await server.inject({
       method: 'GET',
-      url: '/eligibility-checker/example-grant/country'
+      url: '/eligibility-checker/example-grant/country',
+      headers: {
+        cookie
+      }
     });
 
     dom = new JSDOM(countryPageResponse.payload, {
@@ -40,8 +50,8 @@ describe('Country Page Error Handling', () => {
     });
   });
 
-  afterEach(() => {
-    server.stop();
+  afterEach(async () => {
+    await server.stop();
   });
 
   describe('Validation Error', () => {
@@ -65,10 +75,7 @@ describe('Country Page Error Handling', () => {
             previousPageId: 'start',
             questionType: 'radio',
             answer: null
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          })
         })
       );
 
@@ -80,13 +87,19 @@ describe('Country Page Error Handling', () => {
           event: 'NEXT',
           currentPageId: 'country',
           answer: null
+        },
+        headers: {
+          cookie
         }
       });
 
       // Get the updated page with error
       const updatedPageResponse = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/country'
+        url: '/eligibility-checker/example-grant/country',
+        headers: {
+          cookie
+        }
       });
 
       const updatedDom = new JSDOM(updatedPageResponse.payload);
@@ -109,6 +122,9 @@ describe('Country Page Error Handling', () => {
           event: 'NEXT',
           currentPageId: 'country',
           answer: null
+        },
+        headers: {
+          cookie
         }
       });
 
@@ -120,13 +136,19 @@ describe('Country Page Error Handling', () => {
           event: 'NEXT',
           currentPageId: 'country',
           answer: 'Yes'
+        },
+        headers: {
+          cookie
         }
       });
 
       // Get the updated page
       const updatedPageResponse = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/country'
+        url: '/eligibility-checker/example-grant/country',
+        headers: {
+          cookie
+        }
       });
 
       const updatedDom = new JSDOM(updatedPageResponse.payload);
@@ -147,13 +169,19 @@ describe('Country Page Error Handling', () => {
           event: 'NEXT',
           currentPageId: 'country',
           answer: null
+        },
+        headers: {
+          cookie
         }
       });
 
       // Get the page in error state
       const response = await server.inject({
         method: 'GET',
-        url: '/eligibility-checker/example-grant/country'
+        url: '/eligibility-checker/example-grant/country',
+        headers: {
+          cookie
+        }
       });
 
       expect(response.payload).toMatchSnapshot();

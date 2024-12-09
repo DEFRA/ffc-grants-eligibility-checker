@@ -1,4 +1,4 @@
-import { describe, expect, beforeEach } from '@jest/globals';
+import { describe, expect, beforeEach, jest } from '@jest/globals';
 import statusCodes, {
   BAD_REQUEST,
   FORBIDDEN,
@@ -7,11 +7,17 @@ import statusCodes, {
 } from '../../../src/constants/status-codes.js';
 import { configureServer } from '../../../src/server.js';
 
+jest.setTimeout(10000);
+
 describe('error-pages plugin', () => {
   let server;
 
   beforeEach(async () => {
     server = await configureServer();
+  });
+
+  afterEach(async () => {
+    await server.stop();
   });
 
   describe('response', () => {

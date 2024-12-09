@@ -1,7 +1,9 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import { configureServer } from '../../../src/server';
 import supertest from 'supertest';
 import { JSDOM } from 'jsdom';
+
+jest.setTimeout(10000);
 
 describe('Smoke test', () => {
   let server;

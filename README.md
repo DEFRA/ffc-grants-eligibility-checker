@@ -117,6 +117,7 @@ This will run all `jest` unit (`/src/**/*`), narrow integration tests (`test/int
 **Run tests (unit, narrow and full integration) locally in a container (to mirror Jenkins)**
 
 ```bash
+docker-compose -f docker-compose.yaml -f docker-compose.test.yaml build
 docker-compose -f docker-compose.yaml -f docker-compose.test.yaml run ffc-grants-eligibility-checker
 ```
 

@@ -9,7 +9,8 @@ services:
     environment:
       NODE_ENV: test
       REDIS_HOSTNAME: redis
-      REDIS_PASSWORD: ""
+      REDIS_PASSWORD: ''
+      USE_REDIS: false
       PORT: 0 # Allow application logic to randomize the port
       SESSION_CACHE_TTL: 3600000
     command: npm run test

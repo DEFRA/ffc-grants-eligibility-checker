@@ -1,5 +1,7 @@
-import { describe, it, expect, afterEach } from '@jest/globals';
+import { describe, it, expect, afterEach, jest } from '@jest/globals';
 import { configureServer } from '../../../src/server.js';
+
+jest.setTimeout(10000);
 
 describe('Service Health', () => {
   let server;

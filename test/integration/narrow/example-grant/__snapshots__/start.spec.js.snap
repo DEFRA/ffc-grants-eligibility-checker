@@ -71,7 +71,8 @@ exports[`Start Page snapshot should match snapshot 1`] = `
               previousPageId: ''
             })
           })
-          .then(() => window.location.href = backLink.href);
+          .then((response) => response.json())
+          .then((data) => window.location.href = \`/eligibility-checker/example-grant/\${data.previousPageId}\`);
         });
       }
     });
@@ -128,7 +129,9 @@ exports[`Start Page snapshot should match snapshot 1`] = `
 
     
       <div class="govuk-width-container">
-        
+          
+  
+
         <main class="govuk-main-wrapper" id="main-content">
           
   <div class="govuk-grid-row">
@@ -166,28 +169,24 @@ exports[`Start Page snapshot should match snapshot 1`] = `
 
       <div class="govuk-inset-text">Highlighted content here</div>
 
-      <a
-        id="continueBtn"
-        href="country"
-        role="button"
-        draggable="false"
-        class="govuk-button govuk-button--start"
-        data-module="govuk-button"
-      >
-        Start now
-        <svg
-          class="govuk-button__start-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          width="17.5"
-          height="19"
-          viewBox="0 0 33 40"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
-        </svg>
-      </a>
+      <form id="questionForm" onsubmit="handleSubmit(event)" autocomplete="off" novalidate="novalidate">
+        
+  
 
+  
+
+  
+    
+  
+
+<button type="submit" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+  Start now
+  <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/>
+  </svg>
+</button>
+
+      </form>
       <h2 class="govuk-heading-m">Before you start</h2>
 
       <p class="govuk-body">To use the checker, you need:</p>
@@ -220,27 +219,6 @@ exports[`Start Page snapshot should match snapshot 1`] = `
       </p>
     </div>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      event.preventDefault();
-      const continueLink = document.getElementById("continueBtn");
-      if (continueLink) {
-        continueLink.addEventListener("click", (event) => {
-          fetch("/eligibility-checker/example-grant/transition", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-              event: "NEXT",
-              currentPageId: "start",
-              nextPageId: "country",
-              previousPageId: ""
-            }),
-          })
-          .then(() => window.location.href = continueLink.href);
-        });
-      }
-    });
-  </script>
 
         </main>
       </div>

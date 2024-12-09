@@ -86,7 +86,9 @@ describe('Start Page', () => {
             event: 'NEXT',
             currentPageId: 'start',
             nextPageId: 'country',
-            previousPageId: ''
+            previousPageId: '',
+            questionType: '',
+            answer: null
           })
         })
       );

@@ -71,7 +71,8 @@ exports[`Confirmation Page snapshot should match snapshot 1`] = `
               previousPageId: ''
             })
           })
-          .then(() => window.location.href = backLink.href);
+          .then((response) => response.json())
+          .then((data) => window.location.href = \`/eligibility-checker/example-grant/\${data.previousPageId}\`);
         });
       }
     });
@@ -147,7 +148,9 @@ exports[`Confirmation Page snapshot should match snapshot 1`] = `
 
     
       <div class="govuk-width-container">
-        
+          
+  
+
         <main class="govuk-main-wrapper" id="main-content">
           
   <div class="govuk-grid-row">

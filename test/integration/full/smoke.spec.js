@@ -28,7 +28,7 @@ describe('Smoke test', () => {
     expect(heading).not.toBeNull();
     expect(heading.textContent).toBe('Generic checker screens');
 
-    const continueButton = document.querySelector('#continueBtn');
+    const continueButton = document.querySelector('.govuk-button');
     expect(continueButton).not.toBeNull();
     expect(continueButton.textContent).toContain('Start now');
   });

@@ -1,8 +1,11 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 import * as Boom from '@hapi/boom';
 import { startGrantStateMachines } from '../../../server.js';
 import { generateConfirmationId } from '../../../utils/template-utils.js';
+
+jest.mock('../../../notification/handle-submission.js');
 
 const { routes, viewGrantType } = await import('./grant-type.js');
 

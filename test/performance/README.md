@@ -17,4 +17,4 @@ The following script can then be used to run the test with the same command as t
 ./run.sh
 ```
 
-The report is written to the `/html_reports` directory at the root of the repository.
+The report is written to the `/test/performance/html_reports` directory.

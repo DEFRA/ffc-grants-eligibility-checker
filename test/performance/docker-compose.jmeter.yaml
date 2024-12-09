@@ -2,4 +2,4 @@ services:
   jmeter-test:
     build: test/performance
     volumes:
-      - ./html-reports:/html-reports
+      - ./test/performance/html-reports:/html-reports

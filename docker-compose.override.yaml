@@ -7,12 +7,28 @@ services:
       - redis
     image: ffc-grants-eligibility-checker-development
     # platform: ${PLATFORM}
-    ports:
-      - '3000:3000'
     environment:
       NODE_ENV: development
+      USE_REDIS: true
       REDIS_HOSTNAME: redis # Use the Docker service name to connect
       REDIS_PASSWORD: '' # Add if needed
+      SESSION_CACHE_TTL: 3600000
+
+  ffc-grants-eligibility-checker2:
+    build:
+      context: .
+      target: development
+    depends_on:
+      - redis
+    image: ffc-grants-eligibility-checker-development
+    # platform: ${PLATFORM}
+    environment:
+      NODE_ENV: development
+      USE_REDIS: true
+      REDIS_HOSTNAME: redis # Use the Docker service name to connect
+      REDIS_PASSWORD: '' # Add if needed
+      REDIS_PARTITION: ffc-grants-eligibility-checker
+      COOKIE_PASSWORD: thisistestcookiepasswordthisistestcookiepasswordthisistestcookiepassword
       SESSION_CACHE_TTL: 3600000
 
   reverse-proxy:
@@ -25,6 +41,7 @@ services:
       - ./nginx_logs:/var/log/nginx # Mount Nginx logs to host machine
     depends_on:
       - ffc-grants-eligibility-checker
+      - ffc-grants-eligibility-checker2
 
   redis:
     image: redis:latest

@@ -57,7 +57,8 @@
               previousPageId: '{{ meta.previousPageId }}'
             })
           })
-          .then(() => window.location.href = backLink.href);
+          .then((response) => response.json())
+          .then((data) => window.location.href = `/eligibility-checker/{{ meta.grantTypeId }}/${data.previousPageId}`);
         });
       }
     });
@@ -88,6 +89,15 @@
       })
     }}
   </div>
+{% endblock %}
+{% block beforeContent %}  
+  {% if meta.previousPageId %}
+    {{ govukBackLink({
+        id: "backLink",
+        text: "Back"
+      })
+    }}
+  {% endif %}
 {% endblock %}
 {% block footer %}
   {% set footer_html_code %}

@@ -12,7 +12,7 @@ appInsights:
 azureIdentity:
   clientID: not-a-real-clientID
   resourceID: not-a-real-resourceID
-  
+
 containerConfigMap:
   name: ffc-grants-eligibility-checker-config-map
 
@@ -39,6 +39,7 @@ container:
   limitCpu: 120m
   port: 3000
   readOnlyRootFilesystem: true
+  useRedis: true
   redisHostname: redis
   redisPassword: redis
   cookiePassword: thisisnotarealpasswordthisisnotarealpassword

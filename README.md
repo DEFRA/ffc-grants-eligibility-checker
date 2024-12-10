@@ -42,6 +42,7 @@ Environment variables for the application in **all environments**:
 | `NOTIFY_EMAIL_TEMPLATE`                | The email template for the notify service           | `{{ .Values.container.notifyEmailTemplate }}`               | `ffc-grants-eligibility-checker`    |
 | `SESSION_CACHE_TTL`                    | The TTL in millis for the cookie and cache          | `{{ .Values.container.sessionCacheTTL }}`                   |                                     |
 | `COOKIE_PASSWORD`                      | The password needed for authorizing the cookies     | `{{ .Values.container.cookiePassword }}`                    |                                     |
+| `USE_REDIS`                            | Whether to use Azure Redis or in memory caching     | `{{ .Values.container.useRedis }}`                          |                                     |
 | `REDIS_HOSTNAME`                       | The hostname needed for connecting to Azure Redis   | `{{ .Values.container.redisHostname }}`                     |                                     |
 | `REDIS_PORT`                           | The port needed for connecting to Azure Redis       | `{{ .Values.container.redisPort }}`                         |                                     |
 | `REDIS_PASSWORD`                       | The password needed for connecting to Azure Redis   | `{{ .Values.container.redisPassword }}`                     |                                     |

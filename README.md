@@ -85,6 +85,23 @@ PORT=3000
 This will start the Hapi.js server and your project will be available at
 `http://localhost:3000/eligibility-checker/<checker_name>`.
 
+### Unsealing cookie to get session id
+
+If you want to decrypt the cookie from the browser to get the id of the redis session run:
+
+```
+node unseal-cookie.js "<cookie>" "<password>"
+```
+
+You should get the id in the following form:
+
+```
+Unsealed Cookie:
+{
+  "id": "d80508a7-de4e-4b3f-9ce8-9cbc6019a914"
+}
+```
+
 **Run the development server locally with Redis (separate containers for app and redis one instance each together with a nginx as a reverse proxy)**
 
 ```bash

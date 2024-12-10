@@ -33,7 +33,7 @@ jest.unstable_mockModule('./initialise-service-bus', () => ({
   initialiseServiceBus: jest.fn().mockImplementation(() => ({
     emailService,
     emailFormatter,
-    config: currentConfig
+    serviceBusConfig: currentConfig
   }))
 }));
 

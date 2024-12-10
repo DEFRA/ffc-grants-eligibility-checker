@@ -9,12 +9,12 @@ import { app } from '../config/app.js';
  */
 export const initialiseServiceBus = () => {
   const environment = app.environment;
-  const config = environment === 'local' ? app.serviceBusLocal : app.serviceBus;
-  config.environment = environment;
+  const serviceBusConfig = environment === 'local' ? app.serviceBusLocal : app.serviceBus;
+  serviceBusConfig.environment = environment;
 
-  const connector = new AzureServiceBus(config);
-  const emailService = new EmailService(connector, config);
-  const emailFormatter = new EmailFormatter(app);
+  const connector = new AzureServiceBus(serviceBusConfig);
+  const emailService = new EmailService(connector, serviceBusConfig);
+  const emailFormatter = new EmailFormatter(serviceBusConfig);
 
-  return { emailService, emailFormatter, config };
+  return { emailService, emailFormatter, serviceBusConfig };
 };

@@ -10,9 +10,14 @@ export class AzureServiceBus {
    */
   constructor(config) {
     this.config = config;
-    this.serviceBusClient = new ServiceBusClient(this.config.serviceBusConnectionString);
-    this.sender = this.serviceBusClient.createSender('queue.1');
-    this.receiver = this.serviceBusClient.createReceiver('queue.1');
+    if (this.config.useCredentialChain) {
+      this.serviceBusClient = new ServiceBusClient(config.host);
+    } else {
+      this.serviceBusClient = new ServiceBusClient(config.connectionString);
+      this.receiver = this.serviceBusClient.createReceiver(config.queueId);
+    }
+
+    this.sender = this.serviceBusClient.createSender(config.queueId);
   }
 
   /**

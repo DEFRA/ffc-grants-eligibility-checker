@@ -29,17 +29,24 @@ Ensure you have the following installed on your local machine:
 
 Environment variables for the application in **all environments**:
 
-| Variable                               | Description                                     | Helm configuration                                          | Default                             |
-| -------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- | ----------------------------------- |
-| `NODE_ENV`                             | The environment the application is running in   |                                                             | `production`                        |
-| `LOG_LEVEL`                            | The level of logging to use                     |                                                             | `info`                              |
-| `LOG_OUTPUT`                           | The output of the logs                          |                                                             | `stdout`                            |
-| `LOG_PRETTY`                           | Whether to pretty print logs                    |                                                             | `true`                              |
-| `SERVICE_BUS_HOST`                     | The host of the service bus                     | `{{ .Values.container.messageQueueHost }}`                  | `localhost`                         |
-| `SCORE_REQUEST_QUEUE_ADDRESS`          | The address of the score request queue          | `{{ .Values.container.scoreRequestQueueAddress }}`          | `ffc-grants-score-request`          |
-| `SCORE_RESPONSE_QUEUE_ADDRESS`         | The address of the score response queue         | `{{ .Values.container.scoreResponseQueueAddress }}`         | `ffc-grants-score-response`         |
-| `DESIRABILITY_SUBMITTED_TOPIC_ADDRESS` | The address of the desirability submitted topic | `{{ .Values.container.desirabilitySubmittedTopicAddress }}` | `ffc-grants-desirability-submitted` |
-| `NOTIFY_EMAIL_TEMPLATE`                | The email template for the notify service       | `{{ .Values.container.notifyEmailTemplate }}`               | `ffc-grants-eligibility-checker`    |
+| Variable                               | Description                                         | Helm configuration                                          | Default                             |
+| -------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------- |
+| `NODE_ENV`                             | The environment the application is running in       |                                                             | `production`                        |
+| `LOG_LEVEL`                            | The level of logging to use                         |                                                             | `info`                              |
+| `LOG_OUTPUT`                           | The output of the logs                              |                                                             | `stdout`                            |
+| `LOG_PRETTY`                           | Whether to pretty print logs                        |                                                             | `true`                              |
+| `SERVICE_BUS_HOST`                     | The host of the service bus                         | `{{ .Values.container.messageQueueHost }}`                  | `localhost`                         |
+| `SCORE_REQUEST_QUEUE_ADDRESS`          | The address of the score request queue              | `{{ .Values.container.scoreRequestQueueAddress }}`          | `ffc-grants-score-request`          |
+| `SCORE_RESPONSE_QUEUE_ADDRESS`         | The address of the score response queue             | `{{ .Values.container.scoreResponseQueueAddress }}`         | `ffc-grants-score-response`         |
+| `DESIRABILITY_SUBMITTED_TOPIC_ADDRESS` | The address of the desirability submitted topic     | `{{ .Values.container.desirabilitySubmittedTopicAddress }}` | `ffc-grants-desirability-submitted` |
+| `NOTIFY_EMAIL_TEMPLATE`                | The email template for the notify service           | `{{ .Values.container.notifyEmailTemplate }}`               | `ffc-grants-eligibility-checker`    |
+| `SESSION_CACHE_TTL`                    | The TTL in millis for the cookie and cache          | `{{ .Values.container.sessionCacheTTL }}`                   |                                     |
+| `COOKIE_PASSWORD`                      | The password needed for authorizing the cookies     | `{{ .Values.container.cookiePassword }}`                    |                                     |
+| `USE_REDIS`                            | Whether to use Azure Redis or in memory caching     | `{{ .Values.container.useRedis }}`                          |                                     |
+| `REDIS_HOSTNAME`                       | The hostname needed for connecting to Azure Redis   | `{{ .Values.container.redisHostname }}`                     |                                     |
+| `REDIS_PORT`                           | The port needed for connecting to Azure Redis       | `{{ .Values.container.redisPort }}`                         |                                     |
+| `REDIS_PASSWORD`                       | The password needed for connecting to Azure Redis   | `{{ .Values.container.redisPassword }}`                     |                                     |
+| `REDIS_PARTITION`                      | The name of the application, needed for Azure Redis | `{{ .Values.container.redisPartition }}`                    | `ffc-grants-eligibility-checker`    |
 
 Environment variables for the application in **development**:
 
@@ -64,8 +71,44 @@ In development, we use `NODE_ENV=development`
   npm start
 ```
 
+Note: Please make sure you define the following `.env` file for the in memory catbox caching (to configure redis please follow the docker-compose.override.yaml setup - see the below section)
+
+```
+NODE_ENV=development
+#PLATFORM=linux/arm64
+SESSION_CACHE_TTL=3600000
+COOKIE_PASSWORD="thisistestcookiepasswordthisistestcookiepasswordthisistestcookiepassword"
+USE_REDIS=false
+PORT=3000
+```
+
 This will start the Hapi.js server and your project will be available at
 `http://localhost:3000/eligibility-checker/<checker_name>`.
+
+### Unsealing cookie to get session id
+
+If you want to decrypt the cookie from the browser to get the id of the redis session run:
+
+```
+node unseal-cookie.js "<cookie>" "<password>"
+```
+
+You should get the id in the following form:
+
+```
+Unsealed Cookie:
+{
+  "id": "d80508a7-de4e-4b3f-9ce8-9cbc6019a914"
+}
+```
+
+**Run the development server locally with Redis (separate containers for app and redis one instance each together with a nginx as a reverse proxy)**
+
+```bash
+docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up --build
+```
+
+Then access the app in browser under: `http://localhost/eligibility-checker/example-grant`
 
 **Code Linting & Formatting**
 
@@ -92,6 +135,7 @@ This will run all `jest` unit (`/src/**/*`), narrow integration tests (`test/int
 **Run tests (unit, narrow and full integration) locally in a container (to mirror Jenkins)**
 
 ```bash
+docker-compose -f docker-compose.yaml -f docker-compose.test.yaml build
 docker-compose -f docker-compose.yaml -f docker-compose.test.yaml run ffc-grants-eligibility-checker
 ```
 

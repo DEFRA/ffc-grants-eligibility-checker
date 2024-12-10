@@ -1,19 +1,21 @@
 // istanbul ignore file
 import Hapi from '@hapi/hapi';
-import { app as appConfig, views as viewConfig } from './config/index.js';
+import { appConfig, viewsConfig, cacheConfig } from './config/index.js';
 import path from 'path';
 import njk from 'nunjucks';
 import vision from '@hapi/vision';
 import inert from '@hapi/inert';
 import { getRouteDefinitions } from './http/routes/routes.js';
 import errorPages from './config/plugins/error-pages.js';
-import { exampleGrantMachineService } from './config/machines/example-grant-machine.js';
 import statusCodes, { OK } from './constants/status-codes.js';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
-import { grantIdToMachineServiceMap } from './config/machines/index.js';
 import { Boom } from '@hapi/boom';
 import { hasPageErrors } from './utils/template-utils.js';
+import { Engine as CatboxMemory } from '@hapi/catbox-memory';
+import { Engine as CatboxRedis } from '@hapi/catbox-redis';
+import { initializeMachine, sessionKey } from './config/machines/machine-utils.js';
+
 const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
 
@@ -36,7 +38,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  *    - pageTitle: The title of the page.
  */
 export const getConfig = () => {
-  const njkEnv = njk.configure(viewConfig.paths);
+  const njkEnv = njk.configure(viewsConfig.paths);
 
   return {
     port: appConfig.port,
@@ -47,8 +49,8 @@ export const getConfig = () => {
     njkEnv,
     context: {
       version: appConfig.version,
-      assets: viewConfig.assets.app,
-      govAssets: viewConfig.assets.gov,
+      assets: viewsConfig.assets.app,
+      govAssets: viewsConfig.assets.gov,
       serviceName: appConfig.name,
       pageTitle: appConfig.name
     }
@@ -64,7 +66,20 @@ export const getConfig = () => {
  * @returns {object} The configured Hapi server instance.
  */
 const createServer = ({ port, host, stripTrailingSlash }) =>
-  Hapi.server({ port, host, router: { stripTrailingSlash } });
+  Hapi.server({
+    port,
+    host,
+    router: { stripTrailingSlash },
+    cache: [
+      {
+        name: 'session',
+        provider: {
+          constructor: cacheConfig.useRedis ? CatboxRedis : CatboxMemory,
+          options: cacheConfig.catboxOptions
+        }
+      }
+    ]
+  });
 
 /**
  * Asynchronously registers plugins for a given server.
@@ -75,6 +90,24 @@ const registerPlugins = (server) => async () => {
   await server.register(inert);
   await server.register(vision);
   await server.register(errorPages);
+  // Session cache redis with yar
+  await server.register({
+    plugin: require('@hapi/yar'),
+    options: {
+      maxCookieSize: 0,
+      storeBlank: true,
+      cache: {
+        cache: 'session',
+        expiresIn: cacheConfig.expiresIn
+      },
+      cookieOptions: {
+        password: appConfig.cookiePassword,
+        isSecure: appConfig.cookieOptions.isSecure,
+        ttl: cacheConfig.expiresIn,
+        isSameSite: appConfig.cookieOptions.isSameSite
+      }
+    }
+  });
 };
 
 /**
@@ -123,10 +156,14 @@ export const addRoutes = (server, stylesheetsPath) => {
       handler: (request, h) => {
         const { grantType } = request.params;
         const { event, currentPageId, nextPageId, previousPageId, answer } = request.payload;
-        const grantTypeMachineService = grantIdToMachineServiceMap[grantType];
+        console.log(
+          `[${request.yar.id}] stateTransitionHandler grantType: ${grantType}, page: ${currentPageId}`
+        );
+
+        const grantTypeMachineService = initializeMachine(request, grantType);
 
         if (grantTypeMachineService) {
-          exampleGrantMachineService.send({
+          grantTypeMachineService.send({
             type: event,
             currentPageId,
             nextPageId,
@@ -134,7 +171,12 @@ export const addRoutes = (server, stylesheetsPath) => {
             answer
           });
 
-          if (hasPageErrors(grantTypeMachineService.state.context.pageErrors, currentPageId)) {
+          // Store the updated machine state in the session
+          request.yar.set(sessionKey, grantTypeMachineService.state);
+
+          if (
+            hasPageErrors(grantTypeMachineService.getSnapshot().context.pageErrors, currentPageId)
+          ) {
             return h.response({
               status: 'error',
               currentPageId
@@ -146,7 +188,7 @@ export const addRoutes = (server, stylesheetsPath) => {
             .code(statusCodes(OK));
         }
 
-        console.warn('viewGrantType: Grant type is invalid');
+        console.warn(`[${request.yar.id}] stateTransitionHandler: Grant type is invalid`);
         throw Boom.notFound('Grant type not found');
       }
     }
@@ -203,7 +245,7 @@ export const configureViews = (server, viewsPath, njkEnv, context) => {
     compileOptions: {
       environment: njkEnv
     },
-    path: viewConfig.paths[0],
+    path: viewsConfig.paths[0],
     context
   });
 };
@@ -236,45 +278,7 @@ export const configureServer = async () => {
   addMiddleware(server);
   configureViews(server, config.viewsPath, config.njkEnv, config.context);
 
-  startGrantStateMachines();
-
-  server.ext({
-    type: 'onPreStop',
-    /**
-     * Stops all grant state machines before the server is stopped.
-     *
-     * This allows the XState service to be stopped properly and avoid any potential
-     * memory leaks.
-     * @param {object} _server - The server instance
-     */
-    method: async (_server) => {
-      stopGrantStateMachines();
-    }
-  });
-
   return server;
-};
-
-/**
- * Starts all grant state machines to ensure that their services are running.
- *
- * This function is used to initialize the grant state machines when the server starts.
- */
-export const startGrantStateMachines = () => {
-  Object.values(grantIdToMachineServiceMap).forEach((machineService) => {
-    machineService.start();
-  });
-};
-
-/**
- * Stops all grant state machines to ensure that their services are terminated.
- *
- * This function is used to shutdown the grant state machines when the server stops.
- */
-const stopGrantStateMachines = () => {
-  Object.values(grantIdToMachineServiceMap).forEach((machineService) => {
-    machineService.stop();
-  });
 };
 
 /**

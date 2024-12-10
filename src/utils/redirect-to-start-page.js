@@ -1,5 +1,5 @@
 import * as Boom from '@hapi/boom';
-import { grantIdToMachineServiceMap } from '../config/machines/index.js';
+import { grantTypeToMachineMap } from '../config/machines/index.js';
 
 /**
  * Redirect to the start page of the eligibility checker.
@@ -11,7 +11,7 @@ import { grantIdToMachineServiceMap } from '../config/machines/index.js';
 export default function redirectToStartPage(request, h) {
   const { grantType } = request.params;
   console.log(`redirectToStartPage grantType: ${grantType}`);
-  if (grantIdToMachineServiceMap[grantType]) {
+  if (grantTypeToMachineMap[grantType]) {
     return h.redirect(`/eligibility-checker/${grantType}/start`);
   }
   console.log('viewGrantType: Grant type is invalid');

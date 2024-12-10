@@ -6,7 +6,7 @@
  * console.log('Hello World');
  * // Output: [2022-01-01T12:00:00.000Z] Hello World
  */
-export function enhanceConsoleWithTimestamp() {
+export const enhanceConsoleWithTimestamp = () => {
   const methods = ['log', 'warn', 'error', 'info', 'debug', 'trace'];
 
   methods.forEach((method) => {
@@ -20,4 +20,4 @@ export function enhanceConsoleWithTimestamp() {
       originalMethod(`[${timestamp}]`, ...args);
     };
   });
-}
+};

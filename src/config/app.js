@@ -23,21 +23,22 @@ export const app = {
   environment: process.env.NODE_ENV || 'local',
   serviceBus: {
     msgSrc: 'ffc-grants-eligibility-checker',
-    type: 'uk.gov.ffc.grants.eligibility.notification',
+    type: 'queue',
+    useCredentialChain: true,
     host: process.env.SERVICE_BUS_HOST,
-    password: process.env.SERVICE_BUS_PASSWORD,
-    username: process.env.SERVICE_BUS_USER,
-    useCredentialChain: process.env.NODE_ENV || 'local',
     notifyTemplate: process.env.NOTIFY_EMAIL_TEMPLATE,
-    notifyEmailAddress: process.env.NOTIFY_EMAIL_ADDRESS,
-    serviceBusConnectionString: process.env.CHECKER_SUBMITTED_ENDPOINT
+    queueId: process.env.NOTIFY_SUBMIT_QUEUE,
+    testEmailAddress: process.env.NOTIFY_EMAIL_ADDRESS
   },
   serviceBusLocal: {
-    serviceBusConnectionString:
+    connectionString:
       'Endpoint=sb://servicebus-emulator;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;',
     correlationId: 'id1',
     notifyTemplate: 'local-notify-template',
-    type: 'uk.gov.ffc.grants.eligibility.notification',
-    msgSrc: 'ffc-grants-eligibility-checker'
+    type: 'queue',
+    msgSrc: 'ffc-grants-eligibility-checker',
+    notifyEmailAddress: 'local@email.com',
+    useCredentialChain: false,
+    queueId: 'queue.1'
   }
 };

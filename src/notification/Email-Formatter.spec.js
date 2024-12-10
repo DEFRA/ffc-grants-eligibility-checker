@@ -4,23 +4,24 @@ describe('EmailFormatter', () => {
   let emailFormatter;
   let mockConfig;
 
+  const mockContext = {
+    userAnswers: {
+      country: 'Yes',
+      'consent-A1': true
+    }
+  };
+
   beforeEach(() => {
     mockConfig = {
       notifyTemplate: 'test-template',
-      notifyEmailAddress: 'test@example.com'
+      notifyEmailAddress: 'test@example.com',
+      environment: 'local'
     };
     emailFormatter = new EmailFormatter(mockConfig);
   });
 
   describe('mapMachineAnswersToEmailFields', () => {
     it('should map user answers to email fields based on answer mapping', () => {
-      const mockContext = {
-        userAnswers: {
-          country: 'Yes',
-          'consent-A1': true
-        }
-      };
-
       const result = emailFormatter.mapMachineAnswersToEmailFields(mockContext);
 
       expect(result).toEqual({
@@ -30,11 +31,9 @@ describe('EmailFormatter', () => {
     });
 
     it('should ignore unmapped fields', () => {
-      const mockContext = {
-        userAnswers: {
-          country: 'Yes',
-          'unknown-field': 'value'
-        }
+      mockContext.userAnswers = {
+        country: 'Yes',
+        'unknown-field': 'value'
       };
 
       const result = emailFormatter.mapMachineAnswersToEmailFields(mockContext);
@@ -45,10 +44,8 @@ describe('EmailFormatter', () => {
     });
 
     it('should return empty object if no user answers match mapping', () => {
-      const mockContext = {
-        userAnswers: {
-          'unknown-field': 'value'
-        }
+      mockContext.userAnswers = {
+        'unknown-field': 'value'
       };
 
       const result = emailFormatter.mapMachineAnswersToEmailFields(mockContext);
@@ -57,9 +54,7 @@ describe('EmailFormatter', () => {
     });
 
     it('should handle empty user answers', () => {
-      const mockContext = {
-        userAnswers: {}
-      };
+      mockContext.userAnswers = {};
 
       const result = emailFormatter.mapMachineAnswersToEmailFields(mockContext);
 
@@ -69,17 +64,15 @@ describe('EmailFormatter', () => {
 
   describe('formatSubmissionEmail', () => {
     it('should format email with mapped answers and default fields', () => {
-      const mockContext = {
-        userAnswers: {
-          country: 'Yes',
-          'consent-A1': true
-        }
+      mockContext.userAnswers = {
+        country: 'Yes',
+        'consent-A1': true
       };
 
       const expectedEmail = {
         applicantEmail: {
           notifyTemplate: 'test-template',
-          emailAddress: 'test@example.com',
+          emailAddress: 'local-email-address',
           details: {
             firstName: 'temp-first-name',
             lastName: 'temp-last-name',
@@ -95,16 +88,14 @@ describe('EmailFormatter', () => {
     });
 
     it('should format email with only default fields when no mapped answers exist', () => {
-      const mockContext = {
-        userAnswers: {
-          'unknown-field': 'value'
-        }
+      mockContext.userAnswers = {
+        'unknown-field': 'value'
       };
 
       const expectedEmail = {
         applicantEmail: {
           notifyTemplate: 'test-template',
-          emailAddress: 'test@example.com',
+          emailAddress: 'local-email-address',
           details: {
             firstName: 'temp-first-name',
             lastName: 'temp-last-name'
@@ -117,21 +108,41 @@ describe('EmailFormatter', () => {
       expect(result).toEqual(expectedEmail);
     });
 
-    it('should use config values for template and email address', () => {
+    it('should include correct email for development', () => {
+      const mockEmail = 'development-email-address';
+      mockConfig.environment = 'development';
+      mockConfig.testEmailAddress = mockEmail;
+
+      emailFormatter = new EmailFormatter(mockConfig);
+
+      const result = emailFormatter.formatSubmissionEmail(mockContext);
+
+      expect(result.applicantEmail.emailAddress).toEqual(mockEmail);
+    });
+
+    it('should include correct email for test', () => {
+      const mockEmail = 'development-email-address';
+      mockConfig.environment = 'test';
+      mockConfig.testEmailAddress = mockEmail;
+
+      emailFormatter = new EmailFormatter(mockConfig);
+
+      const result = emailFormatter.formatSubmissionEmail(mockContext);
+
+      expect(result.applicantEmail.emailAddress).toEqual(mockEmail);
+    });
+
+    it('should use config values for template', () => {
       const customConfig = {
-        notifyTemplate: 'custom-template',
-        notifyEmailAddress: 'custom@example.com'
+        notifyTemplate: 'custom-template'
       };
       const customFormatter = new EmailFormatter(customConfig);
 
-      const mockContext = {
-        userAnswers: {}
-      };
+      mockContext.userAnswers = {};
 
       const result = customFormatter.formatSubmissionEmail(mockContext);
 
       expect(result.applicantEmail.notifyTemplate).toBe('custom-template');
-      expect(result.applicantEmail.emailAddress).toBe('custom@example.com');
     });
   });
 });

@@ -25,8 +25,11 @@ describe('AzureServiceBus', () => {
 
   beforeEach(() => {
     mockConfig = {
-      serviceBusConnectionString: 'test-connection-string',
-      environment: 'local'
+      useCredentialChain: true,
+      host: 'mock-host',
+      connectionString: 'mock-connection-string',
+      environment: 'local',
+      queueId: 'mock-queue'
     };
     azureServiceBus = new AzureServiceBus(mockConfig);
   });
@@ -36,11 +39,25 @@ describe('AzureServiceBus', () => {
   });
 
   describe('constructor', () => {
-    it('initializes with config and creates clients', () => {
+    it('initializes with config and creates live client', () => {
       expect(azureServiceBus.config).toBe(mockConfig);
-      expect(ServiceBusClient).toHaveBeenCalledWith(mockConfig.serviceBusConnectionString);
-      expect(azureServiceBus.serviceBusClient.createSender).toHaveBeenCalledWith('queue.1');
-      expect(azureServiceBus.serviceBusClient.createReceiver).toHaveBeenCalledWith('queue.1');
+      expect(ServiceBusClient).toHaveBeenCalledWith(mockConfig.host);
+      expect(azureServiceBus.serviceBusClient.createSender).toHaveBeenCalledWith(
+        mockConfig.queueId
+      );
+    });
+
+    it('initializes with config and creates local client', () => {
+      mockConfig.useCredentialChain = false;
+      azureServiceBus = new AzureServiceBus(mockConfig);
+
+      expect(ServiceBusClient).toHaveBeenCalledWith(mockConfig.connectionString);
+      expect(azureServiceBus.serviceBusClient.createSender).toHaveBeenCalledWith(
+        mockConfig.queueId
+      );
+      expect(azureServiceBus.serviceBusClient.createReceiver).toHaveBeenCalledWith(
+        mockConfig.queueId
+      );
     });
   });
 
@@ -72,6 +89,8 @@ describe('AzureServiceBus', () => {
 
   describe('checkQueue', () => {
     it('receives and logs messages', async () => {
+      mockConfig.useCredentialChain = false;
+      azureServiceBus = new AzureServiceBus(mockConfig);
       const mockMessages = [{ body: 'message 1' }, { body: 'message 2' }];
       azureServiceBus.receiver.receiveMessages.mockResolvedValueOnce(mockMessages);
       console.log = jest.fn();

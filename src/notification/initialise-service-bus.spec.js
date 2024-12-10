@@ -13,17 +13,12 @@ const mockEmailFormatter = jest.fn().mockReturnValue({
   formatSubmissionEmail: jest.fn()
 });
 
+const serviceBusLocalConfig = { id: 'service-bus-local' };
+const serviceBusConfig = { id: 'service-bus' };
+
 const mockApp = {
-  environment: 'local',
-  serviceBusLocal: {
-    serviceBusConnectionString: 'test-connection',
-    correlationId: 'test-correlation',
-    notifyTemplate: 'test-template'
-  },
-  serviceBus: {
-    host: 'test-host',
-    address: 'test-address'
-  }
+  serviceBusLocal: serviceBusLocalConfig,
+  serviceBus: serviceBusConfig
 };
 
 jest.unstable_mockModule('./AzureServiceBus.js', () => ({
@@ -54,26 +49,14 @@ describe('initialiseServiceBus', () => {
 
     const result = initialiseServiceBus();
 
-    expect(mockAzureServiceBus).toHaveBeenCalledWith(
-      expect.objectContaining({
-        serviceBusConnectionString: 'test-connection',
-        correlationId: 'test-correlation',
-        notifyTemplate: 'test-template',
-        environment: 'local'
-      })
-    );
-
-    expect(mockEmailService).toHaveBeenCalledWith(
-      expect.any(Object),
-      expect.objectContaining({ environment: 'local' })
-    );
-
-    expect(mockEmailFormatter).toHaveBeenCalledWith(mockApp);
+    expect(mockAzureServiceBus).toHaveBeenCalledWith(mockApp.serviceBusLocal);
+    expect(mockEmailService).toHaveBeenCalledWith(expect.any(Object), mockApp.serviceBusLocal);
+    expect(mockEmailFormatter).toHaveBeenCalledWith(mockApp.serviceBusLocal);
 
     expect(result).toEqual({
       emailService: expect.any(Object),
       emailFormatter: expect.any(Object),
-      config: expect.objectContaining({ environment: 'local' })
+      serviceBusConfig: mockApp.serviceBusLocal
     });
   });
 
@@ -82,35 +65,19 @@ describe('initialiseServiceBus', () => {
 
     const result = initialiseServiceBus();
 
-    expect(mockAzureServiceBus).toHaveBeenCalledWith(
-      expect.objectContaining({
-        host: 'test-host',
-        address: 'test-address',
-        environment: 'production'
-      })
-    );
+    expect(mockAzureServiceBus).toHaveBeenCalledWith(mockApp.serviceBus);
 
     expect(mockEmailService).toHaveBeenCalledWith(
       expect.any(Object),
       expect.objectContaining({ environment: 'production' })
     );
 
-    expect(mockEmailFormatter).toHaveBeenCalledWith(mockApp);
+    expect(mockEmailFormatter).toHaveBeenCalledWith(mockApp.serviceBus);
 
     expect(result).toEqual({
       emailService: expect.any(Object),
       emailFormatter: expect.any(Object),
-      config: expect.objectContaining({ environment: 'production' })
-    });
-  });
-
-  it('should return properly structured initialization object', async () => {
-    const result = initialiseServiceBus();
-
-    expect(result).toEqual({
-      emailService: expect.any(Object),
-      emailFormatter: expect.any(Object),
-      config: expect.any(Object)
+      serviceBusConfig: mockApp.serviceBus
     });
   });
 });

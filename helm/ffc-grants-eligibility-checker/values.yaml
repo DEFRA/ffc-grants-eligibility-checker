@@ -46,12 +46,11 @@ container:
   redisPort: 6379
   redisPartition: ffc-grants-eligibility-checker
   sessionCacheTTL: 3600000
-  scoreRequestQueueAddress: ffc-grants-desirability-scoring-req
-  scoreResponseQueueAddress: ffc-grants-desirability-scoring-res
-  desirabilitySubmittedTopicAddress: desirability-submitted
+  serviceBusHost: dummy-host
+  notifySubmitQueue: ffc-grants-eligibility-checker-email-submission
   notifyEmailTemplate: dummy-template
+  notifyEmailAddress: dummy-email
   rpaEmail: FTF@rpa.gov.uk
-  messageQueueHost: dummy
 
 livenessProbe:
   path: /healthz

@@ -1,7 +1,7 @@
 import { ServiceBusClient } from '@azure/service-bus';
 
 /**
- *
+ * Class representing an Azure Service Bus.
  */
 export class AzureServiceBus {
   /**
@@ -10,6 +10,7 @@ export class AzureServiceBus {
    */
   constructor(config) {
     this.config = config;
+    console.debug('xxxx', config);
     if (this.config.useCredentialChain) {
       this.serviceBusClient = new ServiceBusClient(config.host);
     } else {

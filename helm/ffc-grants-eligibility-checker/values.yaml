@@ -47,6 +47,7 @@ container:
   redisPartition: ffc-grants-eligibility-checker
   sessionCacheTTL: 3600000
   serviceBusHost: dummy-host
+  environment: dummy-env
   notifySubmitQueue: ffc-grants-eligibility-checker-email-submission
   notifyEmailTemplate: dummy-template
   notifyEmailAddress: dummy-email

@@ -1,5 +1,5 @@
 import { getContext } from './get-context';
-import { appConfig } from '../../../config/app-config.js';
+import { appConfig } from '../../../config/app/app-config.js';
 import { generateConfirmationId } from '../../../utils/template-utils.js';
 
 describe('getContext', () => {

@@ -8,6 +8,7 @@ import { app } from '../config/app.js';
  * @returns {object} An object containing the initialised Azure Service Bus, EmailService and EmailFormatter.
  */
 export const initialiseServiceBus = () => {
+  console.log('initialiseServiceBus', app);
   const environment = app.environment;
   const serviceBusConfig = environment === 'local' ? app.serviceBusLocal : app.serviceBus;
   serviceBusConfig.environment = environment;

@@ -7,7 +7,6 @@ data:
   REDIS_HOSTNAME: {{ .Values.container.redisHostname | quote }}
   REDIS_PORT: {{ .Values.container.redisPort | quote }}
   REDIS_PARTITION: {{ .Values.container.redisPartition | quote }}
-
   SERVICE_BUS_HOST: {{ quote .Values.container.serviceBusHost }}
   NOTIFY_SUBMIT_QUEUE: {{ quote .Values.container.notifySubmitQueue }}
   NOTIFY_EMAIL_TEMPLATE: {{ quote .Values.container.notifyEmailTemplate }}

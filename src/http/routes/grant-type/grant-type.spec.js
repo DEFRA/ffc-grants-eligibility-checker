@@ -1,5 +1,4 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
-
 import statusCodes, { OK } from '../../../constants/status-codes.js';
 import * as Boom from '@hapi/boom';
 import { generateConfirmationId } from '../../../utils/template-utils.js';

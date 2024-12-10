@@ -25,6 +25,7 @@
     "start": "npm run build && nodemon ./src/index.js",
     "start:debug": "node --inspect-brk=0.0.0.0 ./src/index.js",
     "start:docker": "docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up --build",
+    "start:docker:local": "docker-compose -f docker-compose.yaml -f docker-compose.local.yaml up --build",
     "prepare": "husky install",
     "snyk-test": "snyk test",
     "snyk-monitor": "snyk monitor"
@@ -65,7 +66,6 @@
     "@hapi/yar": "^11.0.2",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
-    "ffc-messaging": "^2.10.1",
     "govuk-frontend": "^5.5.0",
     "joi": "^17.13.3",
     "nunjucks": "^3.2.4",

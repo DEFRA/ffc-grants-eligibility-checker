@@ -9,7 +9,7 @@ const currentFileName = fileURLToPath(import.meta.url);
 const currentDirName = path.dirname(currentFileName);
 const require = createRequire(import.meta.url);
 
-const pkg = require(path.join(currentDirName, '../../package.json'));
+const pkg = require(path.join(currentDirName, '../../../package.json'));
 
 const PORT_MIN = 1024; // Minimum port number (non-privileged ports)
 const PORT_MAX = 65535; // Maximum port number (highest valid port)

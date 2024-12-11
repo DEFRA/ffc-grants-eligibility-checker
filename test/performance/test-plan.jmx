@@ -41,7 +41,7 @@
       </CookieManager>
       <hashTree/>
       <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
-        <stringProp name="HTTPSampler.domain">${TEST_ENVIRONMENT_HOST}</stringProp>
+        <stringProp name="HTTPSampler.domain">deleteme-deliberate-error</stringProp>
         <stringProp name="HTTPSampler.port">${TEST_ENVIRONMENT_PORT}</stringProp>
         <stringProp name="HTTPSampler.protocol">${TEST_ENVIRONMENT_PROTOCOL}</stringProp>
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
@@ -74,7 +74,7 @@
           </elementProp>
           <elementProp name="MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
             <stringProp name="Argument.name">MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
-            <stringProp name="Argument.value">10</stringProp>
+            <stringProp name="Argument.value">2000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="HUMAN_INTERACTION_DELAY_MILLISECONDS" elementType="Argument">

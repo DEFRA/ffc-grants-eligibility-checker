@@ -5,6 +5,8 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
@@ -50,14 +52,34 @@
       <hashTree/>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="HUMAN_INTERACTION_DELAY_MILLISECONDS" elementType="Argument">
-            <stringProp name="Argument.name">HUMAN_INTERACTION_DELAY_MILLISECONDS</stringProp>
-            <stringProp name="Argument.value">2000</stringProp>
+          <elementProp name="TEST_DURATION_SECONDS" elementType="Argument">
+            <stringProp name="Argument.name">TEST_DURATION_SECONDS</stringProp>
+            <stringProp name="Argument.value">30</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="TEST_RAMPUP_PERIOD_SECONDS" elementType="Argument">
+            <stringProp name="Argument.name">TEST_RAMPUP_PERIOD_SECONDS</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="TEST_THREAD_COUNT" elementType="Argument">
+            <stringProp name="Argument.name">TEST_THREAD_COUNT</stringProp>
+            <stringProp name="Argument.value">50</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
             <stringProp name="Argument.name">AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
-            <stringProp name="Argument.value">0</stringProp>
+            <stringProp name="Argument.value">500</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
+            <stringProp name="Argument.name">MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
+            <stringProp name="Argument.value">2500</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="HUMAN_INTERACTION_DELAY_MILLISECONDS" elementType="Argument">
+            <stringProp name="Argument.name">HUMAN_INTERACTION_DELAY_MILLISECONDS</stringProp>
+            <stringProp name="Argument.value">2000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -81,17 +103,16 @@
           <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
 
 JMeterUtils.getJMeterProperties().clear();
-log.info(&quot;Cleared JMeter properties&quot;);
-</stringProp>
+log.info(&quot;Cleared JMeter properties&quot;);</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
         <boolProp name="ThreadGroup.delayedStart">true</boolProp>
-        <intProp name="ThreadGroup.num_threads">1</intProp>
-        <intProp name="ThreadGroup.ramp_time">10</intProp>
-        <longProp name="ThreadGroup.duration">30</longProp>
+        <stringProp name="ThreadGroup.num_threads">${TEST_THREAD_COUNT}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${TEST_RAMPUP_PERIOD_SECONDS}</stringProp>
+        <stringProp name="ThreadGroup.duration">${TEST_DURATION_SECONDS}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
@@ -109,7 +130,7 @@ log.info(&quot;Cleared JMeter properties&quot;);
           <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
 
 long thresholdMs = Integer.parseInt(args[0]);
-int totalRequestsAcrossThreads = Integer.parseInt(ctx.getThreadGroup().getSamplerController().getProperty(&quot;LoopController.loops&quot;).getStringValue()) * ctx.getThreadGroup().getNumThreads();
+long minimumSampleSize = 20;
 long requestCount = JMeterUtils.getPropDefault(&quot;requestCount&quot;, 0);
 long totalResponseTimeMs = JMeterUtils.getPropDefault(&quot;totalResponseTimeMs&quot;, 0);
 
@@ -118,19 +139,32 @@ totalResponseTimeMs += sampleResult.getTime();
 
 long averageResponseTimeMs = totalResponseTimeMs / requestCount;
 
-if (requestCount &gt;= totalRequestsAcrossThreads) {
+if (requestCount &gt;= minimumSampleSize) {
     if (averageResponseTimeMs &gt; thresholdMs) {
         sampleResult.setSuccessful(false);
-        sampleResult.setResponseMessage(&quot;Average response time: &quot; + averageResponseTimeMs + &quot; ms exceeded threshold: &quot; + thresholdMs + &quot; ms&quot;);
+        sampleResult.setResponseMessage(&quot;Average response time: &quot; + averageResponseTimeMs);
     }
     
     log.info(&quot;Average response time after &quot; + requestCount + &quot; requests: &quot; + averageResponseTimeMs + &quot; ms, threshold: &quot; + thresholdMs + &quot; ms&quot;);
 }
 
 JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(requestCount));
-JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalResponseTimeMs));
-</stringProp>
+JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalResponseTimeMs));</stringProp>
         </JSR223Listener>
+        <hashTree/>
+        <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
+          <stringProp name="DurationAssertion.duration">1500</stringProp>
+        </DurationAssertion>
+        <hashTree/>
+        <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Status Code Assertion">
+          <collectionProp name="Asserion.test_strings">
+            <stringProp name="49586">200</stringProp>
+          </collectionProp>
+          <stringProp name="Assertion.custom_message"></stringProp>
+          <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+          <boolProp name="Assertion.assume_success">false</boolProp>
+          <intProp name="Assertion.test_type">1</intProp>
+        </ResponseAssertion>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="start">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/start</stringProp>
@@ -142,14 +176,8 @@ JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalRes
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>
-        <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Pause between iterations">
-            <stringProp name="ConstantTimer.delay">1000</stringProp>
-            <stringProp name="TestPlan.comments">Necessary with current session management</stringProp>
-          </ConstantTimer>
-          <hashTree/>
-        </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition" enabled="true">
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/transition</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -293,7 +321,18 @@ JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalRes
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>
-        <hashTree/>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Reference Number Assertion">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1127845346">data-testid=&quot;reference-number&quot;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
         <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Results Table" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>

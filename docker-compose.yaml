@@ -4,7 +4,6 @@ services:
       context: .
       target: production
     image: ffc-grants-eligibility-checker
-    # platform: ${PLATFORM}
     ports:
       - '3000:3000'
     environment:

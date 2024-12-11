@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../ffc-grants-addvalue-web"
+		},
+		{
+			"path": "../DEFRA-FFC-PLATFORM"
+		}
+	],
+	"settings": {}
+}

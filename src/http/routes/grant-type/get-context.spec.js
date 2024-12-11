@@ -1,5 +1,5 @@
 import { getContext } from './get-context';
-import { app } from '../../../config/app.js';
+import { appConfig } from '../../../config/app/app-config.js';
 import { generateConfirmationId } from '../../../utils/template-utils.js';
 
 describe('getContext', () => {
@@ -8,9 +8,9 @@ describe('getContext', () => {
 
     const expectedContext = {
       showTimeout: true,
-      surveyLink: `${app.surveyLink}`,
-      sessionTimeoutInMin: `${app.sessionTimeoutInMins}`,
-      timeoutPath: `${app.timeoutPath}`,
+      surveyLink: `${appConfig.surveyLink}`,
+      sessionTimeoutInMin: `${appConfig.sessionTimeoutInMins}`,
+      timeoutPath: `${appConfig.timeoutPath}`,
       cookiesPolicy: {
         confirmed: false,
         analytics: true

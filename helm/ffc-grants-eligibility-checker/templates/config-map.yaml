@@ -8,4 +8,9 @@ data:
   SCORE_RESPONSE_QUEUE_ADDRESS: {{ .Values.container.scoreResponseQueueAddress | quote }}
   DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
   NOTIFY_EMAIL_TEMPLATE: {{ .Values.container.notifyEmailTemplate | quote }}
+  SESSION_CACHE_TTL: {{ .Values.container.sessionCacheTTL | quote }}  
+  USE_REDIS: {{ .Values.container.useRedis | quote }}
+  REDIS_HOSTNAME: {{ .Values.container.redisHostname | quote }}
+  REDIS_PORT: {{ .Values.container.redisPort | quote }}
+  REDIS_PARTITION: {{ .Values.container.redisPartition | quote }}
 {{- end -}}

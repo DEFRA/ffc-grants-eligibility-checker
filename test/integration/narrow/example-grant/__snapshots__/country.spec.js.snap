@@ -71,7 +71,8 @@ exports[`Country Page snapshot should match snapshot 1`] = `
               previousPageId: 'start'
             })
           })
-          .then(() => window.location.href = backLink.href);
+          .then((response) => response.json())
+          .then((data) => window.location.href = \`/eligibility-checker/example-grant/\${data.previousPageId}\`);
         });
       }
     });
@@ -147,11 +148,9 @@ exports[`Country Page snapshot should match snapshot 1`] = `
 
     
       <div class="govuk-width-container">
-        
+          
   
-    <a href="start" class="govuk-back-link">Back</a>
-
-  
+    <a href="#" class="govuk-back-link">Back</a>
 
   
 

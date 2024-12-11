@@ -155,7 +155,7 @@ JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalRes
         </JSR223Listener>
         <hashTree/>
         <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
-          <stringProp name="DurationAssertion.duration">1500</stringProp>
+          <stringProp name="DurationAssertion.duration">${MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS}</stringProp>
         </DurationAssertion>
         <hashTree/>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Status Code Assertion">

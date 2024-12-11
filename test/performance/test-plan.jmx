@@ -69,12 +69,12 @@
           </elementProp>
           <elementProp name="AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
             <stringProp name="Argument.name">AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
-            <stringProp name="Argument.value">5</stringProp>
+            <stringProp name="Argument.value">500</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
             <stringProp name="Argument.name">MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
-            <stringProp name="Argument.value">2500</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="HUMAN_INTERACTION_DELAY_MILLISECONDS" elementType="Argument">

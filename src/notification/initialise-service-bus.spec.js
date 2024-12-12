@@ -33,8 +33,8 @@ jest.unstable_mockModule('./Email-Formatter.js', () => ({
   EmailFormatter: mockEmailFormatter
 }));
 
-jest.unstable_mockModule('../config/app.js', () => ({
-  app: mockApp
+jest.unstable_mockModule('../config/app/app-config.js', () => ({
+  appConfig: mockApp
 }));
 
 const { initialiseServiceBus } = await import('./initialise-service-bus.js');
@@ -44,9 +44,8 @@ describe('initialiseServiceBus', () => {
     jest.clearAllMocks();
   });
 
-  it('should initialize with local config when environment is local', async () => {
-    mockApp.environment = 'local';
-
+  it('should initialize with local config when local is true', async () => {
+    mockApp.local = true;
     const result = initialiseServiceBus();
 
     expect(mockAzureServiceBus).toHaveBeenCalledWith(mockApp.serviceBusLocal);
@@ -61,7 +60,7 @@ describe('initialiseServiceBus', () => {
   });
 
   it('should initialize with production config when environment is not local', async () => {
-    mockApp.environment = 'production';
+    mockApp.local = false;
 
     const result = initialiseServiceBus();
 
@@ -69,7 +68,7 @@ describe('initialiseServiceBus', () => {
 
     expect(mockEmailService).toHaveBeenCalledWith(
       expect.any(Object),
-      expect.objectContaining({ environment: 'production' })
+      expect.objectContaining({ local: false })
     );
 
     expect(mockEmailFormatter).toHaveBeenCalledWith(mockApp.serviceBus);

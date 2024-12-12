@@ -11,6 +11,7 @@ import { initialiseServiceBus } from './initialise-service-bus.js';
  * @returns {Promise<boolean>} - true if the email is sent successfully, false if not.
  */
 export const handleSubmission = async (machineContext) => {
+  console.log('[HANDLE SUBMISSION]');
   const { emailService, emailFormatter, serviceBusConfig } = initialiseServiceBus();
   const formattedEmail = emailFormatter.formatSubmissionEmail(machineContext);
   const correlationId =

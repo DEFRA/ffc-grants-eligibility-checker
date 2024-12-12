@@ -13,9 +13,10 @@ describe('EmailFormatter', () => {
 
   beforeEach(() => {
     mockConfig = {
-      notifyTemplate: 'test-template',
-      notifyEmailAddress: 'test@example.com',
-      environment: 'local'
+      notifyEmailTemplate: 'test-template',
+      notifyEmailAddress: 'local-email-address',
+      environment: 'developement',
+      local: true
     };
     emailFormatter = new EmailFormatter(mockConfig);
   });
@@ -71,7 +72,7 @@ describe('EmailFormatter', () => {
 
       const expectedEmail = {
         applicantEmail: {
-          notifyTemplate: 'test-template',
+          notifyEmailTemplate: 'test-template',
           emailAddress: 'local-email-address',
           details: {
             firstName: 'temp-first-name',
@@ -94,7 +95,7 @@ describe('EmailFormatter', () => {
 
       const expectedEmail = {
         applicantEmail: {
-          notifyTemplate: 'test-template',
+          notifyEmailTemplate: 'test-template',
           emailAddress: 'local-email-address',
           details: {
             firstName: 'temp-first-name',
@@ -108,10 +109,11 @@ describe('EmailFormatter', () => {
       expect(result).toEqual(expectedEmail);
     });
 
-    it('should include correct email for development', () => {
+    it('should include correct email for non-local development', () => {
       const mockEmail = 'development-email-address';
       mockConfig.environment = 'development';
-      mockConfig.testEmailAddress = mockEmail;
+      mockConfig.local = false;
+      mockConfig.notifyEmailAddress = mockEmail;
 
       emailFormatter = new EmailFormatter(mockConfig);
 
@@ -120,21 +122,20 @@ describe('EmailFormatter', () => {
       expect(result.applicantEmail.emailAddress).toEqual(mockEmail);
     });
 
-    it('should include correct email for test', () => {
-      const mockEmail = 'development-email-address';
-      mockConfig.environment = 'test';
-      mockConfig.testEmailAddress = mockEmail;
+    it('should include correct email for production', () => {
+      mockConfig.environment = 'production';
+      mockConfig.local = false;
 
       emailFormatter = new EmailFormatter(mockConfig);
 
       const result = emailFormatter.formatSubmissionEmail(mockContext);
 
-      expect(result.applicantEmail.emailAddress).toEqual(mockEmail);
+      expect(result.applicantEmail.emailAddress).toEqual('applicant@example.com');
     });
 
     it('should use config values for template', () => {
       const customConfig = {
-        notifyTemplate: 'custom-template'
+        notifyEmailTemplate: 'custom-template'
       };
       const customFormatter = new EmailFormatter(customConfig);
 
@@ -142,7 +143,7 @@ describe('EmailFormatter', () => {
 
       const result = customFormatter.formatSubmissionEmail(mockContext);
 
-      expect(result.applicantEmail.notifyTemplate).toBe('custom-template');
+      expect(result.applicantEmail.notifyEmailTemplate).toBe('custom-template');
     });
   });
 });

@@ -13,6 +13,11 @@ services:
       USE_REDIS: false
       PORT: 0 # Allow application logic to randomize the port
       SESSION_CACHE_TTL: 3600000
+      LOCAL: ${LOCAL}
+      SERVICE_BUS_HOST: ${SERVICE_BUS_HOST}
+      NOTIFY_EMAIL_TEMPLATE: ${NOTIFY_EMAIL_TEMPLATE}
+      NOTIFY_SUBMIT_QUEUE: ${NOTIFY_SUBMIT_QUEUE}
+      NOTIFY_EMAIL_ADDRESS: ${NOTIFY_EMAIL_ADDRESS}
     command: npm run test
     volumes:
       - ./test-output/:/home/node/test-output/

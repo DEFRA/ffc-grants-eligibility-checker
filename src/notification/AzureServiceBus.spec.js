@@ -31,6 +31,7 @@ describe('AzureServiceBus', () => {
       environment: 'local',
       queueId: 'mock-queue'
     };
+
     azureServiceBus = new AzureServiceBus(mockConfig);
   });
 
@@ -55,6 +56,7 @@ describe('AzureServiceBus', () => {
       expect(azureServiceBus.serviceBusClient.createSender).toHaveBeenCalledWith(
         mockConfig.queueId
       );
+
       expect(azureServiceBus.serviceBusClient.createReceiver).toHaveBeenCalledWith(
         mockConfig.queueId
       );
@@ -65,7 +67,6 @@ describe('AzureServiceBus', () => {
     it('sends message successfully and checks queue in local env', async () => {
       const message = { content: 'test message' };
       await azureServiceBus.sendMessage(message);
-
       expect(azureServiceBus.sender.sendMessages).toHaveBeenCalledWith(message);
     });
 

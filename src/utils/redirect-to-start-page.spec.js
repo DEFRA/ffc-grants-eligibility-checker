@@ -1,6 +1,12 @@
 // redirect-to-start-page.spec.js
 import * as Boom from '@hapi/boom';
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+const originalEnv = process.env;
+process.env = {
+  ...originalEnv,
+  SESSION_CACHE_TTL: 3600000,
+  COOKIE_PASSWORD: 'mock-password'
+};
 
 const { default: redirectToStartPage } = await import('./redirect-to-start-page.js');
 

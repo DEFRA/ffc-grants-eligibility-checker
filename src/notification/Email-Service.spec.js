@@ -34,7 +34,7 @@ describe('EmailService', () => {
   describe('sendSubmissionEmail', () => {
     const mockSubmissionData = {
       applicantEmail: {
-        notifyTemplate: 'test-template',
+        notifyEmailTemplate: 'test-template',
         emailAddress: 'test@example.com',
         details: {
           firstName: 'John',

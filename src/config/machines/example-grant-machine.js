@@ -68,16 +68,7 @@ export const actionImplementations = {
       delete newPageErrors[event.currentPageId];
       return newPageErrors;
     }
-  }),
-
-  /**
-   * Sends a notification to the configured Azure Service Bus queue using the user's final answers from context.
-   * @param {object} context - The machine context containing the user's answers.
-   * @throws Will log an error to the console if the notification fails to send.
-   */
-  sendNotification: async (context) => {
-    await handleSubmission(context);
-  }
+  })
 };
 
 export const guardsImplementations = {
@@ -90,7 +81,17 @@ export const guardsImplementations = {
   isRadioAnswerValid: (_context, event) => event.answer !== null
 };
 
+export const servicesImplementations = {
+  /**
+   * Handles a submission by formatting it into an email and sending it.
+   * @param {object} context - The machine context containing the user's answers, completed page IDs, and page errors.
+   * @returns {Promise<boolean>} - true if the email is sent successfully, false if not.
+   */
+  handleSubmission: (context) => handleSubmission(context)
+};
+
 export const exampleGrantMachine = createMachine({
+  // eslint-disable-next-line jsdoc/check-tag-names
   /** @xstate-layout N4IgpgJg5mDOIC5RgB4EMC2AHANmA4gE5oB2ALgLJoDGAFgJYlgB0sZahZAxAHICiADQAqAbQAMAXUSgsAe1j0y9WSWkgUiABwBmAIzMATHoDsAFjFjdF4wFYAbABoQAT0SnTx5qYO7Nd07o2egCcdpoAvuFOqJi4BMTkVHSMLNSyAK7khM5cAEIAggDCANLiUkggcgpKKmoaCJrBwcza9sZNoQYB2k6uCPbNBsG6djaB2mLawY2R0ejYeESklDQMTMxpmWTZvIKikmpVisqqFfU6+ka6ZhZWYraOLlr62gZDutqm02OmerPg8ziS0SqxSGwyWRy-GEIl05Rk8mOtTOiF0Vk0XjEdgMdjsaKxU16iCMBkMxjEmiG-mCvxsQ3+MQW8WWSTWqRUsDA5DyRVKBwqRxqp1A9RGzU0xmMdluHgMmhsQSJCAmpkMNJxIQ+ulMNgZgMWCRWyXWaRInO50P28MqiKFdVRdnFkullll8sVTwQ7lJulCIx0n00Vl0etiBpZoJNKgAZvRCBg0EKuCg2ImWGho2QwIQABR3MQASi4jKBhtZYNNsfjiZOZUOtpO9v6wU8Ops5O0mnuNiDxiVHjELW1dm0o7RphHBkiURAJFkEDgahL4ZBxrA9eqjZRCAAtI8+jubMx5Y1zGFjAYbB53KGmcCjWzWOxOBukcL1IhjNpPDZpsE5S6oQeP2wzMI6rT+GIl4fN+uozsuzKro+myQq+drbmiPbMME3a4miLa6Eqo6knS0p6O2IRNNot6lhGa7gmaXJkGhW4im4BhKoEpJfB0nwjq0tg0SuD4VjGcYJuhCKbsibHKmYLSUl2YhXvhkr9mEhiaH41xotieJ2NO4RAA */
   id: 'exampleGrantMachine',
   predictableActionArguments: true,
@@ -100,7 +101,8 @@ export const exampleGrantMachine = createMachine({
     currentPageId: 'start', // Tracks current page
     userAnswers: {}, // Store answers here
     completedPageIds: [], // Store completed pages here
-    pageErrors: {} // Store page errors here
+    pageErrors: {}, // Store page errors here
+    hasSubmitted: false // Flag to track if the form has been submitted
   },
   states: {
     start: {
@@ -167,12 +169,7 @@ export const exampleGrantMachine = createMachine({
         },
         NEXT: {
           target: 'confirmation',
-          actions: [
-            'trackPageCompletion',
-            'updateCurrentPageId',
-            'updateAnswers',
-            'sendNotification'
-          ]
+          actions: ['trackPageCompletion', 'updateCurrentPageId', 'updateAnswers']
         }
       },
       meta: {
@@ -186,9 +183,26 @@ export const exampleGrantMachine = createMachine({
         ...pageUIConfig.consent
       }
     },
-
     confirmation: {
-      type: 'final',
+      initial: 'submitting',
+      states: {
+        submitting: {
+          invoke: {
+            src: 'handleSubmission',
+            onDone: {
+              target: 'success',
+              actions: ['markSubmissionComplete']
+            },
+            onError: {
+              // eslint-disable-next-line jsdoc/require-jsdoc
+              actions: (_, event) => console.error('Submission failed:', event.data)
+            }
+          }
+        },
+        success: {
+          type: 'final'
+        }
+      },
       meta: {
         templateId: 'confirmation',
         currentPageId: 'confirmation',

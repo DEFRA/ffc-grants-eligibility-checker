@@ -32,7 +32,9 @@ export class AzureServiceBus {
       console.log('sendMessage debug:', this.config);
       await this.sender.sendMessages(message);
       console.log('Email sent successfully');
-      if (this.config.environment === 'local') await this.checkQueue();
+      if (this.config.local) {
+        await this.checkQueue();
+      }
     } catch (error) {
       console.error('Error sending email:', error);
     }
@@ -45,7 +47,10 @@ export class AzureServiceBus {
    * @returns {Promise<void>}
    */
   async checkQueue() {
-    const messages = await this.receiver.receiveMessages(5, { maxWaitTimeInMs: 1000 });
+    const numMessages = 5;
+    const maxWaitTimeInMs = 1000;
+
+    const messages = await this.receiver.receiveMessages(numMessages, { maxWaitTimeInMs });
     console.log('Receiver messages');
 
     messages.forEach((message) => {

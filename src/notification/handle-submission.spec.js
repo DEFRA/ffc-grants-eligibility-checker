@@ -1,7 +1,7 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 
 const mockSubmissionEmail = {
-  notifyTemplate: 'template-id',
+  notifyEmailTemplate: 'template-id',
   emailAddress: 'test@example.com',
   details: {
     countryLocation: 'Yes',

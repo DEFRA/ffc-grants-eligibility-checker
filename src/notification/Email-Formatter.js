@@ -44,26 +44,20 @@ export class EmailFormatter {
    * @returns {object} - The formatted email data object.
    */
   formatSubmissionEmail(machineContext) {
+    const applicantEmail = 'applicant@example.com'; // to be received from state machine
+
     let emailAddress;
 
-    switch (this.config.environment) {
-      case 'local':
-        emailAddress = 'local-email-address';
-        break;
-      case 'development':
-        emailAddress = this.config.testEmailAddress;
-        break;
-      case 'test':
-        emailAddress = this.config.testEmailAddress;
-        break;
-      default:
-        emailAddress = 'user-email-address'; // to be received from state machine
-        break;
+    if (this.config.local) {
+      emailAddress = this.config.notifyEmailAddress;
+    } else {
+      emailAddress =
+        this.config.environment === 'development' ? this.config.notifyEmailAddress : applicantEmail;
     }
 
     const email = {
       applicantEmail: {
-        notifyTemplate: this.config.notifyTemplate,
+        notifyEmailTemplate: this.config.notifyEmailTemplate,
         emailAddress,
         details: {
           firstName: 'temp-first-name', // to be received from state machine

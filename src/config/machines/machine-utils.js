@@ -48,12 +48,13 @@ export const createAndStartGrantMachineService = (request, grantType, initialSta
     throw new Error(`Invalid grantType: "${grantType}"`);
   }
 
-  const { machine, actions, guards } = grantConfig;
+  const { machine, actions, guards, services } = grantConfig;
 
   const service = interpret(
     machine.withConfig({
       actions,
-      guards
+      guards,
+      services
     })
   );
 

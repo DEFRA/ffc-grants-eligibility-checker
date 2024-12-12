@@ -9,9 +9,3 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-    networks:
-      - ffc-grants-eligibility-checker-network
-
-networks:
-  ffc-grants-eligibility-checker-network:
-    name: "ffc-grants-eligibility-checker-network"

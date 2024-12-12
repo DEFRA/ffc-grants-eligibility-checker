@@ -9,12 +9,8 @@ services:
       CHROME_ARGS: "--headless --ignore-certificate-errors"
     volumes:
       - ./test-output:/home/node/test-output
-    networks:
-      - ffc-grants-eligibility-checker-network
 
   selenium-axe:
     image: selenium/standalone-chrome
     volumes:
       - /dev/shm:/dev/shm
-    networks:
-      - ffc-grants-eligibility-checker-network

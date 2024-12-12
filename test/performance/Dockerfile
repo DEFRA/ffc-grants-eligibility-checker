@@ -12,4 +12,4 @@ RUN chown -R appuser:appgroup /logs
 RUN chown -R appuser:appgroup /html-reports
 USER appuser
 
-CMD ["-n -t test-plan.jmx -l /logs/log.csv -e -o /html-reports"]
+CMD ["-n -t test-plan.jmx -l /logs/log.csv -e -o /html-reports -Jjmeter.save.saveservice.assertion_results_failure_message=true"]

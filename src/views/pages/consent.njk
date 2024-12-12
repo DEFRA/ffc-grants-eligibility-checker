@@ -9,18 +9,6 @@
 {% block pageTitle %}
   {{ title }}
 {% endblock %}
-{# Do we want to extract back link? #}
-{% block beforeContent %}  
-
-  {% if meta.previousPageId %}
-    {{ govukBackLink({
-        id: "backLink",
-        text: "Back",
-        href: meta.previousPageId
-      })
-    }}
-  {% endif %}
-{% endblock %}
 
 {% set checkboxConfirmOptional = {
     idPrefix: meta.consentOptionalCheckboxData.idPrefix,

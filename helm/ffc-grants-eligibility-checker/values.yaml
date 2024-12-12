@@ -12,7 +12,7 @@ appInsights:
 azureIdentity:
   clientID: not-a-real-clientID
   resourceID: not-a-real-resourceID
-  
+
 containerConfigMap:
   name: ffc-grants-eligibility-checker-config-map
 
@@ -25,9 +25,9 @@ deployment:
   priorityClassName: high
   minReadySeconds: 2
   redeployOnChange: update this field to force a change
-  replicas: 1
-  minReplicas: 1
-  maxReplicas: 1
+  replicas: 2
+  minReplicas: 2
+  maxReplicas: 4
   cpuThreshold: 80
   memoryThreshold: 80
 
@@ -39,6 +39,13 @@ container:
   limitCpu: 120m
   port: 3000
   readOnlyRootFilesystem: true
+  useRedis: true
+  redisHostname: redis
+  redisPassword: redis
+  cookiePassword: thisisnotarealpasswordthisisnotarealpassword
+  redisPort: 6379
+  redisPartition: ffc-grants-eligibility-checker
+  sessionCacheTTL: 3600000
   scoreRequestQueueAddress: ffc-grants-desirability-scoring-req
   scoreResponseQueueAddress: ffc-grants-desirability-scoring-res
   desirabilitySubmittedTopicAddress: desirability-submitted

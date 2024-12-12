@@ -1,5 +1,6 @@
 {% extends "govuk/template.njk" %}
 {% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% set siteTitle = "Generic checker screens" %}
 {% block pageTitle %}
@@ -57,7 +58,8 @@
               previousPageId: '{{ meta.previousPageId }}'
             })
           })
-          .then(() => window.location.href = backLink.href);
+          .then((response) => response.json())
+          .then((data) => window.location.href = `/eligibility-checker/{{ meta.grantTypeId }}/${data.previousPageId}`);
         });
       }
     });
@@ -88,6 +90,15 @@
       })
     }}
   </div>
+{% endblock %}
+{% block beforeContent %}  
+  {% if meta.previousPageId %}
+    {{ govukBackLink({
+        id: "backLink",
+        text: "Back"
+      })
+    }}
+  {% endif %}
 {% endblock %}
 {% block footer %}
   {% set footer_html_code %}

@@ -1,4 +1,4 @@
-import { assign, createMachine, interpret } from 'xstate';
+import { assign, createMachine } from 'xstate';
 import { pageUIConfig } from './page-ui-config.js';
 
 export const actionImplementations = {
@@ -22,46 +22,6 @@ export const actionImplementations = {
      */
     currentPageId: (_context, event) => {
       return event.type === 'NEXT' ? event.nextPageId : event.previousPageId;
-    }
-  }),
-  /**
-   * Logs a message when a page is loaded
-   * @param {object} context machine context
-   */
-  loadPageAction: (context) => {
-    console.log(`${context.currentPageId} page loaded. State should reset in 1 second.`);
-  },
-  resetState: assign({
-    /**
-     * Resets the current page id.
-     * Sets the currentPageId to 'start'
-     * @param {object} _context - The machine context.
-     * @param {object} _event - The triggered event.
-     * @returns {string} The start page id.
-     */
-    currentPageId: (_context, _event) => {
-      return 'start';
-    },
-
-    /**
-     * Resets the completed page ids array
-     * @param {object} _context machine context
-     * @param {object} _event triggered event
-     * @returns {string} empty completed page ids array
-     */
-    completedPageIds: (_context, _event) => {
-      return [];
-    },
-
-    /**
-     * Resets the user answers object.
-     * Sets the user answers to an empty object.
-     * @param {object} _context machine context
-     * @param {object} _event triggered event
-     * @returns {object} empty user answers object
-     */
-    userAnswers: (_context, _event) => {
-      return {};
     }
   }),
   updateAnswers: assign({
@@ -210,44 +170,12 @@ export const exampleGrantMachine = createMachine({
     },
 
     confirmation: {
-      entry: 'loadPageAction',
-      after: {
-        1000: {
-          target: 'start', // Automatically transitions to 'start' after 1 second
-          actions: ['resetState']
-        }
-      },
+      type: 'final',
       meta: {
         templateId: 'confirmation',
         currentPageId: 'confirmation',
         ...pageUIConfig.confirmation
       }
     }
-  }
-});
-
-// Server-side interpreter
-export const exampleGrantMachineService = interpret(
-  exampleGrantMachine.withConfig({
-    actions: actionImplementations,
-    guards: guardsImplementations
-  })
-).onTransition((state) => {
-  // istanbul ignore next
-  if (state.changed) {
-    console.log('State Update:', {
-      currentState: state.value,
-      currentContext: {
-        currentPageId: state.context.currentPageId,
-        completedPageIds: state.context.completedPageIds
-      },
-      event: state._event.name,
-      history: state.history
-        ? {
-            previousState: state.history.value,
-            previousContext: state.history.context
-          }
-        : 'No history available'
-    });
   }
 });

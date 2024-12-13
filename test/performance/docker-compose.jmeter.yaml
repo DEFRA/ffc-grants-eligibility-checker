@@ -3,4 +3,3 @@ services:
     build: test/performance
     volumes:
       - ./test/performance/html-reports:/html-reports
-

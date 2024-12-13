@@ -2,7 +2,7 @@
 # script is an adaptation of the below entrypoint of the base image, with return code added
 # https://github.com/alpine-docker/jmeter/blob/master/entrypoint.sh
 
-# clear down any old reports after volumes mounted
+# clear down old output after volumes mounted
 rm -r -f /html-reports/*
 
 # set up JVM
@@ -17,6 +17,7 @@ export JVM_ARGS="-Xmn${n}m -Xms${s}m -Xmx${x}m"
 jmeter $@
 
 # exit non-zero if failures occurred
-if grep -q ',false,' /logs/results.jtl; then
+if grep -q ',false,' /html-reports/results.csv; then
+    echo "FAILURES DETECTED IN RESULTS"
     exit 1
 fi

@@ -15,4 +15,4 @@ USER appuser
 
 # override base image entrypoint and run custom script
 ENTRYPOINT ["/usr/bin/env"]
-CMD ["bash", "./run.sh", "-n", "-t", "test-plan.jmx", "-l", "/logs/results.jtl", "-e", "-o", "/html-reports", "-Jjmeter.save.saveservice.assertion_results_failure_message=true"]
+CMD ["bash", "./run.sh", "-n", "-t", "test-plan.jmx", "-l", "/html-reports/results.csv", "-e", "-o", "/html-reports", "-Jjmeter.save.saveservice.assertion_results_failure_message=true"]

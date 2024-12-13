@@ -1,15 +1,18 @@
 FROM alpine/jmeter
 
-COPY test-plan.jmx .
-COPY jmeterConfig.csv .
-RUN mkdir /logs
 RUN mkdir /html-reports
+RUN mkdir /logs
+COPY run.sh .
+COPY jmeterConfig.csv .
+COPY test-plan.jmx .
 
 RUN addgroup -S appgroup
 RUN adduser -S appuser -G appgroup
 RUN chown -R appuser:appgroup .
-RUN chown -R appuser:appgroup /logs
 RUN chown -R appuser:appgroup /html-reports
+RUN chown -R appuser:appgroup /logs
 USER appuser
 
-CMD ["-n -t test-plan.jmx -l /logs/log.csv -e -o /html-reports -Jjmeter.save.saveservice.assertion_results_failure_message=true"]
+# override base image entrypoint and run custom script
+ENTRYPOINT ["/usr/bin/env"]
+CMD ["bash", "./run.sh", "-n", "-t", "test-plan.jmx", "-l", "/logs/results.jtl", "-e", "-o", "/html-reports", "-Jjmeter.save.saveservice.assertion_results_failure_message=true"]

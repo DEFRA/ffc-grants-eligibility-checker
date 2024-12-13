@@ -11,10 +11,10 @@ To run tests a Docker container is used with JMeter executed in command mode. Yo
 http;host.docker.internal;3000
 ```
 
-The following script can then be used to run the test with the same command as the Jenkins pipeline, clearing the reports directory first as required by JMeter:
+The following command can then be used to run the test in the same manner as the Jenkins pipeline:
 
 ```
-./run.sh
+docker-compose -f ../../docker-compose.yaml -f docker-compose.jmeter.yaml run --build --rm jmeter-test
 ```
 
 The report is written to the `/test/performance/html_reports` directory.

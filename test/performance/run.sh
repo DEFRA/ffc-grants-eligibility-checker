@@ -18,6 +18,6 @@ jmeter $@
 
 # exit non-zero if failures occurred
 if grep -q ',false,' /html-reports/results.csv; then
-    echo "FAILURES DETECTED IN RESULTS"
+    echo "FAILURES FOUND IN RESULTS"
     exit 1
 fi

@@ -1,20 +1,28 @@
 # Performance Tests
-This folder contains the JMeter performance test for the Grant Eligibility Checker. The test is designed to run over a 30 second period in the Jenkins pipeline to catch any regression in performance that is introduced.
+This directory contains the JMeter performance test for the Grant Eligibility Checker. The test is designed to run over a 30 second period in the Jenkins pipeline to catch any regression in performance that is introduced. The test will fail the Jenkins stage if:
+
+- The rolling average response time exceeds 2 seconds.
+- Any individual response time exceeds 5 seconds.
+- Any individual request returns a non-200 response status.
 
 ## Editing the JMeter test plan
 To edit the test plan, ideally JMeter should be installed and run locally on your machine in GUI mode. See https://jmeter.apache.org/download_jmeter.cgi. Small changes can be made by hand to the XML file.
 
-## Running tests locally in Docker
-To run tests a Docker container is used with JMeter executed in command mode. You must provide the scheme, host and port to be used in file `jmeterConfig.csv` in the following format:
+## Running locally
+To run the test a Docker container is used with JMeter executed in command mode. You must provide the scheme, host and port to be used in file `jmeterConfig.csv` in the following format:
 
 ```
 http;host.docker.internal;3000
 ```
 
-The following command can then be used to run the test in the same manner as the Jenkins pipeline:
+This file is overwritten by Jenkins with the PR-specific details when the pipeline runs.
+
+The following command can then be used to run the test in the same manner as Jenkins:
 
 ```
 docker-compose -f ../../docker-compose.yaml -f docker-compose.jmeter.yaml run --build --rm jmeter-test
 ```
 
-The report is written to the `/test/performance/html_reports` directory.
+## Results
+
+The results CSV and the HTML report are written to the `/test/performance/html_reports` directory, and can be found in the Jenkins workspace after the pipeline completes.

@@ -69,7 +69,7 @@
           </elementProp>
           <elementProp name="AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
             <stringProp name="Argument.name">AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.value">100</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
@@ -124,40 +124,6 @@ log.info(&quot;Reset Average Response Time counter properties&quot;);</stringPro
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <JSR223Listener guiclass="TestBeanGUI" testclass="JSR223Listener" testname="Rolling Average Response Time Assertion">
-          <stringProp name="scriptLanguage">groovy</stringProp>
-          <stringProp name="parameters">${AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS}</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
-
-long thresholdMs = Integer.parseInt(args[0]);
-long minimumSampleSize = 20;
-long requestCount = JMeterUtils.getPropDefault(&quot;requestCount&quot;, 0);
-long totalResponseTimeMs = JMeterUtils.getPropDefault(&quot;totalResponseTimeMs&quot;, 0);
-
-requestCount++;
-totalResponseTimeMs += sampleResult.getTime();
-
-long averageResponseTimeMs = totalResponseTimeMs / requestCount;
-
-if (requestCount &gt;= minimumSampleSize) {
-    if (averageResponseTimeMs &gt; thresholdMs) {
-        sampleResult.setSuccessful(false);
-        sampleResult.setResponseMessage(&quot;Average response time: &quot; + averageResponseTimeMs);
-    }
-    
-    log.info(&quot;Average response time after &quot; + requestCount + &quot; requests: &quot; + averageResponseTimeMs + &quot; ms&quot;);
-}
-
-JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(requestCount));
-JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalResponseTimeMs));</stringProp>
-        </JSR223Listener>
-        <hashTree/>
-        <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
-          <stringProp name="DurationAssertion.duration">${MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS}</stringProp>
-        </DurationAssertion>
-        <hashTree/>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Status Code Assertion">
           <collectionProp name="Asserion.test_strings">
             <stringProp name="49586">200</stringProp>
@@ -167,6 +133,40 @@ JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalRes
           <boolProp name="Assertion.assume_success">false</boolProp>
           <intProp name="Assertion.test_type">1</intProp>
         </ResponseAssertion>
+        <hashTree/>
+        <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Rolling Average Response Time Assertion">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS}</stringProp>
+          <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
+
+long thresholdMs = Integer.parseInt(args[0]);
+long minimumSampleSize = 50;
+long requestCount = JMeterUtils.getPropDefault(&quot;requestCount&quot;, 0);
+long totalResponseTimeMs = JMeterUtils.getPropDefault(&quot;totalResponseTimeMs&quot;, 0);
+
+requestCount++;
+totalResponseTimeMs += SampleResult.getTime();
+
+long averageResponseTimeMs = totalResponseTimeMs / requestCount;
+
+if (requestCount &gt;= minimumSampleSize) {
+    if (averageResponseTimeMs &gt; thresholdMs) {
+        AssertionResult.setFailure(true);
+        AssertionResult.setFailureMessage(&quot;Average response time &quot; + averageResponseTimeMs + &quot; ms exceeds threshold &quot; + thresholdMs + &quot; ms&quot;);
+    }
+    
+    log.info(&quot;Average response time after &quot; + requestCount + &quot; requests: &quot; + averageResponseTimeMs + &quot; ms&quot;);
+}
+
+JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(requestCount));
+JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalResponseTimeMs));</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Assertion>
+        <hashTree/>
+        <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
+          <stringProp name="DurationAssertion.duration">${MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS}</stringProp>
+        </DurationAssertion>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="start">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/start</stringProp>

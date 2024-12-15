@@ -15,9 +15,7 @@ To run the test a Docker container is used with JMeter executed in command mode.
 http;host.docker.internal;3000
 ```
 
-This file is overwritten by Jenkins with the PR-specific details when the pipeline runs.
-
-The following command can then be used to run the test in the same manner as Jenkins:
+This file is overwritten by Jenkins with the PR-specific details when the pipeline runs. The following command can then be used to run the test in the same manner as Jenkins. In directory `/test/performance` run:
 
 ```
 docker-compose -f ../../docker-compose.yaml -f docker-compose.jmeter.yaml run --build --rm jmeter-test

@@ -2,8 +2,8 @@ FROM alpine/jmeter
 
 RUN mkdir /html-reports
 RUN mkdir /logs
-COPY run.sh .
 COPY jmeterConfig.csv .
+COPY run.sh .
 COPY test-plan.jmx .
 
 RUN addgroup -S appgroup

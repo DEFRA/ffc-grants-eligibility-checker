@@ -1,7 +1,7 @@
 # Performance Tests
 This directory contains the JMeter performance test for the Grant Eligibility Checker. The test is designed to run over a 30 second period in the Jenkins pipeline to catch any regression in performance that is introduced. The test will fail the Jenkins stage if:
 
-- The rolling average response time exceeds 2 seconds.
+- The rolling average response time exceeds 500 milliseconds.
 - Any individual response time exceeds 5 seconds.
 - Any individual request returns a non-200 response status.
 

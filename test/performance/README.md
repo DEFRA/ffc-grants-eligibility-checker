@@ -9,7 +9,7 @@ This directory contains the JMeter performance test for the Grant Eligibility Ch
 To edit the test plan, ideally JMeter should be installed and run locally on your machine in GUI mode. See https://jmeter.apache.org/download_jmeter.cgi. Small changes can be made by hand to the XML file.
 
 ## Running locally
-To run the test a Docker container is used with JMeter executed in command mode. You must provide the scheme, host and port to be used in file `jmeterConfig.csv` in the following format:
+To run the test a Docker container is used with JMeter executed in command mode. You must provide the protocol, host and port to be used in file `jmeterConfig.csv` in the following format:
 
 ```
 http;host.docker.internal;3000

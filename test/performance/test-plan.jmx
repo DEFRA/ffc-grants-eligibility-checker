@@ -43,7 +43,7 @@
       <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
         <stringProp name="HTTPSampler.domain">${TEST_ENVIRONMENT_HOST}</stringProp>
         <stringProp name="HTTPSampler.port">${TEST_ENVIRONMENT_PORT}</stringProp>
-        <stringProp name="HTTPSampler.protocol">${TEST_ENVIRONMENT_PROTOCOL}-X</stringProp>
+        <stringProp name="HTTPSampler.protocol">${TEST_ENVIRONMENT_PROTOCOL}</stringProp>
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>

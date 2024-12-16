@@ -1,5 +1,5 @@
 export let config = {
-  hostname: 'selenium-axe',
+  hostname: 'selenium',
   port: 4444,
   //
   // ====================

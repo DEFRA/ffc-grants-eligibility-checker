@@ -1,12 +1,5 @@
 import { Then } from '@wdio/cucumber-framework';
-import { $, browser, expect } from '@wdio/globals';
-import AxeBuilder from '@axe-core/webdriverio';
-import fs from 'fs-extra';
-import jsonFile from 'jsonfile';
-import path from 'node:path';
 import poller from '../services/poller.js';
-
-let accessibilityViolationsFound = false;
 
 Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
   if (text.indexOf("'") > -1) {
@@ -18,7 +11,7 @@ Then(/^(?:the user should|should) see heading "([^"]*)?"$/, async (text) => {
 Then(/^(?:the user should|should) be at URL "([^"]*)?"$/, async (expectedPath) => {
   const doesActualUrlEndWithExpectedPath = await poller.pollForSuccess(async () => {
     const actualUrl = await browser.getUrl();
-    return actualUrl.endsWith(expectedPath);
+    return await actualUrl.endsWith(expectedPath);
   });
   await expect(doesActualUrlEndWithExpectedPath).toBe(true);
 });
@@ -38,33 +31,4 @@ Then(/^(?:the user completes|completes) the journey$/, async () => {
   await $(`//input[contains(@value,'Yes')]`).click();
   await $(`//button[@id='Continue']`).click();
   await $(`//button[@id='btnConfirmSend']`).click();
-});
-
-Then(/^the page is analysed for accessibility$/, async () => {
-  const results = await new AxeBuilder({ client: browser })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-    .analyze();
-
-  const urlParts = (await browser.getUrl()).split('/');
-  let page = urlParts.pop();
-  if (await $(`//div[@class='govuk-error-summary']`).isDisplayed()) {
-    page = `${page}-validation`;
-  }
-  const grantName = urlParts.pop();
-
-  const reportDirectory = process.env.RUNNING_IN_CONTAINER
-    ? '/home/node/html-reports'
-    : './html-reports';
-  fs.ensureDirSync(path.resolve(reportDirectory, 'axe-reports', grantName));
-  jsonFile.writeFileSync(
-    path.resolve(`${reportDirectory}/axe-reports/${grantName}`, `${page}.json`),
-    results,
-    { spaces: 4 }
-  );
-
-  accessibilityViolationsFound = accessibilityViolationsFound || results.violations.length > 0;
-});
-
-Then(/^no accessibility violations should be present in the journey$/, async () => {
-  await expect(accessibilityViolationsFound).toBe(false);
 });

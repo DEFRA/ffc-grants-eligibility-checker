@@ -1,5 +1,4 @@
 html-reports
-json-reports
 node_modules
 .dockerignore
 .env

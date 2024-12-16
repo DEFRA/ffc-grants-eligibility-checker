@@ -1,5 +1,4 @@
 import { When } from '@wdio/cucumber-framework';
-import { $ } from '@wdio/globals';
 
 When(/^(?:the user clicks|clicks) on "([^"]*)?"$/, async (text) => {
   await $(`//*[contains(text(),'${text}')]`).click();

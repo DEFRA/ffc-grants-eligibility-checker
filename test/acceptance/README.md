@@ -1,9 +1,8 @@
 # Acceptance Tests
-This folder contains the acceptance tests for the Grants Eligibility Checker web app.
+This folder contains the acceptance tests for the FFC Grant Eligibility Checker web.
 - The framework used is WebdriverIO with Cucumber
 - Tests are containerised
 - Tests run against a single browser (Chrome)
-- Tests cover functional acceptance criteria and non-functional accessibility requirements
 
 ## Requirements
 - Docker

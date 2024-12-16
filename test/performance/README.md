@@ -1,19 +1,26 @@
 # Performance Tests
-This folder contains the JMeter performance tests for the Grant Eligibility Checker.
+This directory contains the JMeter performance test for the FFC Grant Eligibility Checker. The test is designed to run over a 30 second period in the Jenkins pipeline to catch any regression in performance that is introduced. The test will fail the Jenkins stage if:
 
-## Set up
-JMeter must be installed and run locally on the machine in GUI mode to edit tests. See https://jmeter.apache.org/download_jmeter.cgi. To run tests a Docker container is used with JMeter run in command mode.
+- The rolling average response time exceeds 1 second.
+- Any individual response time exceeds 5 seconds.
+- Any individual request returns a non-200 response status.
 
-## Running tests locally
-Provide the following environment variables in a .env file using values for your targeted environment:
+## Editing the JMeter test plan
+To edit the test plan, ideally JMeter should be installed and run locally on your machine in GUI mode. See https://jmeter.apache.org/download_jmeter.cgi. Small changes can be made by hand to the XML file.
+
+## Running locally
+To run the test a Docker container is used with JMeter executed in command mode. You must provide the protocol, host and port to be used in file `jmeterConfig.csv` in the following format:
 
 ```
-TEST_ENVIRONMENT_PROTOCOL=http
-TEST_ENVIRONMENT_HOST=host.docker.internal
-TEST_ENVIRONMENT_PORT=3000
+http;host.docker.internal;3000
 ```
 
-Then run the following script:
+This file is overwritten by Jenkins with the PR-specific details when the pipeline runs. The following command can then be used to run the test in the same manner as Jenkins. In directory `/test/performance` run:
+
 ```
-./run.sh
+docker-compose -f ../../docker-compose.yaml -f docker-compose.jmeter.yaml run --build --rm jmeter-test
 ```
+
+## Results
+
+The results CSV and the HTML report are written to the `/test/performance/html_reports` directory, and can be found in the Jenkins workspace after the pipeline completes.

@@ -1,9 +1,6 @@
 # Acceptance Tests
-This folder contains the acceptance tests for the FFC Grant Eligibility Checker web.
-- The framework used is WebdriverIO with Cucumber
-- Tests are containerised
-- Tests run against a single browser (Chrome)
-
+This folder contains the acceptance test project for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Cucumber and the tests are containerised, running against a single browser (Chrome).
+.
 ## Requirements
 - Docker
 - Node
@@ -19,17 +16,17 @@ TEST_ENVIRONMENT_ROOT_URL
 When the tests are run by Jenkins the `TEST_ENVIRONMENT_ROOT_URL` variable is generated and exposed by the pipeline to point to the PR-specific Sandbox deployment. 
 
 ## Running tests inside a container
-Docker is used to create containers for both the tests and the Selenium instance of Chrome. This is how the tests run in the Jenkins pipeline. Headless browser mode is used.
+Docker is used to create containers for both the tests (`wdio-cucumber`) and the Selenium instance of Chrome (`chrome-browser`). This is how the tests run in the Jenkins pipeline. Headless browser mode is used.
 
 1. For ARM architectures, change the image used for Chrome in `docker-compose.yaml`:
 
 ```dockerfile
-  selenium-cucumber:
+  selenium:
     image: selenium/standalone-chrome
 
 # CHANGES TO..
 
-  selenium-cucumber:
+  selenium:
     image: seleniarm/standalone-chromium
 ```   
 
@@ -37,11 +34,7 @@ Docker is used to create containers for both the tests and the Selenium instance
 
 3. From the `/test/acceptance` directory run `docker-compose run --build --rm wdio-cucumber`. This will run all acceptance tests.
 
-4. HTML reports will be output to `/test/acceptance/html-reports`.
-
-5. JSON Axe accessibility reports will be output as individual page results to `/test/acceptance/json-reports/example-grant`.
-
-6. Any WCAG 2.0/2.1 A/AA violations will fail the tests.
+5. HTML reports will be output to `/test/acceptance/html-reports`.
 
 ## Running tests outside a container
 To run tests outside a container, with the browser interaction visible:

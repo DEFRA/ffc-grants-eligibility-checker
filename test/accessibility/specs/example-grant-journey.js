@@ -32,6 +32,7 @@ describe('Example Grant journey', () => {
 
     let hasViolations = false;
     await browser.url('eligibility-checker/example-grant/start');
+    await $(`//h1[contains(text(),'Generic checker screens')]`).waitForDisplayed();
 
     // start
     await analyzeAccessibility();

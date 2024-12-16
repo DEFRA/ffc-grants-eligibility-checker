@@ -1,16 +1,11 @@
 # Accessibility Tests
-This folder contains the accessibility tests for the Grants Eligibility Checker web app. The framework used is WebdriverIO with Axe and the tests are containerised, running against a single browser (Chrome). The Defra pattern is to use axe-core/cli, but this does not support navigating through pages to move through the eligibility checker journey.
-.
-## Requirements
-- Docker
-- Node
-- npm
+This folder contains the accessibility test for the FFC Grant Eligibility Checker. The framework used is WebdriverIO with Axe and the test is containerised, running against a single browser (Chrome). The expected Defra pattern is to use axe-core/cli but this does not support navigating through pages to move through the eligibility checker journey.
 
-## docker-compose file
+## docker-compose
 The docker-compose file used is at the root of the repository, `docker-compose-axe.yaml`. This file is detected and executed by the Jenkins pipeline. The host base URL is defined in this file.
 
-## Running tests
-Docker is used to create containers for both the tests and the Selenium instance of Chrome.
+## Running locally
+Docker is used to create containers for both the test and the Selenium instance of Chrome.
 
 For ARM architectures, change the image used for Chrome in `docker-compose-axe.yaml`:
 
@@ -24,10 +19,12 @@ For ARM architectures, change the image used for Chrome in `docker-compose-axe.y
     image: seleniarm/standalone-chromium
 ```   
 
-From the root of the repository directory run `docker-compose -f docker-compose.yaml -f docker-compose.axe.yaml run axe`. This will run all accessibility tests in the same manner as the Jenkins pipeline.
+From the root of the repository use the following command to run the accessibility test in the same manner as the Jenkins pipeline:
 
-docker-compose run --build --rm wdio-cucumber
+```
+docker-compose -f docker-compose.yaml -f docker-compose.axe.yaml run --build --rm axe
+```
 
-JSON reports will be output as individual page results to `/test-output/axe-reports/example-grant`.
+## Reports
 
-Any WCAG 2.0/2.1 A/AA violations will fail the tests.
+JSON reports will be output as individual page results to `/test-output/axe-reports/example-grant`. Any WCAG 2.0/2.1 A/AA violations will fail the tests.

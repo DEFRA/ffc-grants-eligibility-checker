@@ -1,7 +1,7 @@
 {
   "name": "accessibility",
   "version": "1.0.0",
-  "description": "Grants Eligibility Checker Accessibility Tests",
+  "description": "FFC Grant Eligibility Checker Accessibility Tests",
   "type": "module",
   "main": "index.js",
   "scripts": {

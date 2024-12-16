@@ -1,7 +1,5 @@
 html-reports
 .dockerignore
-.env
 docker-compose.yaml
 Dockerfile
 README.md
-run.sh

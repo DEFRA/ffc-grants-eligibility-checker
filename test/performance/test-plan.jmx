@@ -9,6 +9,18 @@
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
+        <stringProp name="delimiter">;</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="filename">./jmeterConfig.csv</stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="variableNames">TEST_ENVIRONMENT_PROTOCOL,TEST_ENVIRONMENT_HOST,TEST_ENVIRONMENT_PORT</stringProp>
+      </CSVDataSet>
+      <hashTree/>
       <DNSCacheManager guiclass="DNSCachePanel" testclass="DNSCacheManager" testname="DNS Cache">
         <collectionProp name="DNSCacheManager.servers"/>
         <collectionProp name="DNSCacheManager.hosts"/>
@@ -16,13 +28,13 @@
         <boolProp name="DNSCacheManager.isCustomResolver">false</boolProp>
       </DNSCacheManager>
       <hashTree/>
-      <CacheManager guiclass="CacheManagerGui" testclass="CacheManager" testname="HTTP Cache" enabled="true">
+      <CacheManager guiclass="CacheManagerGui" testclass="CacheManager" testname="HTTP Cache">
         <boolProp name="clearEachIteration">true</boolProp>
         <boolProp name="useExpires">false</boolProp>
         <boolProp name="CacheManager.controlledByThread">false</boolProp>
       </CacheManager>
       <hashTree/>
-      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookies" enabled="true">
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookies">
         <collectionProp name="CookieManager.cookies"/>
         <boolProp name="CookieManager.clearEachIteration">true</boolProp>
         <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
@@ -40,19 +52,29 @@
       <hashTree/>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="TEST_ENVIRONMENT_PROTOCOL" elementType="Argument">
-            <stringProp name="Argument.name">TEST_ENVIRONMENT_PROTOCOL</stringProp>
-            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;TEST_ENVIRONMENT_PROTOCOL&quot;))}</stringProp>
+          <elementProp name="TEST_DURATION_SECONDS" elementType="Argument">
+            <stringProp name="Argument.name">TEST_DURATION_SECONDS</stringProp>
+            <stringProp name="Argument.value">30</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="TEST_ENVIRONMENT_HOST" elementType="Argument">
-            <stringProp name="Argument.name">TEST_ENVIRONMENT_HOST</stringProp>
-            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;TEST_ENVIRONMENT_HOST&quot;))}</stringProp>
+          <elementProp name="TEST_RAMPUP_PERIOD_SECONDS" elementType="Argument">
+            <stringProp name="Argument.name">TEST_RAMPUP_PERIOD_SECONDS</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="TEST_ENVIRONMENT_PORT" elementType="Argument">
-            <stringProp name="Argument.name">TEST_ENVIRONMENT_PORT</stringProp>
-            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;TEST_ENVIRONMENT_PORT&quot;))}</stringProp>
+          <elementProp name="TEST_THREAD_COUNT" elementType="Argument">
+            <stringProp name="Argument.name">TEST_THREAD_COUNT</stringProp>
+            <stringProp name="Argument.value">50</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
+            <stringProp name="Argument.name">AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS" elementType="Argument">
+            <stringProp name="Argument.name">MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS</stringProp>
+            <stringProp name="Argument.value">5000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="HUMAN_INTERACTION_DELAY_MILLISECONDS" elementType="Argument">
@@ -63,11 +85,36 @@
         </collectionProp>
       </Arguments>
       <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Reset Average Response Time Counters">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
+
+JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(0));
+JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(0));
+
+log.info(&quot;Reset Average Response Time counter properties&quot;);</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
         <boolProp name="ThreadGroup.delayedStart">true</boolProp>
-        <intProp name="ThreadGroup.num_threads">1</intProp>
-        <intProp name="ThreadGroup.ramp_time">15</intProp>
-        <longProp name="ThreadGroup.duration">60</longProp>
+        <stringProp name="ThreadGroup.num_threads">${TEST_THREAD_COUNT}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${TEST_RAMPUP_PERIOD_SECONDS}</stringProp>
+        <stringProp name="ThreadGroup.duration">${TEST_DURATION_SECONDS}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
@@ -77,8 +124,48 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Response Time Assertion" enabled="true">
-          <stringProp name="DurationAssertion.duration">500</stringProp>
+        <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Status Code Assertion">
+          <collectionProp name="Asserion.test_strings">
+            <stringProp name="49586">200</stringProp>
+          </collectionProp>
+          <stringProp name="Assertion.custom_message"></stringProp>
+          <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+          <boolProp name="Assertion.assume_success">false</boolProp>
+          <intProp name="Assertion.test_type">1</intProp>
+        </ResponseAssertion>
+        <hashTree/>
+        <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Rolling Average Response Time Assertion">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${AVERAGE_RESPONSE_TIME_THRESHOLD_MILLISECONDS}</stringProp>
+          <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
+
+long thresholdMs = Integer.parseInt(args[0]);
+long minimumSampleSize = 50;
+long requestCount = JMeterUtils.getPropDefault(&quot;requestCount&quot;, 0);
+long totalResponseTimeMs = JMeterUtils.getPropDefault(&quot;totalResponseTimeMs&quot;, 0);
+
+requestCount++;
+totalResponseTimeMs += SampleResult.getTime();
+
+long averageResponseTimeMs = totalResponseTimeMs / requestCount;
+
+if (requestCount &gt;= minimumSampleSize) {
+    if (averageResponseTimeMs &gt; thresholdMs) {
+        AssertionResult.setFailure(true);
+        AssertionResult.setFailureMessage(&quot;Average response time &quot; + averageResponseTimeMs + &quot; ms exceeds threshold &quot; + thresholdMs + &quot; ms&quot;);
+    }
+    
+    log.info(&quot;Average response time after &quot; + requestCount + &quot; requests: &quot; + averageResponseTimeMs + &quot; ms&quot;);
+}
+
+JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(requestCount));
+JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalResponseTimeMs));</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Assertion>
+        <hashTree/>
+        <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
+          <stringProp name="DurationAssertion.duration">${MAXIMUM_RESPONSE_TIME_THRESHOLD_MILLISECONDS}</stringProp>
         </DurationAssertion>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="start">
@@ -91,14 +178,8 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>
-        <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Pause between iterations">
-            <stringProp name="ConstantTimer.delay">1000</stringProp>
-            <stringProp name="TestPlan.comments">Necessary with current session management</stringProp>
-          </ConstantTimer>
-          <hashTree/>
-        </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition" enabled="true">
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/transition</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -120,7 +201,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-Type</stringProp>
@@ -129,12 +210,12 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Human Interaction Delay" enabled="true">
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Human Interaction Delay">
             <stringProp name="ConstantTimer.delay">${HUMAN_INTERACTION_DELAY_MILLISECONDS}</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="country" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="country">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/country</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -145,7 +226,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/transition</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -169,7 +250,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-Type</stringProp>
@@ -178,12 +259,12 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Human Interaction Delay" enabled="true">
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Human Interaction Delay">
             <stringProp name="ConstantTimer.delay">${HUMAN_INTERACTION_DELAY_MILLISECONDS}</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="consent" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="consent">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/consent</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -194,7 +275,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="transition">
           <stringProp name="HTTPSampler.path">eligibility-checker/example-grant/transition</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -218,7 +299,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-Type</stringProp>
@@ -227,7 +308,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Human Interaction Delay" enabled="true">
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Human Interaction Delay">
             <stringProp name="ConstantTimer.delay">${HUMAN_INTERACTION_DELAY_MILLISECONDS}</stringProp>
           </ConstantTimer>
           <hashTree/>
@@ -242,8 +323,19 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>
-        <hashTree/>
-        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Results Table" enabled="true">
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Reference Number Assertion">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1127845346">data-testid=&quot;reference-number&quot;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Results Table">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>

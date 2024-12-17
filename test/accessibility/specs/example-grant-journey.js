@@ -8,6 +8,13 @@ import poller from '../services/poller.js';
 describe('Example Grant journey', () => {
   it('should meet accessibility standards', async () => {
     const analyzeAccessibility = async () => {
+      await poller.pollWhileErrorThrownWithMessage(
+        callAxeAndWriteResults,
+        'Page/Frame is not ready'
+      );
+    };
+
+    const callAxeAndWriteResults = async () => {
       const results = await new AxeBuilder({ client: browser })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
         .analyze();
@@ -35,7 +42,7 @@ describe('Example Grant journey', () => {
 
     // start
     await browser.url('eligibility-checker/example-grant/start');
-    await poller.pollWhileErrorThrownWithMessage(analyzeAccessibility, 'Page/Frame is not ready');
+    await analyzeAccessibility();
     await $(`//*[contains(text(),'Start now')]`).click();
 
     // country

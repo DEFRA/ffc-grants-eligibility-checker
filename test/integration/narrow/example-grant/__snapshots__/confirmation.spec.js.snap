@@ -187,7 +187,6 @@ exports[`Confirmation Page snapshot should match snapshot 1`] = `
           <ol class="govuk-list govuk-list--number govuk-list--spaced">
             <li>
               The RPA will contact you when the full application period opens. They will tell you if your project scored well enough to get the full application form.
-              <img src="https://deframedia.blog.gov.uk/wp-content/uploads/sites/208/2024/02/defra-sign-620x407.jpg" />
             </li>
             <li>
               If you submit an application, the RPA will assess it against other projects and value for money. You will not automatically get a grant. The grant is expected to be highly competitive and you are competing against other projects.

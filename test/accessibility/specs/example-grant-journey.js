@@ -3,10 +3,11 @@ import AxeBuilder from '@axe-core/webdriverio';
 import fs from 'fs-extra';
 import jsonFile from 'jsonfile';
 import path from 'node:path';
+import poller from '../services/poller.js';
 
 describe('Example Grant journey', () => {
   it('should meet accessibility standards', async () => {
-    const analyzeAccessibility = async function () {
+    const analyzeAccessibility = async () => {
       const results = await new AxeBuilder({ client: browser })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
         .analyze();
@@ -32,12 +33,9 @@ describe('Example Grant journey', () => {
 
     let hasViolations = false;
 
-    await browser.url('eligibility-checker/example-grant/start');
-    //await $(`//*[contains(text(),'Start now')]`).waitForClickable();
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-
     // start
-    await analyzeAccessibility();
+    await browser.url('eligibility-checker/example-grant/start');
+    await poller.pollWhileErrorThrownWithMessage(analyzeAccessibility, 'Page/Frame is not ready');
     await $(`//*[contains(text(),'Start now')]`).click();
 
     // country

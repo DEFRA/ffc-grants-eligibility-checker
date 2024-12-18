@@ -1,4 +1,4 @@
-export let config = {
+export const config = {
   hostname: 'selenium',
   port: 4444,
   //
@@ -22,7 +22,7 @@ export let config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ['./specs/*.js'],
+  specs: ['./specs/*.spec.js'],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -146,7 +146,7 @@ export let config = {
   /**
    * Gets executed once before all workers get launched.
    * @param {object} config wdio configuration object
-   * @param {Array.<Object>} capabilities list of capabilities details
+   * @param {Array.<object>} capabilities list of capabilities details
    */
   // onPrepare: function (config, capabilities) {
   // },
@@ -174,8 +174,8 @@ export let config = {
    * Gets executed just before initialising the webdriver session and test framework. It allows you
    * to manipulate configurations depending on the capability or spec.
    * @param {object} config wdio configuration object
-   * @param {Array.<Object>} capabilities list of capabilities details
-   * @param {Array.<String>} specs List of spec file paths that are to be run
+   * @param {Array.<object>} capabilities list of capabilities details
+   * @param {Array.<string>} specs List of spec file paths that are to be run
    * @param {string} cid worker id (e.g. 0-0)
    */
   // beforeSession: function (config, capabilities, specs, cid) {
@@ -183,8 +183,8 @@ export let config = {
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
-   * @param {Array.<Object>} capabilities list of capabilities details
-   * @param {Array.<String>} specs        List of spec file paths that are to be run
+   * @param {Array.<object>} capabilities list of capabilities details
+   * @param {Array.<string>} specs        List of spec file paths that are to be run
    * @param {object}         browser      instance of created browser/device session
    */
   // before: function (capabilities, specs) {
@@ -251,16 +251,16 @@ export let config = {
    * Gets executed after all tests are done. You still have access to all global variables from
    * the test.
    * @param {number} result 0 - test pass, 1 - test fail
-   * @param {Array.<Object>} capabilities list of capabilities details
-   * @param {Array.<String>} specs List of spec file paths that ran
+   * @param {Array.<object>} capabilities list of capabilities details
+   * @param {Array.<string>} specs List of spec file paths that ran
    */
   // after: function (result, capabilities, specs) {
   // },
   /**
    * Gets executed right after terminating the webdriver session.
    * @param {object} config wdio configuration object
-   * @param {Array.<Object>} capabilities list of capabilities details
-   * @param {Array.<String>} specs List of spec file paths that ran
+   * @param {Array.<object>} capabilities list of capabilities details
+   * @param {Array.<string>} specs List of spec file paths that ran
    */
   // afterSession: function (config, capabilities, specs) {
   // },
@@ -269,8 +269,8 @@ export let config = {
    * thrown in the onComplete hook will result in the test run failing.
    * @param {object} exitCode 0 - success, 1 - fail
    * @param {object} config wdio configuration object
-   * @param {Array.<Object>} capabilities list of capabilities details
-   * @param {<Object>} results object containing test results
+   * @param {Array.<object>} capabilities list of capabilities details
+   * @param {object} results object containing test results
    */
   // onComplete: function(exitCode, config, capabilities, results) {
   // },

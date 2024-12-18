@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/webdriverio';
 import fs from 'fs-extra';
 import jsonFile from 'jsonfile';
 import path from 'node:path';
-import functionRetrier from '../services/functionRetrier.js';
+import { functionRetrier } from '../utils/functionRetrier.js';
 
 describe('Example Grant journey', () => {
   it('should meet accessibility standards', async () => {
@@ -11,10 +11,7 @@ describe('Example Grant journey', () => {
      * Analyzes the current browser page for accessibility issues.
      */
     async function analyzeAccessibility() {
-      const success = await functionRetrier.retryWhileError(
-        callAxeAndWriteResults,
-        'Page/Frame is not ready'
-      );
+      const success = await functionRetrier(callAxeAndWriteResults, 'Page/Frame is not ready');
       testFailed = testFailed || !success;
     }
 

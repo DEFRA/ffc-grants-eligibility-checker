@@ -11,7 +11,7 @@ describe('Example Grant journey', () => {
      * Analyzes the current browser page for accessibility issues.
      */
     async function analyzeAccessibility() {
-      const success = await functionRetrier(callAxeAndWriteResults, 'Page/Frame is not ready');
+      const success = await functionRetrier(callAxeAndWriteResults);
       testFailed = testFailed || !success;
     }
 

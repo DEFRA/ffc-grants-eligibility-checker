@@ -86,7 +86,7 @@ const config = {
   // moduleNameMapper: {},
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-  modulePathIgnorePatterns: ['node_modules'],
+  modulePathIgnorePatterns: ['node_modules', 'test/accessibility'],
 
   // Activates notifications for test results
   // notify: false,

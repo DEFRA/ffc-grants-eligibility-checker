@@ -21,6 +21,5 @@ This file is overwritten by Jenkins with the PR-specific details when the pipeli
 docker-compose -f ../../docker-compose.yaml -f docker-compose.jmeter.yaml run --build --rm jmeter-test
 ```
 
-## Results
-
-The results CSV and the HTML report are written to the `/test/performance/html_reports` directory, and can be found in the Jenkins workspace after the pipeline completes.
+## Reports
+The results CSV and HTML report are written to `/test/performance/html_reports`. Any failures will fail the Jenkins pipeline stage.

@@ -27,7 +27,9 @@ describe('Grant Type Tests', () => {
       nextPageId: 'country',
       hasErrors: false,
       errors: undefined,
-      generateConfirmationId
+      generateConfirmationId,
+      serviceStartUrl: '/eligibility-checker/example-grant/start',
+      serviceTitle: 'Example Grant'
     },
     sessionTimeoutInMin: '60',
     showTimeout: true,

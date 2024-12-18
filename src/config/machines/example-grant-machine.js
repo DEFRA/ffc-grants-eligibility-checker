@@ -1,5 +1,5 @@
 import { assign, createMachine } from 'xstate';
-import { pageUIConfig } from './page-ui-config.js';
+import { pageGlobals, pageUIConfig } from './page-ui-config.js';
 
 export const actionImplementations = {
   trackPageCompletion: assign({
@@ -108,7 +108,8 @@ export const exampleGrantMachine = createMachine({
           // Should be created rather than hard coded
           startUrl: '/eligibility-checker/example-grant/start'
         },
-        grantTypeId: 'example-grant'
+        grantTypeId: 'example-grant',
+        ...pageGlobals
       }
     },
 
@@ -143,6 +144,7 @@ export const exampleGrantMachine = createMachine({
         previousPageId: 'start',
         nextPageId: 'consent', // NOSONAR:S1192 - need to improve this later
         questionType: 'radio',
+        ...pageGlobals,
         ...pageUIConfig.country
       }
     },
@@ -165,6 +167,7 @@ export const exampleGrantMachine = createMachine({
         nextPageId: 'confirmation',
         title: 'Confirm and send',
         questionType: 'checkbox',
+        ...pageGlobals,
         ...pageUIConfig.consent
       }
     },
@@ -174,6 +177,7 @@ export const exampleGrantMachine = createMachine({
       meta: {
         templateId: 'confirmation',
         currentPageId: 'confirmation',
+        ...pageGlobals,
         ...pageUIConfig.confirmation
       }
     }

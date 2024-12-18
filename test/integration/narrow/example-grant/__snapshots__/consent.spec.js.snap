@@ -115,8 +115,8 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
     <div class="govuk-header__content">
     
       
-      <a href="/start" class="govuk-header__link govuk-header__service-name">
-        Check if you can apply
+      <a href="/eligibility-checker/example-grant/start" class="govuk-header__link govuk-header__service-name">
+        Example Grant
       </a>
       
     
@@ -148,7 +148,7 @@ exports[`Consent Page snapshot should match snapshot 1`] = `
 
     
       <div class="govuk-width-container">
-          
+        
   
     <a href="#" class="govuk-back-link">Back</a>
 

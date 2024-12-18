@@ -20,6 +20,11 @@ export default {
       server.ext('onPreResponse', (request, h) => {
         const response = request.response;
 
+        const errorMeta = {
+          serviceTitle: 'Page Error',
+          serviceStartUrl: '/'
+        };
+
         if (response.isBoom) {
           // An error was raised during
           // processing the request
@@ -27,7 +32,7 @@ export default {
 
           if (statusCode === statusCodes(NOT_FOUND)) {
             return h
-              .view(statusCodes(NOT_FOUND).toString(), response)
+              .view(statusCodes(NOT_FOUND).toString(), { ...response, meta: { ...errorMeta } })
               .code(statusCodes(NOT_FOUND))
               .takeover();
           }
@@ -40,20 +45,23 @@ export default {
 
           if (statusCode === statusCodes(BAD_REQUEST)) {
             return h
-              .view(statusCodes(BAD_REQUEST).toString(), response)
+              .view(statusCodes(BAD_REQUEST).toString(), { ...response, meta: { ...errorMeta } })
               .code(statusCodes(BAD_REQUEST))
               .takeover();
           }
 
           if (statusCode === statusCodes(FORBIDDEN) || response.message.includes('support ID')) {
             return h
-              .view(statusCodes(FORBIDDEN).toString(), response)
+              .view(statusCodes(FORBIDDEN).toString(), { ...response, meta: { ...errorMeta } })
               .code(statusCodes(FORBIDDEN))
               .takeover();
           }
           // The return the `500` view
           return h
-            .view(statusCodes(INTERNAL_SERVER_ERROR).toString(), response)
+            .view(statusCodes(INTERNAL_SERVER_ERROR).toString(), {
+              ...response,
+              meta: { ...errorMeta }
+            })
             .code(statusCodes(INTERNAL_SERVER_ERROR))
             .takeover();
         }

@@ -1,3 +1,9 @@
+// create the functions for the following should generate pageUIConfig.country the override function merges the meta object with the object passed in
+export const pageGlobals = {
+  serviceTitle: 'Example Grant',
+  serviceStartUrl: '/eligibility-checker/example-grant/start'
+};
+
 export const pageUIConfig = {
   country: {
     inputOptions: {

@@ -9,20 +9,13 @@ export const functionRetrier = async (fn, retries = 10) => {
 
   do {
     attempts++;
-
     try {
-      console.warn('functionRetrier: Calling fn on attempt ' + attempts);
       return await fn();
     } catch (error) {
-      console.warn('functionRetrier: Caught error: ' + error.errorMessage);
-
       if (attempts === retries) {
-        console.warn('functionRetrier: Throwing error after limit reached');
         throw error;
       }
-
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.warn('functionRetrier: Retrying after waiting');
       continue;
     }
   } while (true);

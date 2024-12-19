@@ -1,8 +1,13 @@
 import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
-import { configureServer } from '../../../../src/server';
 import crypto from 'crypto';
 
+jest.unstable_mockModule('../../../../src/notification/handle-submission', () => ({
+  handleSubmission: jest.fn()
+}));
+
 jest.setTimeout(10000);
+
+const { configureServer } = await import('../../../../src/server');
 
 describe('Confirmation Page', () => {
   let server;

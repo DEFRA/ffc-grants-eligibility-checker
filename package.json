@@ -1,7 +1,7 @@
 {
   "name": "ffc-grants-eligibility-checker",
   "description": "FFC Grant Eligibility Checker",
-  "version": "1.0.49",
+  "version": "1.0.50",
   "license": "OGL-UK-3.0",
   "contributors": [
     "Andrew Folga <andrew.folga@equalexperts.com>",
@@ -25,6 +25,7 @@
     "start": "npm run build && nodemon ./src/index.js",
     "start:debug": "node --inspect-brk=0.0.0.0 ./src/index.js",
     "start:docker": "docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up --build",
+    "start:docker:local": "docker-compose -f docker-compose.yaml -f docker-compose.local.yaml up --build",
     "prepare": "husky install",
     "snyk-test": "snyk test",
     "snyk-monitor": "snyk monitor"
@@ -55,6 +56,7 @@
     "supertest": "^7.0.0"
   },
   "dependencies": {
+    "@azure/service-bus": "^7.9.5",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-memory": "^6.0.2",
     "@hapi/catbox-redis": "^7.0.2",

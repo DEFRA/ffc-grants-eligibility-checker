@@ -44,6 +44,29 @@ const config = {
     clearInvalid: false,
     strictHeader: false,
     isSameSite: 'Strict'
+  },
+  local: process.env.LOCAL || false,
+  serviceBus: {
+    environment: process.env.NODE_ENV || 'development',
+    msgSrc: 'ffc-grants-eligibility-checker',
+    type: 'queue',
+    useCredentialChain: true,
+    host: process.env.SERVICE_BUS_HOST || 'live-service-bus-host',
+    notifyEmailTemplate: process.env.NOTIFY_EMAIL_TEMPLATE || 'live-local-notify-template',
+    queueId: process.env.NOTIFY_SUBMIT_QUEUE || 'live-submit-queue',
+    notifyEmailAddress: process.env.NOTIFY_EMAIL_ADDRESS || 'live-notify-email-address'
+  },
+  serviceBusLocal: {
+    environment: process.env.NODE_ENV || 'development',
+    connectionString:
+      'Endpoint=sb://servicebus-emulator;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;',
+    correlationId: 'id1',
+    notifyEmailTemplate: 'local-notify-template',
+    type: 'queue',
+    msgSrc: 'ffc-grants-eligibility-checker',
+    notifyEmailAddress: 'local@email.com',
+    useCredentialChain: false,
+    queueId: 'queue.1'
   }
 };
 
@@ -54,7 +77,7 @@ const result = schema.validate(config, {
 
 // Throw if config is invalid
 if (result.error) {
-  throw new Error(`The cache config is invalid. ${result.error.message}`);
+  throw new Error(`The app config is invalid. ${result.error.message}`);
 }
 
 const value = result.value;

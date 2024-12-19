@@ -1,9 +1,13 @@
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import { interpret } from 'xstate';
-import {
-  exampleGrantMachine,
-  actionImplementations,
-  guardsImplementations
-} from './example-grant-machine';
+
+jest.unstable_mockModule('../../notification/handle-submission.js', () => ({
+  handleSubmission: jest.fn()
+}));
+
+const { exampleGrantMachine, actionImplementations, guardsImplementations } = await import(
+  './example-grant-machine'
+);
 
 describe('Example Grant Machine Service', () => {
   let service;
@@ -38,6 +42,7 @@ describe('Example Grant Machine Service', () => {
 
   afterEach(() => {
     service.stop();
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {

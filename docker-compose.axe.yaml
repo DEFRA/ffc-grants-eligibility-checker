@@ -1,0 +1,25 @@
+services:
+  ffc-grants-eligibility-checker:
+    build:
+      context: .
+      target: development
+    image: ffc-grants-eligibility-checker-development
+    environment:
+      NODE_ENV: development
+      USE_REDIS: false
+
+  axe:
+    build: ./test/accessibility
+    depends_on:
+      - ffc-grants-eligibility-checker
+      - selenium
+    environment:
+      TEST_ENVIRONMENT_ROOT_URL: http://ffc-grants-eligibility-checker:3000
+      CHROME_ARGS: "--headless --ignore-certificate-errors"
+    volumes:
+      - ./test-output:/home/node/test-output
+
+  selenium:
+    image: selenium/standalone-chrome
+    volumes:
+      - /dev/shm:/dev/shm

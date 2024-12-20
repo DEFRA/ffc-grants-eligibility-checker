@@ -1,0 +1,22 @@
+{
+  "name": "accessibility",
+  "version": "1.0.0",
+  "description": "FFC Grant Eligibility Checker Accessibility Tests",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx wdio run ./wdio.conf.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@axe-core/webdriverio": "^4.10.1",
+    "@wdio/cli": "^8.40.6",
+    "@wdio/local-runner": "^8.40.6",
+    "@wdio/mocha-framework": "^8.40.6",
+    "@wdio/spec-reporter": "^8.40.6",
+    "fs-extra": "^11.2.0",
+    "jsonfile": "^6.1.0"
+  }
+}

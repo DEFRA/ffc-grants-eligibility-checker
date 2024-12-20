@@ -9,7 +9,6 @@ RUN addgroup -S appgroup
 RUN adduser -S appuser -G appgroup
 RUN chown -R appuser:appgroup .
 RUN chown -R appuser:appgroup /html-reports
-RUN chown -R appuser:appgroup /logs
 USER appuser
 
 # override base image entrypoint and run custom script

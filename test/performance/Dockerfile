@@ -1,7 +1,6 @@
 FROM alpine/jmeter
 
 RUN mkdir /html-reports
-RUN mkdir /logs
 COPY jmeterConfig.csv .
 COPY run.sh .
 COPY test-plan.jmx .

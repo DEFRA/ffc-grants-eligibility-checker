@@ -1,16 +1,16 @@
 {{- include "ffc-helm-library.container-config-map" (list . "ffc-grants-eligibility-checker.config-map") -}}
 {{- define "ffc-grants-eligibility-checker.config-map" -}}
 data:
-  NODE_ENV: {{ quote .Values.environment }}
-  PORT: {{ quote .Values.container.port }}  
-  SERVICE_BUS_HOST: {{ .Values.container.messageQueueHost | quote }}
-  SCORE_REQUEST_QUEUE_ADDRESS: {{ .Values.container.scoreRequestQueueAddress | quote }}
-  SCORE_RESPONSE_QUEUE_ADDRESS: {{ .Values.container.scoreResponseQueueAddress | quote }}
-  DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
-  NOTIFY_EMAIL_TEMPLATE: {{ .Values.container.notifyEmailTemplate | quote }}
+  NODE_ENV: {{ quote .Values.environment }} 
   SESSION_CACHE_TTL: {{ .Values.container.sessionCacheTTL | quote }}  
   USE_REDIS: {{ .Values.container.useRedis | quote }}
   REDIS_HOSTNAME: {{ .Values.container.redisHostname | quote }}
   REDIS_PORT: {{ .Values.container.redisPort | quote }}
   REDIS_PARTITION: {{ .Values.container.redisPartition | quote }}
+  SERVICE_BUS_HOST: {{ quote .Values.container.serviceBusHost }}
+  NOTIFY_SUBMIT_QUEUE: {{ quote .Values.container.notifySubmitQueue }}
+  NOTIFY_EMAIL_TEMPLATE: {{ quote .Values.container.notifyEmailTemplate }}
+  NOTIFY_EMAIL_ADDRESS: {{ quote .Values.container.notifyEmailAddress }}
+  LOCAL: {{ quote .Values.container.local }}
+
 {{- end -}}

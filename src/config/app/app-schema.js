@@ -25,5 +25,31 @@ export const schema = Joi.object({
     clearInvalid: Joi.boolean().required(),
     strictHeader: Joi.boolean().required(),
     isSameSite: Joi.string().required()
-  })
+  }),
+  local: Joi.boolean().required().default(false),
+  serviceBus: {
+    environment: Joi.string().required().default('development'),
+    msgSrc: Joi.string().required().default('ffc-grants-eligibility-checker'),
+    type: Joi.string().required().default('queue'),
+    useCredentialChain: Joi.boolean().required().default(true),
+    host: Joi.string(),
+    notifyEmailTemplate: Joi.string(),
+    queueId: Joi.string(),
+    notifyEmailAddress: Joi.string()
+  },
+  serviceBusLocal: {
+    environment: Joi.string().required().default('development'),
+    connectionString: Joi.string()
+      .required()
+      .default(
+        'Endpoint=sb://servicebus-emulator;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;'
+      ),
+    correlationId: Joi.string().required().default('id1'),
+    notifyEmailTemplate: Joi.string().required().default('local-notify-template'),
+    type: Joi.string().required().default('queue'),
+    msgSrc: Joi.string().required().default('ffc-grants-eligibility-checker'),
+    notifyEmailAddress: Joi.string().required().default('local@email.com'),
+    useCredentialChain: Joi.boolean().required().default(false),
+    queueId: Joi.string().required().default('queue.1')
+  }
 });

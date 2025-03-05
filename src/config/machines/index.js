@@ -1,13 +1,15 @@
 import {
   actionImplementations,
   exampleGrantMachine,
-  guardsImplementations
+  guardsImplementations,
+  servicesImplementations
 } from './example-grant-machine.js';
 
 export const grantTypeToMachineMap = {
   'example-grant': {
     machine: exampleGrantMachine,
     actions: actionImplementations,
-    guards: guardsImplementations
+    guards: guardsImplementations,
+    services: servicesImplementations
   }
 };

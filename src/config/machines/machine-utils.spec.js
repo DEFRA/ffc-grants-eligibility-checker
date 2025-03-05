@@ -1,5 +1,12 @@
 import { jest, describe, it, expect } from '@jest/globals';
-import { initializeMachine, createAndStartGrantMachineService } from './machine-utils.js';
+const originalEnv = process.env;
+process.env = {
+  ...originalEnv,
+  SESSION_CACHE_TTL: 3600000,
+  COOKIE_PASSWORD: 'mock-password'
+};
+
+const { initializeMachine, createAndStartGrantMachineService } = await import('./machine-utils.js');
 
 const mockRequest = {
   yar: {

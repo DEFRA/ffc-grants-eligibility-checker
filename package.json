@@ -67,7 +67,7 @@
     "govuk-frontend": "^5.5.0",
     "joi": "^17.13.3",
     "nunjucks": "^3.2.4",
-    "prettier-plugin-jinja-template": "^2.0.0",
+    "prettier-plugin-jinja-template": "^2.1.0",
     "uuid": "^10.0.0",
     "xstate": "^4.38.3"
   },
